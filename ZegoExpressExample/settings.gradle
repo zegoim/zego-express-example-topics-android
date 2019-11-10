@@ -1,0 +1,6 @@
+include ':main',
+        ':joinLive',
+        ':videoCommunication',
+        ':common',
+        ':play',
+        ':publish'

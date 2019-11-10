@@ -1,0 +1,44 @@
+{
+    "编译产物描述文件":"",
+    "编译产物临时存放目录，新建于项目根目录下，不要与其它项目目录冲突，每次生成会清空文件夹里的内容":"",
+    "product_output_dir":"product_output",
+    "编译产物打包归档前执行的命令,需要清空无用的编译中间文件和一些不需要对外公开的文件":"",
+    "增加 add_file_to_dir_list 配置项，达到动态替换Appid和Key信息文件的目的":"",
+    "before_pkg_cmd":{
+        "remove_file_list":[
+            "ZegoExpressExample/common/src/main/java/com/zego/common/GetAppIDConfig.java"
+        ],
+        "remove_dir_list":[
+            "ZegoExpressExample/common/build",
+            "ZegoExpressExample/build",
+            "ZegoExpressExample/main/build",
+            "ZegoExpressExample/play/build",
+            "ZegoExpressExample/publish/build",
+            "ZegoExpressExample/videoCommunication/build",
+            "ZegoExpressExample/joinLive/build"
+        ],
+        "add_file_to_dir_list":[
+            {
+                "file_path":"GetAppIDConfig.java",
+                "dir_path":"ZegoExpressExample/common/src/main/java/com/zego/common"
+            } 
+        ]
+    },
+    "编译产物列表":"",
+    "product_list":[
+        {
+            "要发布公开的工程源码目录":"",
+            "type":"source",
+            "src":"ZegoExpressExample",
+            "file_base_name":"ZegoExpressExample",
+            "compress":"zip"
+        },
+        {
+            "二进制文件":"",
+            "type":"bin",
+            "src":"main-release.apk",
+            "file_base_name":"ZegoExpressExample-release",
+            "compress":"zip"
+        }
+    ]
+}

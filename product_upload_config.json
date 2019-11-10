@@ -1,0 +1,45 @@
+{
+    "定义编译产物发布上传的规则":"",
+    
+    "platform":"android",
+    
+    "上传蒲公英的配置，上传的是二进制，android和ios使用":"",
+    "pgyer":{
+        "enable_upload":true,
+        "从编译产物里的二进制文件里选，如果是压缩包，以解压后的目录作为当前目录。非压缩包product_pkg_info.json src指定的目录为当前目录":"",
+        "upload_list":[
+            "main-release.apk"
+        ]
+    },
+    
+    "上传bugly的配置，上传的符号信息文件，android和ios使用":"",
+    "bugly":{
+        "enable_upload":false,
+        "bundle_id":"com.zego.express.example",
+        "version":"",
+        "从编译产物里的符号文件里选，如果是压缩包，以解压后的目录作为当前目录。非压缩包以product_pkg_info.json src指定的目录为当前目录":"",
+        "local_target":"",
+        "app_id":"",
+        "app_key":""
+    },
+    
+    "上传github，上传工程源码":"",
+    "github":{
+        "enable_upload":true,
+        "project":"liveroom-topics-android",
+        "comment":"updateCode",
+        "repo":"git@github.com:zegodev/liveroom-topics-android.git",
+        "remote_tartget":"src",
+        "从编译产物里的工程源码里选，如果是压缩包，以解压后的目录作为当前目录。非压缩包以product_pkg_info.json src指定的目录为当前目录":"",
+        "local_target":""
+    },
+    
+    "上传阿里云，上传的二进制可执行文件，windows平台和osx平台使用":"",
+    "alicdn":{
+        "enable_upload":false,
+        "从编译产物里的二进制文件里选，如果是压缩包，以解压后的目录作为当前目录。非压缩包product_pkg_info.json src指定的目录为当前目录":"",
+        "local_target":"",
+        "filename_on_server":""
+    }
+    
+}

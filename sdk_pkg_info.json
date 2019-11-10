@@ -1,0 +1,11 @@
+{
+  "project": "zego-express-example-topics-android",
+  "platform": "android",
+  "sdk_path_on_share": "zego_sdk/zegoexpressengine_master/191031_223038_master-0-g67f3321/Android/ZegoExpressSDK-Android-Release_bin.zip",
+  "copy_file_dirs": [
+     {
+       "src": "",
+       "dst": "ZegoExpressExample/main/libs"
+     }
+  ]
+}
