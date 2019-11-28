@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">im</string>
+    <string name="tx_im_send_bc_ok">发送广播消息成功</string>
+    <string name="tx_im_send_bc_fail">发送广播消息失败，错误码为</string>
+    <string name="tx_im_me">(我): </string>
+    <string name="tx_im_send_cc_ok">发送自定义消息成功</string>
+    <string name="tx_im_send_cc_fail">发送自定义消息失败，错误码为</string>
+    <string name="tx_im_msg_list">消息列表：</string>
+    <string name="tx_im_user_list">用户列表：</string>
+    <string name="tx_im_send">发送</string>
+    <string name="tx_im_bc_msg">广播消息(Broadcast Message)</string>
+    <string name="tx_im_cc_msg">自定义消息(Custom Command)</string>
+</resources>

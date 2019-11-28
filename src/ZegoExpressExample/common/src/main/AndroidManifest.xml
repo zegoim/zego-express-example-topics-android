@@ -25,7 +25,5 @@
         <activity android:name=".ui.WebActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             />
-        <activity android:name=".ui.ZegoLogShareActivity"/>
-
     </application>
 </manifest>

@@ -79,8 +79,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:onClick="jumpCommonProblems"
-                    android:text="常见问题" />
+                    android:onClick="jumpQuickStart"
+                    android:text="快速开始" />
             </LinearLayout>
 
         </LinearLayout>

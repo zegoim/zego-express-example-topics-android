@@ -47,28 +47,28 @@ public class AppLogger {
         return sInstance;
     }
 
-    public void e(Class mClass, String msgFormat, Object... args) {
+    public void e(String msgFormat, Object... args) {
         String message = String.format(msgFormat, args);
-        log(mClass, message, LogLevel.ERROR);
+        log(message, LogLevel.ERROR);
     }
 
-    public void i(Class mClass, String msgFormat, Object... args) {
+    public void i(String msgFormat, Object... args) {
         String message = String.format(msgFormat, args);
-        log(mClass, message, LogLevel.INFO);
+        log(message, LogLevel.INFO);
     }
 
-    public void w(Class mClass, String msgFormat, Object... args) {
+    public void w(String msgFormat, Object... args) {
         String message = String.format(msgFormat, args);
-        log(mClass, message, LogLevel.WARN);
+        log(message, LogLevel.WARN);
     }
 
-    public void d(Class mClass, String msgFormat, Object... args) {
+    public void d(String msgFormat, Object... args) {
         String message = String.format(msgFormat, args);
-        log(mClass, message, LogLevel.DEBUG);
+        log(message, LogLevel.DEBUG);
     }
 
-    private void log(Class mClass, String message, LogLevel logLevel) {
-        String message_with_time = String.format("[ %s ][ %s / %s : %s ]", TimeUtil.getLogStr(), logLevel.name(), mClass.getSimpleName(), message);
+    private void log(String message, LogLevel logLevel) {
+        String message_with_time = String.format("[ %s ][ %s ] %s", TimeUtil.getLogStr(), logLevel.name(), message);
         switch (logLevel) {
             case INFO:
                 Log.i(TAG, message_with_time);

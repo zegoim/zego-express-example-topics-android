@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.zego.common.R;
 import com.zego.common.adapter.LogAdapter;
-import com.zego.common.ui.ZegoLogShareActivity;
 import com.zego.common.util.AppLogger;
 import com.zego.common.util.CpuUtil;
 
@@ -53,17 +52,6 @@ public class LogView extends FrameLayout {
             }
         });
         Button shareBtn = findViewById(R.id.share_log);
-        shareBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(getContext(), ZegoLogShareActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getContext().startActivity(intent);
-//                ZegoLogShareActivity.actionStart(getContext());
-
-            }
-        });
         // initial CPU header text
         mCPUHeaderText = new StringBuffer();
         mCPUCoreNum = CpuUtil.getNumCores();

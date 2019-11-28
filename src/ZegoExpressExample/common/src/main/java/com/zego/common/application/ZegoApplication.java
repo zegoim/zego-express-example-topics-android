@@ -5,7 +5,6 @@ import android.app.Application;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.zego.common.util.AppLogger;
 import com.zego.common.widgets.log.FloatingView;
-import com.zego.zegoexpress.ZegoExpressEngine;
 
 /**
  * Created by zego on 2018/10/16.
@@ -24,8 +23,6 @@ public class ZegoApplication extends Application {
 
         // 添加悬浮日志视图
         FloatingView.get().add();
-        // 记录SDK版本号
-        AppLogger.getInstance().i(ZegoApplication.class, "SDK version : %s", ZegoExpressEngine.getVersion());
     }
 
     /**

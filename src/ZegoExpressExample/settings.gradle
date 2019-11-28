@@ -1,6 +1,5 @@
 include ':main',
-        ':joinLive',
-        ':videoCommunication',
+        ':im',
+        ':mixer',
         ':common',
-        ':play',
-        ':publish'
+        ':quickstart'
