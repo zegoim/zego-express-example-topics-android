@@ -1,0 +1,10 @@
+src/ZegoExpressExample/.gradle
+src/ZegoExpressExample/main/build
+src/ZegoExpressExample/common/build
+src/ZegoExpressExample/local.properties
+src/ZegoExpressExample/.idea
+src/ZegoExpressExample/main/*.iml
+src/ZegoExpressExample/common/*.iml
+
+
+

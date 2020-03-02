@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.zego.expresssample">
+    package="im.zego.expresssample">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -27,7 +27,7 @@
             android:required="false" />
 
         <activity
-            android:name="com.zego.expresssample.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -36,9 +36,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.zego.quickstart.ui.BasicCommunicationActivity"></activity>
-        <activity android:name="com.zego.mixer.ui.MixerMainActivity"></activity>
-        <activity android:name="com.zego.im.ui.IMActivity"></activity>
+        <activity android:name="im.zego.quickstart.ui.BasicCommunicationActivity"></activity>
+        <activity android:name="im.zego.mixer.ui.MixerMainActivity"></activity>
+        <activity android:name="im.zego.im.ui.IMActivity"></activity>
     </application>
 
 </manifest>

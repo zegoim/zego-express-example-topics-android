@@ -10,6 +10,10 @@
     <string name="tx_module_basic">基础通信</string>
     <string name="tx_module_mixer">混流</string>
     <string name="tx_module_im">IM</string>
+    <string name="tx_module_soundlevelandspectrum">声浪与音频频谱</string>
+    <string name="tx_module_mediaplayer">媒体播放器</string>
+    <string name="tx_module_custom_render">自定义渲染</string>
+    <string name="tx_module_custom_capture">自定义采集</string>
     <string name="tx_title_quickstart">快速开始</string>
     <string name="tx_title_advance">进阶功能</string>
 </resources>

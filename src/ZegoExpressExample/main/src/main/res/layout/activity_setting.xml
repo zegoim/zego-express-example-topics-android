@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
 
@@ -13,7 +14,7 @@
         android:orientation="vertical"
         tools:context=".expresssample.ui.SettingActivity">
 
-        <com.zego.common.widgets.TitleLayout
+        <im.zego.common.widgets.TitleLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             app:name="@string/tx_setting">
@@ -40,7 +41,7 @@
                 <!--android:clickable="true"-->
                 <!--android:focusable="true"/>-->
 
-        </com.zego.common.widgets.TitleLayout>
+        </im.zego.common.widgets.TitleLayout>
 
         <RelativeLayout
             android:id="@+id/appid"
@@ -56,7 +57,7 @@
                 android:textColor="#333333"
                 android:text="@string/tx_appid"/>
 
-            <com.zego.common.widgets.CustomEditText
+            <im.zego.common.widgets.CustomEditText
                 android:id="@+id/ed_app_id"
                 app:key="app_id"
                 android:layout_width="match_parent"
@@ -91,7 +92,7 @@
                 android:textColor="#333333"
                 android:text="@string/tx_appsign"/>
 
-            <com.zego.common.widgets.CustomEditText
+            <im.zego.common.widgets.CustomEditText
                 android:id="@+id/ed_app_sign"
                 app:key="app_sign"
                 android:layout_width="match_parent"

@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.zego.common.widgets.TitleLayout
+        <im.zego.common.widgets.TitleLayout
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="50dp" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.zego.mixer">
+    package="im.zego.mixer">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -23,11 +23,11 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode,UnusedAttribute">
         <activity
-            android:name=".ui.MixerStartActivity"
+            android:name="im.zego.mixer.ui.MixerStartActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.MixerPublishActivity"
+            android:name="im.zego.mixer.ui.MixerPublishActivity"
             android:screenOrientation="portrait">
         </activity>
         <uses-library
@@ -35,7 +35,7 @@
             android:required="false" />
 
         <activity
-            android:name=".ui.MixerMainActivity"
+            android:name="im.zego.mixer.ui.MixerMainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>

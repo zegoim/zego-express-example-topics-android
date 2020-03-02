@@ -1,5 +1,9 @@
 include ':main',
-        ':im',
-        ':mixer',
+        ':Mediaplayer',
+        ':CustomVideoRender',
+        ':CustomVideoCapture',
+        ':SoundLevel',
+        ':RoomMessage',
+        ':Mixer',
         ':common',
-        ':quickstart'
+        ':QuickStart'
