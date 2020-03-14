@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
 import im.zego.zegoexpress.callback.IZegoCustomVideoRenderHandler;
+import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoVideoFlipMode;
 import im.zego.zegoexpress.entity.ZegoVideoFrameParam;
 
@@ -347,7 +348,7 @@ public class VideoRenderHandler extends IZegoCustomVideoRenderHandler implements
 
 
     @Override
-    public void onCapturedVideoFrameRawData(ByteBuffer[] data, int[] dataLength, ZegoVideoFrameParam param, ZegoVideoFlipMode flipMode){
+    public void onCapturedVideoFrameRawData(ByteBuffer[] data, int[] dataLength, ZegoVideoFrameParam param, ZegoVideoFlipMode flipMode, ZegoPublishChannel channel){
         videoCaptureFrame.byteBuffers = data;
         videoCaptureFrame.height = param.height;
         videoCaptureFrame.width = param.width;

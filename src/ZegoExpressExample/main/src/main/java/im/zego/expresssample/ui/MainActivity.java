@@ -2,16 +2,21 @@ package im.zego.expresssample.ui;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+
 import androidx.databinding.DataBindingUtil;
+
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.view.View;
 import android.widget.TextView;
 
+import im.zego.custom.publish.ui.CustomCDNPublishActivity;
 import im.zego.customrender.ui.ZGVideoRenderTypeUI;
 import im.zego.expresssample.R;
 import im.zego.expresssample.databinding.ActivityMainBinding;
@@ -21,6 +26,8 @@ import im.zego.common.ui.WebActivity;
 import im.zego.im.ui.IMActivity;
 import im.zego.mediaplayer.ui.MediaplayerMainActivity;
 import im.zego.mixer.ui.MixerMainActivity;
+import im.zego.play.ui.PlayActivityUI;
+import im.zego.publish.ui.PublishActivityUI;
 import im.zego.quickstart.ui.BasicCommunicationActivity;
 import im.zego.soundlevelandspectrum.ui.SoundLevelAndSpectrumMainActivity;
 import im.zego.videocapture.ui.ZGVideoCaptureOriginUI;
@@ -58,19 +65,23 @@ public class MainActivity extends AppCompatActivity {
                 String module = moduleInfo.getModule();
                 if (module.equals(getString(R.string.tx_module_basic))) {
                     BasicCommunicationActivity.actionStart(MainActivity.this);
-                }
-                else if (module.equals(getString(R.string.tx_module_mixer))) {
+                } else if (module.equals(getString(R.string.tx_module_publish))) {
+                    PublishActivityUI.actionStart(MainActivity.this);
+                } else if (module.equals(getString(R.string.tx_module_play))) {
+                    PlayActivityUI.actionStart(MainActivity.this);
+                } else if (module.equals(getString(R.string.tx_module_custom_cdn_publish))) {
+                    CustomCDNPublishActivity.actionStart(MainActivity.this);
+                }else if (module.equals(getString(R.string.tx_module_mixer))) {
                     MixerMainActivity.actionStart(MainActivity.this);
-                }
-                else if (module.equals(getString(R.string.tx_module_im))) {
+                } else if (module.equals(getString(R.string.tx_module_im))) {
                     IMActivity.actionStart(MainActivity.this);
-                }else if(module.equals(getString(R.string.tx_module_soundlevelandspectrum))){
+                } else if (module.equals(getString(R.string.tx_module_soundlevelandspectrum))) {
                     SoundLevelAndSpectrumMainActivity.actionStart(MainActivity.this);
-                }else if(module.equals(getString(R.string.tx_module_mediaplayer))){
+                } else if (module.equals(getString(R.string.tx_module_mediaplayer))) {
                     MediaplayerMainActivity.actionStart(MainActivity.this);
-                }else if(module.equals(getString(R.string.tx_module_custom_render))){
+                } else if (module.equals(getString(R.string.tx_module_custom_render))) {
                     ZGVideoRenderTypeUI.actionStart(MainActivity.this);
-                }else if(module.equals(getString(R.string.tx_module_custom_capture))){
+                } else if (module.equals(getString(R.string.tx_module_custom_capture))) {
                     ZGVideoCaptureOriginUI.actionStart(MainActivity.this);
                 }
 
@@ -85,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
         // Add Module
         mainAdapter.addModuleInfo(new ModuleInfo()
                 .moduleName(getString(R.string.tx_module_basic)).titleName(getString(R.string.tx_title_quickstart)));
+        mainAdapter.addModuleInfo(new ModuleInfo()
+                .moduleName(getString(R.string.tx_module_play)));
+        mainAdapter.addModuleInfo(new ModuleInfo()
+                .moduleName(getString(R.string.tx_module_publish)));
+        mainAdapter.addModuleInfo(new ModuleInfo()
+                .moduleName(getString(R.string.tx_module_custom_cdn_publish)));
         mainAdapter.addModuleInfo(new ModuleInfo()
                 .moduleName(getString(R.string.tx_module_mixer)).titleName(getString(R.string.tx_title_advance)));
         mainAdapter.addModuleInfo(new ModuleInfo()

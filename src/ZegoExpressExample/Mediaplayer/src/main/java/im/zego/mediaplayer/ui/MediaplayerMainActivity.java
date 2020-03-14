@@ -59,11 +59,11 @@ public class MediaplayerMainActivity extends AppCompatActivity {
 
         // 创建 ZEGO 引擎对象
         mSDKEngine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, this.getApplication(), null);
-        mSDKEngine.addEventHandler(mIZegoEventHandler);
+        mSDKEngine.setEventHandler(mIZegoEventHandler);
         ZegoRoomConfig config = new ZegoRoomConfig();
         /* 使能用户登录/登出房间通知 */
         /* Enable notification when user login or logout */
-        config.isUserStateNotify = true;
+        config.isUserStatusNotify = true;
         mSDKEngine.loginRoom(roomID, new ZegoUser(userID, userName), config);
 
         initUI();
@@ -191,8 +191,8 @@ public class MediaplayerMainActivity extends AppCompatActivity {
         mSDKEngine.stopPlayingStream(streamID);
         mSDKEngine.stopPublishing();
         mSDKEngine.logoutRoom(roomID);
-        mSDKEngine.removeEventHandler(mIZegoEventHandler);
-        ZegoExpressEngine.destroyEngine();
+        mSDKEngine.setEventHandler(null);
+        ZegoExpressEngine.destroyEngine(null);
         mIZegoEventHandler = null;
         mSDKEngine = null;
         super.onDestroy();

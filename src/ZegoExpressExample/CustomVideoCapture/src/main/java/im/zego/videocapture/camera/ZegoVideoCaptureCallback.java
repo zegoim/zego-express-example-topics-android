@@ -3,18 +3,16 @@ package im.zego.videocapture.camera;
 import android.view.View;
 
 import im.zego.zegoexpress.callback.IZegoCustomVideoCaptureHandler;
+import im.zego.zegoexpress.constants.ZegoPublishChannel;
 
-public class ZegoVideoCaptureCallback implements IZegoCustomVideoCaptureHandler {
+
+public class ZegoVideoCaptureCallback extends IZegoCustomVideoCaptureHandler {
 
 
-    @Override
-    public void onStart() {
-
+    public void onStart(ZegoPublishChannel channel) {
     }
 
-    @Override
-    public void onStop() {
-
+    public void onStop(ZegoPublishChannel channel) {
     }
 
     public void setView(View view){

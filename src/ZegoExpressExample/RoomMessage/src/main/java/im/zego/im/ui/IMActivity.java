@@ -21,6 +21,7 @@ import im.zego.zegoexpress.callback.IZegoIMSendBroadcastMessageCallback;
 import im.zego.zegoexpress.callback.IZegoIMSendCustomCommandCallback;
 import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
+import im.zego.zegoexpress.entity.ZegoBroadcastMessageInfo;
 import im.zego.zegoexpress.entity.ZegoMessageInfo;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
 import im.zego.zegoexpress.entity.ZegoUser;
@@ -41,7 +42,7 @@ public class IMActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         engine.logoutRoom(roomID);
-        ZegoExpressEngine.destroyEngine();
+        ZegoExpressEngine.destroyEngine(null);
         checkBoxList.clear();
         mUserList.clear();
         records.clear();
@@ -66,7 +67,7 @@ public class IMActivity extends AppCompatActivity {
 
         engine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, this.getApplication(), null);
         if (engine != null) {
-            engine.addEventHandler(new IZegoEventHandler() {
+            engine.setEventHandler(new IZegoEventHandler() {
                 @Override
                 public void onRoomUserUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoUser> userList) {
                     for (int i = 0; i < userList.size(); i++) {
@@ -88,10 +89,10 @@ public class IMActivity extends AppCompatActivity {
                         checkBoxList.add(checkBox);
                     }
                 }
-
-                public void onIMRecvBroadcastMessage(String roomID, ArrayList<ZegoMessageInfo> messageList) {
+                @Override
+                public void onIMRecvBroadcastMessage(String roomID, ArrayList<ZegoBroadcastMessageInfo> messageList) {
                     for (int i = 0; i < messageList.size(); i++) {
-                        ZegoMessageInfo info = messageList.get(i);
+                        ZegoBroadcastMessageInfo info = messageList.get(i);
                         records.add(info.fromUser.userID + ": " + info.message);
                     }
 
@@ -114,7 +115,7 @@ public class IMActivity extends AppCompatActivity {
             ZegoRoomConfig config = new ZegoRoomConfig();
             /** 使能用户登录/登出房间通知 */
             /** Enable notification when user login or logout */
-            config.isUserStateNotify = true;
+            config.isUserStatusNotify = true;
             engine.loginRoom(roomID, new ZegoUser(userID, userName), config);
         }
     }
@@ -126,8 +127,9 @@ public class IMActivity extends AppCompatActivity {
             engine.sendBroadcastMessage(msg, roomID, new IZegoIMSendBroadcastMessageCallback() {
                 /** 发送广播消息结果回调处理 */
                 /** Send broadcast message result callback processing */
+
                 @Override
-                public void onIMSendBroadcastMessageResult(int errorCode) {
+                public void onIMSendBroadcastMessageResult(int errorCode, long messageID) {
                     if (errorCode == 0) {
                         Toast.makeText(IMActivity.this, getString(R.string.tx_im_send_bc_ok), Toast.LENGTH_SHORT).show();
                         records.add(userID + getString(R.string.tx_im_me) + msg);

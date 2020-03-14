@@ -19,22 +19,22 @@ import java.nio.ByteBuffer;
 import im.zego.mediaplayer.R;
 import im.zego.mediaplayer.tools.CommonTools;
 import im.zego.zegoexpress.ZegoExpressEngine;
+import im.zego.zegoexpress.ZegoMediaPlayer;
+import im.zego.zegoexpress.callback.IZegoMediaPlayerAudioHandler;
+import im.zego.zegoexpress.callback.IZegoMediaPlayerEventHandler;
+import im.zego.zegoexpress.callback.IZegoMediaPlayerLoadResourceCallback;
+import im.zego.zegoexpress.callback.IZegoMediaPlayerVideoHandler;
+import im.zego.zegoexpress.constants.ZegoMediaPlayerNetworkEvent;
+import im.zego.zegoexpress.constants.ZegoMediaPlayerState;
 import im.zego.zegoexpress.constants.ZegoVideoFrameFormat;
 import im.zego.zegoexpress.entity.ZegoAudioFrameParam;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoVideoFrameParam;
-import im.zego.zegoexpress.module.mediaplayer.ZegoMediaplayer;
-import im.zego.zegoexpress.module.mediaplayer.callback.IZegoMediaplayerAudioHandler;
-import im.zego.zegoexpress.module.mediaplayer.callback.IZegoMediaplayerEventHandler;
-import im.zego.zegoexpress.module.mediaplayer.callback.IZegoMediaplayerVideoHandler;
-import im.zego.zegoexpress.module.mediaplayer.callback.ZegoMediaplayerLoadResourceCallback;
-import im.zego.zegoexpress.module.mediaplayer.entity.ZegoMediaplayerNetworkEvent;
-import im.zego.zegoexpress.module.mediaplayer.entity.ZegoMediaplayerState;
 
 
 public class MediaPlayerPanelFragment extends Fragment {
 
-    private ZegoMediaplayer mMediaplayer;
+    private ZegoMediaPlayer mMediaplayer;
     private ZegoExpressEngine mEngine;
     private Activity mActivity;
 
@@ -103,27 +103,25 @@ public class MediaPlayerPanelFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(mEngine != null){
                     if(isChecked){
-                        mMediaplayer = mEngine.createMediaplayer();
-                        mMediaplayer.setEventHandler(new IZegoMediaplayerEventHandler() {
-
-
+                        mMediaplayer = ZegoMediaPlayer.createMediaPlayer();
+                        mMediaplayer.setEventHandler(new IZegoMediaPlayerEventHandler() {
 
                             @Override
-                            public void onMediaplayerNetworkEvent(ZegoMediaplayer mediaPlayer, ZegoMediaplayerNetworkEvent networkEvent) {
+                            public void onMediaPlayerNetworkEvent(ZegoMediaPlayer mediaPlayer, ZegoMediaPlayerNetworkEvent networkEvent) {
 
                                 Log.d(TAG, "onMediaPlayerNetworkEvent: " + networkEvent);
                                 Toast.makeText(mActivity, "onMediaPlayerNetworkEvent: "+networkEvent, Toast.LENGTH_LONG).show();
                             }
 
                             @Override
-                            public void onMediaplayerPlayingProgress(ZegoMediaplayer mediaPlayer, long millisecond) {
+                            public void onMediaPlayerPlayingProgress(ZegoMediaPlayer mediaPlayer, long millisecond) {
 
                                 Log.d(TAG, "onMediaPlayerPlayingProgress: millisecond = "+millisecond+", currentResourceTotalDuration = "+ currentResourceTotalDuration);
                                 aProgressBar.setProgress((int) (100*(millisecond)/(double)currentResourceTotalDuration));
                             }
 
                             @Override
-                            public void onMediaplayerStateUpdate(ZegoMediaplayer mediaPlayer, ZegoMediaplayerState state, int errorCode) {
+                            public void onMediaPlayerStateUpdate(ZegoMediaPlayer mediaPlayer, ZegoMediaPlayerState state, int errorCode) {
 
                                 Log.d(TAG, "onMediaPlayerStateUpdate: state = " + state + ", errorCode = " + errorCode);
                                 if(errorCode != 0){
@@ -134,7 +132,7 @@ public class MediaPlayerPanelFragment extends Fragment {
                             }
                         });
                     }else {
-                        mMediaplayer.destroyMediaplayer();
+                        mMediaplayer.destroyMediaPlayer();
                         mMediaplayer.setEventHandler(null);
                         mMediaplayer = null;
                     }
@@ -202,14 +200,14 @@ public class MediaPlayerPanelFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(mMediaplayer!=null){
                     if(isChecked){
-                        mMediaplayer.setVideoHandler(new IZegoMediaplayerVideoHandler() {
+                        mMediaplayer.setVideoHandler(new IZegoMediaPlayerVideoHandler() {
                             @Override
-                            public void onVideoFrame(ZegoMediaplayer zegoMediaplayer, ByteBuffer[] byteBuffers, int[] ints, ZegoVideoFrameParam zegoVideoFrameParam) {
+                            public void onVideoFrame(ZegoMediaPlayer zegoMediaplayer, ByteBuffer[] byteBuffers, int[] ints, ZegoVideoFrameParam zegoVideoFrameParam) {
                                 Log.d(TAG, "App onVideoFrame:" + zegoVideoFrameParam.format.value());
                             }
-                        }, ZegoVideoFrameFormat.UNKNOWN);
+                        }, ZegoVideoFrameFormat.Unknown);
                     }else {
-                        mMediaplayer.setVideoHandler(null, ZegoVideoFrameFormat.UNKNOWN);
+                        mMediaplayer.setVideoHandler(null, ZegoVideoFrameFormat.Unknown);
                     }
                 }
             }
@@ -220,9 +218,9 @@ public class MediaPlayerPanelFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(mMediaplayer!=null){
                     if(isChecked){
-                        mMediaplayer.setAudioHandler(new IZegoMediaplayerAudioHandler() {
+                        mMediaplayer.setAudioHandler(new IZegoMediaPlayerAudioHandler() {
                             @Override
-                            public void onAudioFrame(ZegoMediaplayer zegoMediaplayer, ByteBuffer byteBuffer, int i, ZegoAudioFrameParam zegoAudioFrameParam) {
+                            public void onAudioFrame(ZegoMediaPlayer zegoMediaplayer, ByteBuffer byteBuffer, int i, ZegoAudioFrameParam zegoAudioFrameParam) {
                                 Log.d(TAG, "App onAudioFrame:");
                             }
                         });
@@ -238,7 +236,7 @@ public class MediaPlayerPanelFragment extends Fragment {
             public void onClick(View v) {
                 if(mMediaplayer!=null){
                     if( ((RadioButton)mPanel.findViewById(R.id.rb_mediapalyer_local_resource)).isChecked()){
-                        mMediaplayer.loadResource(CommonTools.getPath(mActivity, "ad.mp4"), new ZegoMediaplayerLoadResourceCallback() {
+                        mMediaplayer.loadResource(CommonTools.getPath(mActivity, "ad.mp4"), new IZegoMediaPlayerLoadResourceCallback() {
                             @Override
                             public void onLoadResourceCallback(int i) {
                                 if(i != 0){
@@ -253,7 +251,7 @@ public class MediaPlayerPanelFragment extends Fragment {
                             }
                         });
                     }else if(((RadioButton)mPanel.findViewById(R.id.rb_mediapalyer_net_resource)).isChecked()){
-                        mMediaplayer.loadResource("https://storage.zego.im/demo/201808270915.mp4", new ZegoMediaplayerLoadResourceCallback() {
+                        mMediaplayer.loadResource("https://storage.zego.im/demo/201808270915.mp4", new IZegoMediaPlayerLoadResourceCallback() {
                             @Override
                             public void onLoadResourceCallback(int i) {
                                 // 只有在加载成功之后 getTotalDuration 才会返回正常的数值

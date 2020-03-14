@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 import im.zego.common.GetAppIDConfig;
@@ -95,7 +97,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         ZegoVideoCaptureCallback videoCapture = null;
         // 创建sdk
         mSDKEngine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, this.getApplication(), null);
-        mSDKEngine.addEventHandler(zegoEventHandler);
+        mSDKEngine.setEventHandler(zegoEventHandler);
         if (captureOrigin == CaptureOrigin.CaptureOrigin_Camera.getCode()) {
             videoCapture = new VideoCaptureFromCamera(mSDKEngine);
         } else if (captureOrigin == CaptureOrigin.CaptureOrigin_Image.getCode()) {
@@ -110,7 +112,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         ZegoRoomConfig config = new ZegoRoomConfig();
         /* 使能用户登录/登出房间通知 */
         /* Enable notification when user login or logout */
-        config.isUserStateNotify = true;
+        config.isUserStatusNotify = true;
         String randomSuffix = String.valueOf(new Date().getTime() % (new Date().getTime() / 1000));
         userID = "user" + randomSuffix;
         userName = "userName" + randomSuffix;
@@ -120,8 +122,9 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
 
     IZegoEventHandler zegoEventHandler = new IZegoEventHandler() {
 
+
         @Override
-        public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode) {
+        public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
             if (state == ZegoRoomState.CONNECTED) {
                 isLoginSuccess = true;
                 mErrorTxt.setText("");
@@ -132,7 +135,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         }
 
         @Override
-        public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode) {
+        public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode, JSONObject extendedData) {
             if (state == ZegoPublisherState.PUBLISH_REQUESTING) {
                 mDealBtn.setText("StopPublish");
                 mPlayStreamID = streamID;
@@ -184,7 +187,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
     // 登出房间，去除推拉流回调监听并释放ZEGO SDK
     public void logoutLiveRoom() {
         mSDKEngine.logoutRoom(mRoomID);
-        ZegoExpressEngine.destroyEngine();
+        ZegoExpressEngine.destroyEngine(null);
     }
 
     // 处理推流操作

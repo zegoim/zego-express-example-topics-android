@@ -55,8 +55,8 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zgvideo_capture_type);
 
-        zegoEngineConfig.customVideoCaptureConfig = new ZegoCustomVideoCaptureConfig();
-        zegoEngineConfig.customVideoCaptureConfig.bufferType = ZegoVideoBufferType.RAW_DATA;
+        zegoEngineConfig.customVideoCaptureMainConfig = new ZegoCustomVideoCaptureConfig();
+        zegoEngineConfig.customVideoCaptureMainConfig.bufferType = ZegoVideoBufferType.RAW_DATA;
 
         mCaptureTypeGroup = findViewById(R.id.CaptureTypeGroup);
         // 获取采集源button id
@@ -68,14 +68,14 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int checkedID) {
                 if (radioCaptureTypeBtns[0] == radioGroup.getCheckedRadioButtonId()) {
                     // 图片作为采集源，采用的数据传递类型是Surface_Texture
-                    zegoEngineConfig.customVideoCaptureConfig.bufferType = ZegoVideoBufferType.GL_TEXTURE_2D;
+                    zegoEngineConfig.customVideoCaptureMainConfig.bufferType = ZegoVideoBufferType.GL_TEXTURE_2D;
                     captureOrigin = CaptureOrigin.CaptureOrigin_Image; //摄像头 码流数据
                 } else if (radioCaptureTypeBtns[1] == radioGroup.getCheckedRadioButtonId()) {
                     // camera作为采集源，采用的数据传递类型是YUV格式（内存拷贝）
-                    zegoEngineConfig.customVideoCaptureConfig.bufferType = ZegoVideoBufferType.RAW_DATA;
+                    zegoEngineConfig.customVideoCaptureMainConfig.bufferType = ZegoVideoBufferType.RAW_DATA;
                     captureOrigin = CaptureOrigin.CaptureOrigin_Camera; //摄像头 码流数据
                 } else {
-                    zegoEngineConfig.customVideoCaptureConfig.bufferType = ZegoVideoBufferType.SURFACE_TEXTURE;
+                    zegoEngineConfig.customVideoCaptureMainConfig.bufferType = ZegoVideoBufferType.SURFACE_TEXTURE;
                     captureOrigin = CaptureOrigin.CaptureOrigin_Screen; //摄像头 码流数据
                     if (Build.VERSION.SDK_INT < 21) {
                         Toast.makeText(ZGVideoCaptureOriginUI.this, "录屏功能只能在Android5.0及以上版本的系统中运行", Toast.LENGTH_SHORT).show();

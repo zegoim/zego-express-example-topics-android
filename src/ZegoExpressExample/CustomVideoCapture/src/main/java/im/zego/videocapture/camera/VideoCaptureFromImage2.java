@@ -27,6 +27,7 @@ import im.zego.videocapture.ve_gl.EglBase;
 import im.zego.videocapture.ve_gl.GlRectDrawer;
 import im.zego.videocapture.ve_gl.GlUtil;
 import im.zego.zegoexpress.ZegoExpressEngine;
+import im.zego.zegoexpress.constants.ZegoPublishChannel;
 
 /**
  * VideoCaptureFromImage2
@@ -37,9 +38,6 @@ import im.zego.zegoexpress.ZegoExpressEngine;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class VideoCaptureFromImage2 extends ZegoVideoCaptureCallback
         implements Choreographer.FrameCallback, TextureView.SurfaceTextureListener, SurfaceHolder.Callback {
-
-    private static final String TAG = "VideoCaptureFromImage2";
-
     private TextureView mTextureView = null;
     private SurfaceView mSurfaceView = null;
     private EglBase previewEglBase;
@@ -250,7 +248,7 @@ public class VideoCaptureFromImage2 extends ZegoVideoCaptureCallback
 
 
     @Override
-    public void onStart() {
+    public void onStart(ZegoPublishChannel channel) {
         // 初始化 OpenGL ES 的资源
         init();
         // 设置图片的位图
@@ -262,8 +260,7 @@ public class VideoCaptureFromImage2 extends ZegoVideoCaptureCallback
 
 
     @Override
-    public void onStop() {
-        Log.e(TAG, "onStop: xxxxx");
+    public void onStop(ZegoPublishChannel channel) {
         stopPreview();
         stopCapture();
         uninit();
@@ -283,6 +280,9 @@ public class VideoCaptureFromImage2 extends ZegoVideoCaptureCallback
 
     // 停止推流时，ZEGO SDK 调用 stopCapture 通知外部采集设备停止采集，必须实现
     private int stopCapture() {
+        if (mHandler == null) {
+            return 0;
+        }
         mHandler.post(new Runnable() {
             @Override
             public void run() {

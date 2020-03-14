@@ -88,7 +88,7 @@ public class SpectrumView extends View {
     int[] color = new int[64];
     int maxLine = 64;
     float stopTmp;
-    double[] frequencySpectrums = new double[64];
+    float[] frequencySpectrums = new float[64];
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -131,7 +131,7 @@ public class SpectrumView extends View {
     }
 
 
-    public void updateFrequencySpectrum(double[] frequencySpectrumList) {
+    public void updateFrequencySpectrum(float[] frequencySpectrumList) {
         frequencySpectrums = frequencySpectrumList;
 
     }

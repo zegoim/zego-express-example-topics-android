@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import im.zego.common.GetAppIDConfig;
 import im.zego.common.util.AppLogger;
 import im.zego.common.widgets.log.FloatingView;
@@ -50,11 +52,11 @@ public class MixerMainActivity extends AppCompatActivity {
                     String streamID;
                     for (int i = 0; i < streamList.size(); i++) {
                         if (updateType == ZegoUpdateType.ADD) {
-                            streamID = streamList.get(i).streamId;
+                            streamID = streamList.get(i).streamID;
                             streamIDList.add(streamID);
                         }
                         else {
-                            streamID = streamList.get(i).streamId;
+                            streamID = streamList.get(i).streamID;
                             streamIDList.remove(streamID);
                         }
                         AppLogger.getInstance().i("onRoomStreamUpdate: roomID = " + roomID + ", updateType =" + updateType + ", streamID = " + streamID);
@@ -67,7 +69,7 @@ public class MixerMainActivity extends AppCompatActivity {
 
 
                 @Override
-                public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode) {
+                public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode, JSONObject extendedData) {
                     AppLogger.getInstance().i("onPublisherStateUpdate：state =" + state + ", streamID = " + streamID + ", errorCode = " + errorCode);
                     if (state == ZegoPublisherState.PUBLISHING) {
                         Toast.makeText(MixerMainActivity.this, getString(R.string.tx_mixer_publish_ok), Toast.LENGTH_SHORT).show();
@@ -85,7 +87,7 @@ public class MixerMainActivity extends AppCompatActivity {
                     }
                 }
             };
-            engine.addEventHandler(handler);
+            engine.setEventHandler(handler);
             ZegoUser user = new ZegoUser(userID, userName);
             engine.loginRoom(roomID, user, null);
             engine.setDebugVerbose(true, ZegoLanguage.CHINESE);
@@ -95,7 +97,7 @@ public class MixerMainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ZegoExpressEngine.destroyEngine();
+        ZegoExpressEngine.destroyEngine(null);
         streamIDList.clear();
     }
 

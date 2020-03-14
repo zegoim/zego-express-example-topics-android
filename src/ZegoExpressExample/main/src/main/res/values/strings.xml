@@ -9,6 +9,9 @@
     <string name="tx_title">示例代码</string>
     <string name="tx_module_basic">基础通信</string>
     <string name="tx_module_mixer">混流</string>
+    <string name="tx_module_publish">推流</string>
+    <string name="tx_module_play">拉流</string>
+    <string name="tx_module_custom_cdn_publish">自定义CDN推流</string>
     <string name="tx_module_im">IM</string>
     <string name="tx_module_soundlevelandspectrum">声浪与音频频谱</string>
     <string name="tx_module_mediaplayer">媒体播放器</string>

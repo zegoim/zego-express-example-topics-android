@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import im.zego.zegoexpress.ZegoExpressEngine;
+import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoVideoFrameFormat;
 import im.zego.zegoexpress.entity.ZegoVideoFrameParam;
 
@@ -74,7 +75,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
      * 初始化资源，必须实现
      */
     @Override
-    public void onStart() {
+    public void onStart(ZegoPublishChannel channel) {
         Log.i(TAG, "onStart");
         mThread = new HandlerThread("camera-cap");
         mThread.start();
@@ -91,7 +92,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
 
     // 停止推流时，ZEGO SDK 调用 stopCapture 通知外部采集设备停止采集，必须实现
     @Override
-    public void onStop() {
+    public void onStop(ZegoPublishChannel channel) {
         Log.i(TAG, "onStop");
         // 停止camera采集任务
         stopCapture();

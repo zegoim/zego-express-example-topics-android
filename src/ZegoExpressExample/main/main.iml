@@ -126,8 +126,11 @@
     <orderEntry type="library" name="Gradle: androidx.arch.core:core-runtime:2.0.0@aar" level="project" />
     <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="QuickStart" />
+    <orderEntry type="module" module-name="CustomCdnPublish" />
     <orderEntry type="module" module-name="Mixer" />
     <orderEntry type="module" module-name="RoomMessage" />
+    <orderEntry type="module" module-name="PlayStream" />
+    <orderEntry type="module" module-name="PublishStream" />
     <orderEntry type="module" module-name="SoundLevel" />
     <orderEntry type="module" module-name="Mediaplayer" />
     <orderEntry type="module" module-name="CustomVideoRender" />

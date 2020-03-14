@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.cc.customrender.R;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 import im.zego.common.GetAppIDConfig;
@@ -77,7 +79,7 @@ public class ZGVideoRenderUI extends Activity {
         mSDKEngine.setCustomVideoRenderHandler(videoRenderer);
 
         mSDKEngine.setVideoMirrorMode(ZegoVideoMirrorMode.BOTH_MIRROR);
-        mSDKEngine.addEventHandler(new IZegoEventHandler() {
+        mSDKEngine.setEventHandler(new IZegoEventHandler() {
 
 
             @Override
@@ -86,7 +88,7 @@ public class ZGVideoRenderUI extends Activity {
             }
 
             @Override
-            public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode) {
+            public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
                 if (state == ZegoRoomState.CONNECTED) {
 
                     mSDKEngine.enableCamera(true);
@@ -119,7 +121,7 @@ public class ZGVideoRenderUI extends Activity {
             }
 
             @Override
-            public void onPlayerStateUpdate(String streamID, ZegoPlayerState state, int errorCode) {
+            public void onPlayerStateUpdate(String streamID, ZegoPlayerState state, int errorCode, JSONObject extendedData) {
                 Log.e("", "onPlayerStateUpdate errorCode:" + errorCode + "===" + state + "===" + streamID);
             }
         });
@@ -143,7 +145,7 @@ public class ZGVideoRenderUI extends Activity {
         // 登出房间，去除推拉流回调监听，释放 ZEGO SDK
         mSDKEngine.logoutRoom(mRoomID);
 
-        ZegoExpressEngine.destroyEngine();
+        ZegoExpressEngine.destroyEngine(null);
     }
 
     // 处理推流相关操作

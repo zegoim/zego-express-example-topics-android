@@ -16,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import im.zego.common.GetAppIDConfig;
 import im.zego.common.util.AppLogger;
 import im.zego.common.widgets.log.FloatingView;
@@ -104,7 +106,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         // Release SDK resources
-        ZegoExpressEngine.destroyEngine();
+        ZegoExpressEngine.destroyEngine(null);
         super.onDestroy();
     }
 
@@ -120,11 +122,11 @@ public class BasicCommunicationActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.tx_init_sdk_ok), Toast.LENGTH_SHORT).show();
             button.setText(getString(R.string.tx_uninit_sdk));
             engine.setDebugVerbose(true, ZegoLanguage.CHINESE);
-            engine.addEventHandler(new IZegoEventHandler() {
+            engine.setEventHandler(new IZegoEventHandler() {
                 /** 常用回调 */
                 /** The following are callbacks frequently used */
                 @Override
-                public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode) {
+                public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
                     /** 房间状态回调，在登录房间后，当房间状态发生变化（例如房间断开，认证失败等），SDK会通过该接口通知 */
                     /** Room status update callback: after logging into the room, when the room connection status changes
                      * (such as room disconnection, login authentication failure, etc.), the SDK will notify through the callback
@@ -151,7 +153,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
                      * the SDK will notify through this callback */
                     AppLogger.getInstance().i("onRoomStreamUpdate: roomID = " + roomID + ", updateType = " + updateType);
                     for (int i = 0; i < streamList.size(); i++) {
-                        AppLogger.getInstance().i("streamID = " + streamList.get(i).streamId);
+                        AppLogger.getInstance().i("streamID = " + streamList.get(i).streamID);
                     }
                 }
 
@@ -163,7 +165,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode) {
+                public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode, JSONObject extendedData) {
                     /** 在调用推流接口成功后，推流状态变更（例如由于网络中断引起的流状态异常），SDK会通过该接口通知 */
                     /** After calling the stream publishing interface successfully, when the status of the stream changes,
                      * such as the exception of streaming caused by network interruption, the SDK will notify through this callback
@@ -173,7 +175,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
 
 
                 @Override
-                public void onPlayerStateUpdate(String streamID, ZegoPlayerState state, int errorCode) {
+                public void onPlayerStateUpdate(String streamID, ZegoPlayerState state, int errorCode, JSONObject extendedData) {
                     /** 在调用拉流接口成功后，拉流状态变更（例如由于网络中断引起的流状态异常），SDK会通过该接口通知 */
                     /** After calling the streaming interface successfully, when the status of the stream changes,
                      * such as network interruption leading to abnormal situation, the SDK will notify through
@@ -185,7 +187,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
         else {
             /** 销毁引擎 */
             /** Destroy Engine */
-            ZegoExpressEngine.destroyEngine();
+            ZegoExpressEngine.destroyEngine(null);
             engine = null;
             AppLogger.getInstance().i(getString(R.string.tx_uninit_sdk_ok));
             Toast.makeText(this, getString(R.string.tx_uninit_sdk_ok), Toast.LENGTH_SHORT).show();

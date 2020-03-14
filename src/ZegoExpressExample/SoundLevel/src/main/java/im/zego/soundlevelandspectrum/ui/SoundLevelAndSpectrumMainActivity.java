@@ -11,6 +11,9 @@ import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
+
+import org.json.JSONObject;
+
 import im.zego.common.GetAppIDConfig;
 import im.zego.soundlevelandspectrum.R;
 import im.zego.soundlevelandspectrum.widget.SoundLevelAndSpectrumItem;
@@ -97,7 +100,7 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
         // 创建引擎
         mSDKEngine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, this.getApplication(), null);
         // 增加本专题所用的回调
-        mSDKEngine.addEventHandler(new IZegoEventHandler() {
+        mSDKEngine.setEventHandler(new IZegoEventHandler() {
 
             // 由于本专题中声浪需要做动画效果，这里使用两个实例变量来保存上一次SDK声浪回调中抛出的值，以实现过度动画的效果
             // 上一次本地采集的进度值
@@ -113,26 +116,26 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
                 // 这里拉流之后动态添加渲染的View
                 if(updateType == ZegoUpdateType.ADD){
                     for(ZegoStream zegoStream: streamList){
-                        mSDKEngine.startPlayingStream(zegoStream.streamId, null);
+                        mSDKEngine.startPlayingStream(zegoStream.streamID, null);
                         SoundLevelAndSpectrumItem soundLevelAndSpectrumItem = new SoundLevelAndSpectrumItem(SoundLevelAndSpectrumMainActivity.this, null);
                         ll_container.addView(soundLevelAndSpectrumItem);
-                        soundLevelAndSpectrumItem.getTvStreamId().setText(zegoStream.streamId);
+                        soundLevelAndSpectrumItem.getTvStreamId().setText(zegoStream.streamID);
                         soundLevelAndSpectrumItem.getTvUserId().setText(zegoStream.user.userID);
-                        soundLevelAndSpectrumItem.setStreamid(zegoStream.streamId);
-                        last_stream_to_progress_value.put(zegoStream.streamId, 0.0);
+                        soundLevelAndSpectrumItem.setStreamid(zegoStream.streamID);
+                        last_stream_to_progress_value.put(zegoStream.streamID, 0.0);
                         frequencySpectrumAndSoundLevelItemList.add(soundLevelAndSpectrumItem);
 
                     }
-                }else if(updateType == ZegoUpdateType.DEL){
+                }else if(updateType == ZegoUpdateType.DELETE){
                     for(ZegoStream zegoStream: streamList){
-                        mSDKEngine.stopPlayingStream(zegoStream.streamId);
+                        mSDKEngine.stopPlayingStream(zegoStream.streamID);
                         Iterator<SoundLevelAndSpectrumItem> it = frequencySpectrumAndSoundLevelItemList.iterator();
                         while(it.hasNext()){
                             SoundLevelAndSpectrumItem soundLevelAndSpectrumItemTmp = it.next();
-                            if(soundLevelAndSpectrumItemTmp.getStreamid().equals(zegoStream.streamId)){
+                            if(soundLevelAndSpectrumItemTmp.getStreamid().equals(zegoStream.streamID)){
                                 it.remove();
                                 ll_container.removeView(soundLevelAndSpectrumItemTmp);
-                                last_stream_to_progress_value.remove(zegoStream.streamId);
+                                last_stream_to_progress_value.remove(zegoStream.streamID);
                             }
                         }
                     }
@@ -178,21 +181,21 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
                 }
             }
             @Override
-            public void onCapturedAudioSpectrumUpdate(double[] frequencySpectrum) {
+            public void onCapturedAudioSpectrumUpdate(float[] frequencySpectrum) {
                 super.onCapturedAudioSpectrumUpdate(frequencySpectrum);
                 Log.v(TAG, "call back onCapturedAudioSpectrumUpdate");
                 mCaptureSpectrumView.updateFrequencySpectrum(frequencySpectrum);
             }
             @Override
-            public void onRemoteAudioSpectrumUpdate(HashMap<String, double[]> frequencySpectrums) {
+            public void onRemoteAudioSpectrumUpdate(HashMap<String, float[]> frequencySpectrums) {
                 super.onRemoteAudioSpectrumUpdate(frequencySpectrums);
                 Log.v(TAG, "call back onRemoteAudioSpectrumUpdate:" + frequencySpectrums);
 
-                Iterator<HashMap.Entry<String, double[]>> it = frequencySpectrums.entrySet().iterator();
+                Iterator<HashMap.Entry<String, float[]>> it = frequencySpectrums.entrySet().iterator();
                 while(it.hasNext()){
-                    HashMap.Entry<String, double[]> entry = it.next();
+                    HashMap.Entry<String, float[]> entry = it.next();
                     String streamid = entry.getKey();
-                    double[] values = entry.getValue();
+                    float[] values = entry.getValue();
 
                     for(SoundLevelAndSpectrumItem soundLevelAndSpectrumItem: frequencySpectrumAndSoundLevelItemList){
                         if(streamid.equals(soundLevelAndSpectrumItem.getStreamid())){
@@ -203,14 +206,14 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
             }
 
             @Override
-            public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode) {
-                super.onRoomStateUpdate(roomID, state, errorCode);
+            public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
+
                 Log.v(TAG, "onRoomStateUpdate: errorcode:"+ errorCode + ", roomID: "+ roomID + ", state:" + state.value());
             }
 
             @Override
-            public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode) {
-                super.onPublisherStateUpdate(streamID, state, errorCode);
+            public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode, JSONObject extendedData) {
+
                 Log.v(TAG, "onPublisherStateUpdate: errorcode:"+ errorCode + ", streamID:" + streamID + ", state:" + state.value());
 
             }
@@ -227,7 +230,7 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
         ZegoRoomConfig config = new ZegoRoomConfig();
         /* 使能用户登录/登出房间通知 */
         /* Enable notification when user login or logout */
-        config.isUserStateNotify = true;
+        config.isUserStatusNotify = true;
         mSDKEngine.loginRoom(roomID, new ZegoUser(userID, userName), config);
         // 本专题展示声浪与频谱，无需推视频流
         mSDKEngine.enableCamera(false);
@@ -241,9 +244,10 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
         mSDKEngine.stopAudioSpectrumMonitor();
         mSDKEngine.stopSoundLevelMonitor();
 
+
         mSDKEngine.stopPublishing();
         mSDKEngine.logoutRoom(roomID);
-        ZegoExpressEngine.destroyEngine();
+        ZegoExpressEngine.destroyEngine(null);
 
         super.onDestroy();
     }
