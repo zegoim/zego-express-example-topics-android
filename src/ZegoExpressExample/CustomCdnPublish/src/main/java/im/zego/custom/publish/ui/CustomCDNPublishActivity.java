@@ -249,7 +249,7 @@ public class CustomCDNPublishActivity extends AppCompatActivity {
 
             /** 开始推流 */
             /** Begin to publish stream */
-            engine.startPublishing(streamID);
+            engine.startPublishingStream(streamID);
             AppLogger.getInstance().i("Publish stream OK, streamID = " + streamID);
             View local_view = findViewById(R.id.local_view);
             Toast.makeText(this, getString(R.string.tx_basic_publish_ok), Toast.LENGTH_SHORT).show();
@@ -265,7 +265,7 @@ public class CustomCDNPublishActivity extends AppCompatActivity {
         else {
             /** 停止推流 */
             /** Begin to stop publish stream */
-            engine.stopPublishing();
+            engine.stopPublishingStream();
 
             /** 停止本地预览 */
             /** Start stop preview */

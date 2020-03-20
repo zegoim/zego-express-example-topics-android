@@ -28,7 +28,9 @@ import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
 import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
+import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoScenario;
+import im.zego.zegoexpress.constants.ZegoStreamQualityLevel;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoUser;
@@ -59,6 +61,7 @@ public class PublishActivityUI extends BaseActivity {
         binding.setConfig(sdkConfigInfo);
         binding.swMic.setChecked(true);
         binding.swCamera.setChecked(true);
+        binding.swFrontCamera.setChecked(true);
         layoutBinding = binding.layout;
         layoutBinding.startButton.setText(getString(R.string.tx_start_publish));
 
@@ -87,10 +90,8 @@ public class PublishActivityUI extends BaseActivity {
                     Toast.makeText(PublishActivityUI.this, getString(R.string.tx_publish_success), Toast.LENGTH_SHORT).show();
                 } else {
                     binding.title.setTitleName(getString(R.string.tx_publish_fail));
-                    AppLogger.getInstance().i( "推流失败, streamID : %s, errorCode : %d", streamID, errorCode);
+                    AppLogger.getInstance().i("推流失败, streamID : %s, errorCode : %d", streamID, errorCode);
                     Toast.makeText(PublishActivityUI.this, getString(R.string.tx_publish_fail), Toast.LENGTH_SHORT).show();
-                    // 当推流失败时需要显示布局
-                    showInputStreamIDLayout();
                 }
             }
 
@@ -102,6 +103,8 @@ public class PublishActivityUI extends BaseActivity {
                  */
                 streamQuality.setFps(String.format("帧率: %f", quality.videoSendFPS));
                 streamQuality.setBitrate(String.format("码率: %f kbs", quality.videoKBPS));
+                streamQuality.setHardwareEncode(String.format("硬编: %b", quality.isHardwareEncode));
+                streamQuality.setNetworkQuality(String.format("网络质量: %s", getQuality(quality.level)));
             }
 
             @Override
@@ -109,6 +112,12 @@ public class PublishActivityUI extends BaseActivity {
                 // 当采集时分辨率有变化时，sdk会回调该方法
                 streamQuality.setResolution(String.format("分辨率: %dX%d", width, height));
             }
+
+            @Override
+            public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
+
+            }
+
         });
 
 
@@ -133,7 +142,34 @@ public class PublishActivityUI extends BaseActivity {
             }
         });
 
+        binding.swFrontCamera.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isPressed()) {
+                    sdkConfigInfo.setEnableFrontCamera(isChecked);
+                    engine.useFrontCamera(isChecked);
+                }
+            }
+        });
 
+
+    }
+
+    private String getQuality(ZegoStreamQualityLevel level) {
+        switch (level){
+            case EXCELLENT:
+                return "极好";
+            case GOOD:
+                return "优";
+            case MEDIUM:
+                return "中";
+            case BAD:
+                return "差";
+            case DIE:
+                return "极差";
+        }
+
+        return "无数据";
     }
 
 
@@ -161,8 +197,7 @@ public class PublishActivityUI extends BaseActivity {
     protected void onDestroy() {
         // 停止所有的推流和拉流后，才能执行 logoutRoom
         engine.stopPreview();
-        engine.stopPublishing();
-
+        engine.stopPublishingStream();
         // 当用户退出界面时退出登录房间
         engine.logoutRoom(roomID);
         super.onDestroy();
@@ -184,9 +219,8 @@ public class PublishActivityUI extends BaseActivity {
         hideInputStreamIDLayout();
 
         streamQuality.setStreamID(String.format("StreamID : %s", streamID));
-
         // 开始推流
-        engine.startPublishing(streamID);
+        engine.startPublishingStream(streamID);
 
     }
 

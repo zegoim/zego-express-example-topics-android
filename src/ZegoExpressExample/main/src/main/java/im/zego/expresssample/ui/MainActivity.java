@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             ModuleInfo moduleInfo = (ModuleInfo) view.getTag();
             if (orRequestPermission) {
                 String module = moduleInfo.getModule();
-                if (module.equals(getString(R.string.tx_module_basic))) {
+                if (module.equals(getString(R.string.tx_title_quickstart))) {
                     BasicCommunicationActivity.actionStart(MainActivity.this);
                 } else if (module.equals(getString(R.string.tx_module_publish))) {
                     PublishActivityUI.actionStart(MainActivity.this);
@@ -95,15 +95,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Add Module
         mainAdapter.addModuleInfo(new ModuleInfo()
-                .moduleName(getString(R.string.tx_module_basic)).titleName(getString(R.string.tx_title_quickstart)));
+                .moduleName(getString(R.string.tx_title_quickstart)).titleName(getString(R.string.tx_title_quickstart)));
         mainAdapter.addModuleInfo(new ModuleInfo()
                 .moduleName(getString(R.string.tx_module_play)));
         mainAdapter.addModuleInfo(new ModuleInfo()
                 .moduleName(getString(R.string.tx_module_publish)));
         mainAdapter.addModuleInfo(new ModuleInfo()
-                .moduleName(getString(R.string.tx_module_custom_cdn_publish)));
+                .moduleName(getString(R.string.tx_module_custom_cdn_publish)).titleName(getString(R.string.tx_title_advance)));
         mainAdapter.addModuleInfo(new ModuleInfo()
-                .moduleName(getString(R.string.tx_module_mixer)).titleName(getString(R.string.tx_title_advance)));
+                .moduleName(getString(R.string.tx_module_mixer)));
         mainAdapter.addModuleInfo(new ModuleInfo()
                 .moduleName(getString(R.string.tx_module_im)));
         mainAdapter.addModuleInfo(new ModuleInfo()

@@ -61,7 +61,7 @@
     <string name="tx_login_room_guide">登录房间指引</string>
 
     <string name="tx_stream_id_cannot_null">streamID不能为空</string>
-    <string name="tx_start_publish_title">第三步 开始推流</string>
+    <string name="tx_start_publish_title">开始推流</string>
     <string name="tx_room_id_is_no_null">roomID不能为空</string>
     <string name="stream_id_describe">每个用户的流名必须保持唯一，也就是流名必须全局唯一，SDK推拉流都是基于流ID来标识, 只支持长度不超过 256 byte 的数字，下划线，字母</string>
     <string name="tx_publish_guide">推流文档指引</string>

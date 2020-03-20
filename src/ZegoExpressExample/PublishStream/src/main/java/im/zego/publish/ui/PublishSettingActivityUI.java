@@ -107,13 +107,6 @@ public class PublishSettingActivityUI extends FragmentActivity {
 
                 // 启用预览镜像
                 ZegoExpressEngine.getEngine().setVideoMirrorMode(enable ? ZegoVideoMirrorMode.ONLY_PREVIEW_MIRROR : ZegoVideoMirrorMode.NO_MIRROR);
-            } else if ("publish_front_facing_camera".equals(key)) {
-
-                boolean enable = sharedPreferences.getBoolean(key, true);
-
-                // 启用前置摄像头
-                ZegoExpressEngine.getEngine().useFrontCamera(enable);
-
             } else if ("publish_resolution".equals(key)) {
                 String resolution = sharedPreferences.getString(key, "540x960");
                 // 动态修改当前描述
@@ -129,7 +122,7 @@ public class PublishSettingActivityUI extends FragmentActivity {
                 ZegoExpressEngine.getEngine().setVideoConfig(zegoVideoConfig);
 
             } else if ("publish_bitrate".equals(key)) {
-                String bitrate = sharedPreferences.getString(key, "1200000");
+                String bitrate = sharedPreferences.getString(key, "1200");
                 // 动态修改当前描述
                 bitrateListPreference.setSummary(bitrate);
 

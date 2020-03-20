@@ -157,7 +157,7 @@ public class IMActivity extends AppCompatActivity {
             }
         }
         if (!msg.equals("")) {
-            engine.sendCustomCommand(msg, userList, roomID, new IZegoIMSendCustomCommandCallback() {
+            engine.sendCustomCommand(msg,  roomID,userList, new IZegoIMSendCustomCommandCallback() {
                 /** 发送用户自定义消息结果回调处理 */
                 /** Send custom command result callback processing */
                 @Override

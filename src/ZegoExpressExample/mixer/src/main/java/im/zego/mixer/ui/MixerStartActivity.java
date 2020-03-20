@@ -19,6 +19,7 @@ import im.zego.common.util.AppLogger;
 import im.zego.common.widgets.log.FloatingView;
 import im.zego.mixer.R;
 import im.zego.zegoexpress.callback.IZegoMixerStartCallback;
+import im.zego.zegoexpress.callback.IZegoMixerStopCallback;
 import im.zego.zegoexpress.constants.ZegoMixerInputContentType;
 import im.zego.zegoexpress.constants.ZegoResolution;
 import im.zego.zegoexpress.entity.ZegoCanvas;
@@ -86,24 +87,26 @@ public class MixerStartActivity extends AppCompatActivity implements IMixerStrea
             return;
         }
 
-        ZegoMixerTask task = new ZegoMixerTask("task1");
+        task = new ZegoMixerTask("task1");
         ArrayList<ZegoMixerInput> inputList = new ArrayList<>();
-        ZegoMixerInput input_1 = new ZegoMixerInput(streamID_1, ZegoMixerInputContentType.VIDEO, new Rect(50, 0, 670, 540));
+        ZegoMixerInput input_1 = new ZegoMixerInput(streamID_1, ZegoMixerInputContentType.VIDEO, new Rect(0, 0, 360, 320));
         inputList.add(input_1);
 
-        ZegoMixerInput input_2 = new ZegoMixerInput(streamID_2, ZegoMixerInputContentType.VIDEO, new Rect(50, 670, 640, 1180));
+        ZegoMixerInput input_2 = new ZegoMixerInput(streamID_2, ZegoMixerInputContentType.VIDEO, new Rect(0, 320, 360, 640));
         inputList.add(input_2);
 
         ArrayList<ZegoMixerOutput> outputList = new ArrayList<>();
         ZegoMixerOutput output = new ZegoMixerOutput(mixStreamID);
-        outputList.add(output);
-
         ZegoMixerAudioConfig audioConfig = new ZegoMixerAudioConfig();
         ZegoMixerVideoConfig videoConfig = new ZegoMixerVideoConfig();
+        output.setAudioConfig(audioConfig);
+        output.setVideoConfig(videoConfig);
+        outputList.add(output);
+
+
         task.setInputList(inputList);
         task.setOutputList(outputList);
-        task.setAudioConfig(audioConfig);
-        task.setVideoConfig(videoConfig);
+
 
         ZegoWatermark watermark = new ZegoWatermark("preset-id://zegowp.png", new Rect(0,0,300,200));
         task.setWatermark(watermark);
@@ -147,7 +150,12 @@ public class MixerStartActivity extends AppCompatActivity implements IMixerStrea
     }
 
     public void ClickStopMix(View view) {
-        MixerMainActivity.engine.stopMixerTask(task, null);
+        MixerMainActivity.engine.stopMixerTask(task, new IZegoMixerStopCallback() {
+            @Override
+            public void onMixerStopResult(int i) {
+
+            }
+        });
     }
 
     public static void actionStart(Activity activity) {

@@ -23,6 +23,7 @@ import im.zego.videocapture.camera.ZegoVideoCaptureCallback;
 import im.zego.videocapture.enums.CaptureOrigin;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
+import im.zego.zegoexpress.constants.ZegoOrientation;
 import im.zego.zegoexpress.constants.ZegoPlayerMediaEvent;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
@@ -116,7 +117,6 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         String randomSuffix = String.valueOf(new Date().getTime() % (new Date().getTime() / 1000));
         userID = "user" + randomSuffix;
         userName = "userName" + randomSuffix;
-
         mSDKEngine.loginRoom(mRoomID, new ZegoUser(userID, userName), config);
     }
 
@@ -181,7 +181,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         zegoCanvas.viewMode = ZegoViewMode.SCALE_TO_FILL;
         // 设置预览视图及视图展示模式
         mSDKEngine.startPreview(zegoCanvas);
-        mSDKEngine.startPublishing(mRoomID);
+        mSDKEngine.startPublishingStream(mRoomID);
     }
 
     // 登出房间，去除推拉流回调监听并释放ZEGO SDK
@@ -196,7 +196,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         if (mDealBtn.getText().toString().equals("StopPublish")) {
             // 停止预览和推流
             mSDKEngine.stopPreview();
-            mSDKEngine.stopPublishing();
+            mSDKEngine.stopPublishingStream();
             mDealBtn.setText("StartPublish");
         } else {
             mDealBtn.setText("StopPublish");

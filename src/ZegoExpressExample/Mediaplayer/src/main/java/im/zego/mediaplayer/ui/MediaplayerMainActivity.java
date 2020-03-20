@@ -77,10 +77,10 @@ public class MediaplayerMainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    mSDKEngine.startPublishing(((EditText)findViewById(R.id.et_mediaplayer_publish_streamid)).getText().toString().trim());
+                    mSDKEngine.startPublishingStream(((EditText)findViewById(R.id.et_mediaplayer_publish_streamid)).getText().toString().trim());
                     mSDKEngine.startPreview(new ZegoCanvas(findViewById(R.id.tv_local_preview)));
                 }else {
-                    mSDKEngine.stopPublishing();
+                    mSDKEngine.stopPublishingStream();
                     mSDKEngine.startPreview(null);
                 }
             }
@@ -189,7 +189,7 @@ public class MediaplayerMainActivity extends AppCompatActivity {
     protected void onDestroy() {
         mediaplayerViews.clear();
         mSDKEngine.stopPlayingStream(streamID);
-        mSDKEngine.stopPublishing();
+        mSDKEngine.stopPublishingStream();
         mSDKEngine.logoutRoom(roomID);
         mSDKEngine.setEventHandler(null);
         ZegoExpressEngine.destroyEngine(null);

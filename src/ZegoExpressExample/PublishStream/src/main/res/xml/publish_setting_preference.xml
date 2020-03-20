@@ -54,11 +54,6 @@
             android:defaultValue="true"
             android:title="@string/tx_mirror" />
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="publish_front_facing_camera"
-            android:summary="@string/tx_capture_device"
-            android:title="@string/front_facing_camera" />
 
     </PreferenceCategory>
 

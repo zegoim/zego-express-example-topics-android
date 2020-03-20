@@ -46,13 +46,14 @@ public class BasicCommunicationActivity extends AppCompatActivity {
     ImageButton ib_remote_stream_audio;
     boolean publishMicEnable = true;
     boolean playStreamMute = true;
-
+    TextView tvTestEnv;
     public static ZegoExpressEngine engine = null;
     private String userID;
     private String userName;
     String roomID;
     String publishStreamID;
     String playStreamID;
+    boolean isTestEnv = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,9 +73,12 @@ public class BasicCommunicationActivity extends AppCompatActivity {
         TextView tvAppID = findViewById(R.id.tv_appid);
         tvAppID.setText("AppID: " + GetAppIDConfig.appID);
 
+        tvTestEnv = findViewById(R.id.tv_test_env);
+        tvTestEnv.setText("TestEnv: "+isTestEnv);
+
         /** 示例代码使用一个固定的房间ID */
         /** RoomID used by example */
-        roomID = "room123";
+        roomID = "QuickStartRoom-1";
         TextView tvRoomID = findViewById(R.id.tv_roomid);
         tvRoomID.setText("房间ID: " + roomID);
 
@@ -117,7 +121,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
         if (button.getText().equals(getString(R.string.tx_init_sdk))) {
             /** 初始化SDK, 使用测试环境，使用通用场景 */
             /** Initialize SDK, use test environment, access to general scenarios */
-            engine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, getApplication(), null);
+            engine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, isTestEnv, ZegoScenario.GENERAL, getApplication(), null);
             AppLogger.getInstance().i(getString(R.string.tx_init_sdk_ok));
             Toast.makeText(this, getString(R.string.tx_init_sdk_ok), Toast.LENGTH_SHORT).show();
             button.setText(getString(R.string.tx_uninit_sdk));
@@ -242,7 +246,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
 
             /** 开始推流 */
             /** Begin to publish stream */
-            engine.startPublishing(streamID);
+            engine.startPublishingStream(streamID);
             AppLogger.getInstance().i("Publish stream OK, streamID = " + streamID);
             View local_view = findViewById(R.id.local_view);
             Toast.makeText(this, getString(R.string.tx_basic_publish_ok), Toast.LENGTH_SHORT).show();
@@ -258,7 +262,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
         else {
             /** 停止推流 */
             /** Begin to stop publish stream */
-            engine.stopPublishing();
+            engine.stopPublishingStream();
 
             /** 停止本地预览 */
             /** Start stop preview */

@@ -101,7 +101,7 @@ public class ZGVideoRenderUI extends Activity {
 
                     mSDKEngine.setVideoConfig(zegoVideoConfig);
                     mSDKEngine.startPreview(zegoCanvas);
-                    mSDKEngine.startPublishing(mRoomID);
+                    mSDKEngine.startPublishingStream(mRoomID);
                 } else if (state == ZegoRoomState.DISCONNECTED) {
                     mErrorTxt.setText("login room fail, err:" + errorCode);
                 }
@@ -154,7 +154,7 @@ public class ZGVideoRenderUI extends Activity {
         if (mDealBtn.getText().toString().equals("StopPublish")) {
             //停止预览，停止推流
             mSDKEngine.stopPreview();
-            mSDKEngine.stopPublishing();
+            mSDKEngine.stopPublishingStream();
 
             //移除渲染视图
             videoRenderer.removeView(mainPublishChannel);
@@ -174,7 +174,7 @@ public class ZGVideoRenderUI extends Activity {
             ZegoCanvas zegoCanvas = new ZegoCanvas(null);
             zegoCanvas.viewMode = ZegoViewMode.SCALE_TO_FILL;
             mSDKEngine.startPreview(zegoCanvas);
-            mSDKEngine.startPublishing(mStreamID);
+            mSDKEngine.startPublishingStream(mStreamID);
         }
     }
 
@@ -189,7 +189,7 @@ public class ZGVideoRenderUI extends Activity {
             videoRenderer.addView(mPlayStreamID, mPlayView);
 
             // 开始拉流，不为 SDK 设置渲染视图，使用自渲染的视图
-            mSDKEngine.startPlayingStream(mPlayStreamID, null);
+            mSDKEngine.startPlayingStream(mPlayStreamID, new ZegoCanvas(null));
 
             mErrorTxt.setText("");
 

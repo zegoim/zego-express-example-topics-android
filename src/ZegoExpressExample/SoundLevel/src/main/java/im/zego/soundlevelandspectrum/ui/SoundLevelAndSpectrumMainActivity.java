@@ -24,6 +24,7 @@ import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
+import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
@@ -116,7 +117,7 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
                 // 这里拉流之后动态添加渲染的View
                 if(updateType == ZegoUpdateType.ADD){
                     for(ZegoStream zegoStream: streamList){
-                        mSDKEngine.startPlayingStream(zegoStream.streamID, null);
+                        mSDKEngine.startPlayingStream(zegoStream.streamID, new ZegoCanvas(null));
                         SoundLevelAndSpectrumItem soundLevelAndSpectrumItem = new SoundLevelAndSpectrumItem(SoundLevelAndSpectrumMainActivity.this, null);
                         ll_container.addView(soundLevelAndSpectrumItem);
                         soundLevelAndSpectrumItem.getTvStreamId().setText(zegoStream.streamID);
@@ -234,7 +235,7 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
         mSDKEngine.loginRoom(roomID, new ZegoUser(userID, userName), config);
         // 本专题展示声浪与频谱，无需推视频流
         mSDKEngine.enableCamera(false);
-        mSDKEngine.startPublishing(streamID);
+        mSDKEngine.startPublishingStream(streamID);
 
     }
 
@@ -245,7 +246,7 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
         mSDKEngine.stopSoundLevelMonitor();
 
 
-        mSDKEngine.stopPublishing();
+        mSDKEngine.stopPublishingStream();
         mSDKEngine.logoutRoom(roomID);
         ZegoExpressEngine.destroyEngine(null);
 

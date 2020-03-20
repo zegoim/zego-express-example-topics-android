@@ -35,12 +35,12 @@ public class MixerPublishActivity extends AppCompatActivity {
         ZegoCanvas canvas = new ZegoCanvas(v);
         MixerMainActivity.engine.startPreview(canvas);
         EditText et_stream = findViewById(R.id.et_stream_id);
-        MixerMainActivity.engine.startPublishing(et_stream.getText().toString());
+        MixerMainActivity.engine.startPublishingStream(et_stream.getText().toString());
         AppLogger.getInstance().i("Start publish stream OK，streamID = " + et_stream.getText().toString());
     }
 
     public void ClickStopPublish(View view) {
-        MixerMainActivity.engine.stopPublishing();
+        MixerMainActivity.engine.stopPublishingStream();
         MixerMainActivity.engine.stopPreview();
     }
 

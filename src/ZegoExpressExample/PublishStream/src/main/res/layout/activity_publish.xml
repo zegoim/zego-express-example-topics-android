@@ -101,6 +101,25 @@
                     android:text="@{quality.fps}"
                     android:textColor="@color/white_color" />
 
+                <TextView
+                    android:id="@+id/tx_network_quality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tx_fps"
+                    android:text="@{quality.networkQuality}"
+                    android:textColor="@color/white_color" />
+
+                <TextView
+                    android:id="@+id/tx_hardware_encode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tx_network_quality"
+                    android:text="@{quality.hardwareEncode}"
+                    android:textColor="@color/white_color" />
+
+
+
+
                 <Switch
                     android:id="@+id/sw_mic"
                     android:layout_width="wrap_content"
@@ -110,6 +129,8 @@
                     android:text="@string/tx_mic_state"
                     android:textColor="@color/white_color" />
 
+
+
                 <Switch
                     android:id="@+id/sw_camera"
                     android:layout_width="wrap_content"
@@ -117,6 +138,16 @@
                     android:layout_above="@+id/sw_mic"
                     android:checked="@{config.enableCamera}"
                     android:text="@string/tx_camera"
+                    android:textColor="@color/white_color" />
+
+
+                <Switch
+                    android:id="@+id/sw_front_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/sw_camera"
+                    android:checked="@{config.enableFrontCamera}"
+                    android:text="@string/front_facing_camera"
                     android:textColor="@color/white_color" />
 
             </RelativeLayout>

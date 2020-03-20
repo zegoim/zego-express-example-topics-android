@@ -14,7 +14,21 @@ public class SDKConfigInfo extends BaseObservable {
 
     private boolean enableCamera = true;
     private boolean enableMic = true;
+    private boolean enableFrontCamera = true;
     private boolean speaker = true;
+
+
+    @Bindable
+    public boolean isEnableFrontCamera() {
+        return enableFrontCamera;
+    }
+
+    public void setEnableFrontCamera(boolean enableFrontCamera) {
+        this.enableFrontCamera = enableFrontCamera;
+        notifyPropertyChanged(BR.enableFrontCamera);
+    }
+
+
 
     @Bindable
     public boolean isSpeaker() {

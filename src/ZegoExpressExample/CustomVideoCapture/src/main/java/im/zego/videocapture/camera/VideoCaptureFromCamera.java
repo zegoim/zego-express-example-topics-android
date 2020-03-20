@@ -315,6 +315,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
         psz.height = 480;
         // 设置camera的采集视图size
         parms.setPreviewSize(psz.width, psz.height);
+
         mWidth = psz.width;
         mHeight = psz.height;
 
@@ -367,6 +368,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
         }
 
         Camera.Parameters actualParm = mCam.getParameters();
+
         mWidth = actualParm.getPreviewSize().width;
         mHeight = actualParm.getPreviewSize().height;
         Log.i(TAG, "[WARNING] vcap: focus mode " + actualParm.getFocusMode());
@@ -524,6 +526,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
         param.strides[0] = mWidth;
         param.strides[1] = mWidth;
         param.format = ZegoVideoFrameFormat.NV21;
+
 
         long now;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
