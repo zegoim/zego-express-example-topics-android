@@ -142,6 +142,7 @@ public class ZGVideoRenderUI extends Activity {
 
         // 释放渲染类
         videoRenderer.uninit();
+        ZegoExpressEngine.setEngineConfig(null);
         // 登出房间，去除推拉流回调监听，释放 ZEGO SDK
         mSDKEngine.logoutRoom(mRoomID);
 

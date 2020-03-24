@@ -80,7 +80,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         // 获取设备唯一ID
         String deviceID = DeviceInfoManager.generateDeviceId(this);
         mRoomID += deviceID;
-
+        mPlayStreamID = mRoomID;
         // 采集源是否是录屏
         captureOrigin = getIntent().getIntExtra("captureOrigin", 0);
         if (captureOrigin == CaptureOrigin.CaptureOrigin_Screen.getCode()) {
@@ -138,10 +138,8 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode, JSONObject extendedData) {
             if (state == ZegoPublisherState.PUBLISH_REQUESTING) {
                 mDealBtn.setText("StopPublish");
-                mPlayStreamID = streamID;
             }
         }
-
 
         @Override
         public void onPlayerMediaEvent(String streamID, ZegoPlayerMediaEvent event) {
@@ -163,7 +161,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        ZegoExpressEngine.setEngineConfig(null);
         // 登出房间并释放ZEGO SDK
         logoutLiveRoom();
     }
