@@ -180,7 +180,7 @@ public class CustomCDNPublishActivity extends AppCompatActivity {
                      * such as network interruption leading to abnormal situation, the SDK will notify through
                      * this callback */
                     AppLogger.getInstance().i("onPlayerStateUpdate: streamID = " + streamID + ", state = " + state + ", errCode = " + errorCode);
-                }
+                    }
 
 
             });
@@ -242,7 +242,7 @@ public class CustomCDNPublishActivity extends AppCompatActivity {
             publishStreamID = streamID;
 
             ZegoCDNConfig zegoCDNConfig = new ZegoCDNConfig();
-            zegoCDNConfig.URL = binding.publishCdnUrl.getText().toString();
+            zegoCDNConfig.url = binding.publishCdnUrl.getText().toString();
             zegoCDNConfig.authParam = "";
             /** 启用直推CDN推流, 需要在推流之前调用 **/
             engine.enablePublishDirectToCDN(true, zegoCDNConfig);
@@ -272,7 +272,7 @@ public class CustomCDNPublishActivity extends AppCompatActivity {
             engine.stopPreview();
             /** CDN参数地址填写 **/
             ZegoCDNConfig zegoCDNConfig = new ZegoCDNConfig();
-            zegoCDNConfig.URL = binding.publishCdnUrl.getText().toString();
+            zegoCDNConfig.url = binding.publishCdnUrl.getText().toString();
             zegoCDNConfig.authParam = "";
             engine.enablePublishDirectToCDN(false, zegoCDNConfig);
             AppLogger.getInstance().i("Stop publish stream OK");
@@ -299,10 +299,10 @@ public class CustomCDNPublishActivity extends AppCompatActivity {
 
             /** CDN参数地址填写 **/
             ZegoCDNConfig zegoCDNConfig = new ZegoCDNConfig();
-            zegoCDNConfig.URL = binding.playCdnUrl.getText().toString();
+            zegoCDNConfig.url = binding.playCdnUrl.getText().toString();
             zegoCDNConfig.authParam = "";
             ZegoPlayerConfig zegoPlayerConfig = new ZegoPlayerConfig();
-            zegoPlayerConfig.CDNConfig = zegoCDNConfig;
+            zegoPlayerConfig.cdnConfig = zegoCDNConfig;
             /** 开始拉流 */
             /** Begin to play stream */
             engine.startPlayingStream(playStreamID, new ZegoCanvas(play_view), zegoPlayerConfig);

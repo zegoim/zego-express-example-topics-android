@@ -99,10 +99,9 @@ public class MixerStartActivity extends AppCompatActivity implements IMixerStrea
         ZegoMixerOutput output = new ZegoMixerOutput(mixStreamID);
         ZegoMixerAudioConfig audioConfig = new ZegoMixerAudioConfig();
         ZegoMixerVideoConfig videoConfig = new ZegoMixerVideoConfig();
-        output.setAudioConfig(audioConfig);
-        output.setVideoConfig(videoConfig);
+        task.setVideoConfig(videoConfig);
+        task.setAudioConfig(audioConfig);
         outputList.add(output);
-
 
         task.setInputList(inputList);
         task.setOutputList(outputList);
