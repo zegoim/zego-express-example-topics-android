@@ -8,6 +8,7 @@ import android.widget.RadioGroup;
 
 import com.cc.customrender.R;
 
+import im.zego.common.ui.BaseActivity;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.constants.ZegoVideoBufferType;
 import im.zego.zegoexpress.constants.ZegoVideoFrameFormatSeries;
@@ -17,7 +18,7 @@ import im.zego.zegoexpress.entity.ZegoEngineConfig;
 /**
  * 外部渲染返回视频数据的类型选择
  */
-public class ZGVideoRenderTypeUI extends Activity {
+public class ZGVideoRenderTypeUI extends BaseActivity {
 
     private RadioGroup mRenderTypeGroup;
 

@@ -11,13 +11,13 @@ import androidx.databinding.DataBindingUtil;
 
 import org.json.JSONObject;
 
+import im.zego.common.util.SettingDataUtil;
 import im.zego.play.databinding.ActivityPlayBinding;
 import im.zego.play.databinding.PlayInputStreamIdLayoutBinding;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import im.zego.common.GetAppIDConfig;
 import im.zego.common.entity.SDKConfigInfo;
 import im.zego.common.entity.StreamQuality;
 import im.zego.common.ui.BaseActivity;
@@ -27,7 +27,6 @@ import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
 import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
-import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
@@ -61,7 +60,7 @@ public class PlayActivityUI extends BaseActivity {
 
 
         // 初始化SDK
-        engine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, getApplication(), null);
+        engine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), getApplication(), null);
         AppLogger.getInstance().i("createEngine");
         String randomSuffix = String.valueOf(new Date().getTime() % (new Date().getTime() / 1000));
         userID = "userid-" + randomSuffix;
@@ -75,7 +74,7 @@ public class PlayActivityUI extends BaseActivity {
                 if (state == ZegoPlayerState.PLAYING) {
                     if (errorCode == 0) {
                         mStreamID = streamID;
-                        AppLogger.getInstance().i("拉流成功, streamID : %s", streamID);
+                        AppLogger.getInstance().i("play stream success, streamID : %s", streamID);
                         Toast.makeText(PlayActivityUI.this, getString(R.string.tx_play_success), Toast.LENGTH_SHORT).show();
 
                         // 修改标题状态拉流成功状态
@@ -85,7 +84,7 @@ public class PlayActivityUI extends BaseActivity {
                         mStreamID = null;
                         // 修改标题状态拉流失败状态
                         binding.title.setTitleName(getString(R.string.tx_play_fail));
-                        AppLogger.getInstance().i("拉流失败, streamID : %s, errorCode : %d", streamID, errorCode);
+                        AppLogger.getInstance().i("play stream fail, streamID : %s, errorCode : %d", streamID, errorCode);
                         Toast.makeText(PlayActivityUI.this, getString(R.string.tx_play_fail), Toast.LENGTH_SHORT).show();
                         // 当拉流失败时需要显示布局
                         showInputStreamIDLayout();
@@ -99,23 +98,31 @@ public class PlayActivityUI extends BaseActivity {
                  * 拉流质量更新, 回调频率默认3秒一次
                  * 可通过 {@link com.zego.zegoliveroom.ZegoLiveRoom#setPlayQualityMonitorCycle(long)} 修改回调频率
                  */
-                streamQuality.setFps(String.format("帧率: %f", quality.videoRecvFPS));
-                streamQuality.setBitrate(String.format("码率: %f kbs", quality.videoKBPS));
+                streamQuality.setFps(String.format(getString(R.string.frame_rate)+" %f", quality.videoRecvFPS));
+                streamQuality.setBitrate(String.format(getString(R.string.bit_rate)+" %f kbs", quality.videoKBPS));
             }
 
             @Override
             public void onPlayerVideoSizeChanged(String streamID, int width, int height) {
                 // 视频宽高变化通知,startPlay后，如果视频宽度或者高度发生变化(首次的值也会)，则收到该通知.
-                streamQuality.setResolution(String.format("分辨率: %dX%d", width, height));
+                streamQuality.setResolution(String.format(getString(R.string.resolution)+" %dX%d", width, height));
             }
 
             @Override
             public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
+                /** 房间状态回调，在登录房间后，当房间状态发生变化（例如房间断开，认证失败等），SDK会通过该接口通知 */
+                /** Room status update callback: after logging into the room, when the room connection status changes
+                 * (such as room disconnection, login authentication failure, etc.), the SDK will notify through the callback
+                 */
+                AppLogger.getInstance().i("onRoomStateUpdate: roomID = " + roomID + ", state = " + state + ", errorCode = " + errorCode);
                 streamQuality.setRoomID(String.format("RoomID : %s", roomID));
                 if (state == ZegoRoomState.DISCONNECTED) {
-                    binding.title.setTitleName("房间与server断开连接");
+                    binding.title.setTitleName(getString(R.string.loss_connect));
                 } else if (state == ZegoRoomState.CONNECTED) {
                     binding.title.setTitleName("");
+                }
+                if (errorCode != 0) {
+                    Toast.makeText(PlayActivityUI.this, String.format("login room fail, errorCode: %d", errorCode), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -169,7 +176,7 @@ public class PlayActivityUI extends BaseActivity {
         ZegoCanvas zegoCanvas = new ZegoCanvas(binding.playView);
         engine.startPlayingStream(mStreamID, zegoCanvas);
 
-        AppLogger.getInstance().i("拉流失败, streamID : %s", mStreamID);
+        AppLogger.getInstance().i("play stream fail, streamID : %s", mStreamID);
         Toast.makeText(PlayActivityUI.this, getString(R.string.tx_play_fail), Toast.LENGTH_SHORT).show();
         // 修改标题状态拉流失败状态
         binding.title.setTitleName(getString(R.string.tx_play_fail));

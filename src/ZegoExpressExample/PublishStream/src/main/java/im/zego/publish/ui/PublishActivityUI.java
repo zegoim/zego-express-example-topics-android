@@ -13,13 +13,13 @@ import androidx.databinding.DataBindingUtil;
 
 import org.json.JSONObject;
 
+import im.zego.common.util.SettingDataUtil;
 import im.zego.publish.R;
 import im.zego.publish.databinding.ActivityPublishBinding;
 import im.zego.publish.databinding.PublishInputStreamIdLayoutBinding;
 
 import java.util.Date;
 
-import im.zego.common.GetAppIDConfig;
 import im.zego.common.entity.SDKConfigInfo;
 import im.zego.common.entity.StreamQuality;
 import im.zego.common.ui.BaseActivity;
@@ -29,7 +29,6 @@ import im.zego.zegoexpress.callback.IZegoEventHandler;
 import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
-import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoStreamQualityLevel;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
@@ -49,6 +48,7 @@ public class PublishActivityUI extends BaseActivity {
     private String userName;
     private String roomID;
     private String mStreamID;
+    private ZegoCanvas zegoCanvas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +67,14 @@ public class PublishActivityUI extends BaseActivity {
 
         AppLogger.getInstance().i("createEngine");
         // 初始化SDK
-        engine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, getApplication(), null);
+        engine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), getApplication(), null);
 
         String randomSuffix = String.valueOf(new Date().getTime() % (new Date().getTime() / 1000));
         userID = "userid-" + randomSuffix;
         userName = "username-" + randomSuffix;
-
+        zegoCanvas = new ZegoCanvas(binding.preview);
         // 调用sdk 开始预览接口 设置view 启用预览
-        ZegoCanvas zegoCanvas = new ZegoCanvas(binding.preview);
         engine.startPreview(zegoCanvas);
-
         engine.setEventHandler(new IZegoEventHandler() {
 
             @Override
@@ -86,11 +84,11 @@ public class PublishActivityUI extends BaseActivity {
 
                 if (errorCode == 0) {
                     binding.title.setTitleName(getString(R.string.tx_publish_success));
-                    AppLogger.getInstance().i("推流成功, streamID : %s", streamID);
+                    AppLogger.getInstance().i("publish stream success, streamID : %s", streamID);
                     Toast.makeText(PublishActivityUI.this, getString(R.string.tx_publish_success), Toast.LENGTH_SHORT).show();
                 } else {
                     binding.title.setTitleName(getString(R.string.tx_publish_fail));
-                    AppLogger.getInstance().i("推流失败, streamID : %s, errorCode : %d", streamID, errorCode);
+                    AppLogger.getInstance().i("publish stream fail, streamID : %s, errorCode : %d", streamID, errorCode);
                     Toast.makeText(PublishActivityUI.this, getString(R.string.tx_publish_fail), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -101,25 +99,30 @@ public class PublishActivityUI extends BaseActivity {
                  * 推流质量更新, 回调频率默认3秒一次
                  * 可通过 {@link com.zego.zegoliveroom.ZegoLiveRoom#setPublishQualityMonitorCycle(long)} 修改回调频率
                  */
-                streamQuality.setFps(String.format("帧率: %f", quality.videoSendFPS));
-                streamQuality.setBitrate(String.format("码率: %f kbs", quality.videoKBPS));
-                streamQuality.setHardwareEncode(String.format("硬编: %b", quality.isHardwareEncode));
-                streamQuality.setNetworkQuality(String.format("网络质量: %s", getQuality(quality.level)));
+                streamQuality.setFps(String.format(getString(R.string.frame_rate)+" %f", quality.videoSendFPS));
+                streamQuality.setBitrate(String.format(getString(R.string.bit_rate)+" %f kbs", quality.videoKBPS));
+                streamQuality.setHardwareEncode(String.format(getString(R.string.hardware_encode_1)+" %b", quality.isHardwareEncode));
+                streamQuality.setNetworkQuality(String.format(getString(R.string.network_quality)+" %s", getQuality(quality.level)));
             }
 
             @Override
             public void onPublisherVideoSizeChanged(int width, int height, ZegoPublishChannel channel) {
                 // 当采集时分辨率有变化时，sdk会回调该方法
-                streamQuality.setResolution(String.format("分辨率: %dX%d", width, height));
+                streamQuality.setResolution(String.format(getString(R.string.resolution)+" %dX%d", width, height));
             }
 
             @Override
             public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
-
+                /** 房间状态回调，在登录房间后，当房间状态发生变化（例如房间断开，认证失败等），SDK会通过该接口通知 */
+                /** Room status update callback: after logging into the room, when the room connection status changes
+                 * (such as room disconnection, login authentication failure, etc.), the SDK will notify through the callback
+                 */
+                AppLogger.getInstance().i("onRoomStateUpdate: roomID = " + roomID + ", state = " + state + ", errorCode = " + errorCode);
+                if (errorCode != 0) {
+                    Toast.makeText(PublishActivityUI.this, String.format("login room fail, errorCode: %d", errorCode), Toast.LENGTH_LONG).show();
+                }
             }
-
         });
-
 
         // 监听摄像头与麦克风开关
         binding.swCamera.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -155,21 +158,22 @@ public class PublishActivityUI extends BaseActivity {
 
     }
 
+
     private String getQuality(ZegoStreamQualityLevel level) {
-        switch (level){
+        switch (level) {
             case EXCELLENT:
-                return "极好";
+                return getString(R.string.excellent);
             case GOOD:
-                return "优";
+                return getString(R.string.good);
             case MEDIUM:
-                return "中";
+                return getString(R.string.medium);
             case BAD:
-                return "差";
+                return getString(R.string.bad);
             case DIE:
-                return "极差";
+                return getString(R.string.die);
         }
 
-        return "无数据";
+        return getString(R.string.no_data);
     }
 
 
@@ -186,6 +190,12 @@ public class PublishActivityUI extends BaseActivity {
             engine.enableAudioCaptureDevice(false);
             engine.enableAudioCaptureDevice(true);
         }
+
+        if (engine != null) {
+            zegoCanvas.viewMode = viewMode;
+            engine.startPreview(zegoCanvas);
+        }
+
         super.onResume();
     }
 

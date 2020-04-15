@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="view_setting_describe">
-        <item>等比缩放, 可能有黑边(AspectFit)</item>
-        <item>等比缩放填充整个View SDK 默认值(AspectFill)</item>
-        <item>填充整个View, 视频可能会变形(ScaleToFill)</item>
+        <item> scale proportionally, possible black edge (aspectfit) </item>
+        <item> proportionally scale to fill in the whole view SDK default value (aspectfill) </item>
+        <item> fill the entire view, and the video may be scaletofill </item>
     </string-array>
     <string-array name="view_setting_values">
         <item>0</item>

@@ -27,7 +27,8 @@
             app:name="@string/tx_start_publish_title">
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
+                android:textSize="10dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="right"

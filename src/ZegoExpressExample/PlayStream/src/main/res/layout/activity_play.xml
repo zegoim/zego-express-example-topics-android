@@ -27,8 +27,9 @@
             app:name="@string/tx_start_play">
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:textSize="10dp"
                 android:layout_gravity="right"
                 android:onClick="goSetting"
                 android:layout_marginRight="2dp"

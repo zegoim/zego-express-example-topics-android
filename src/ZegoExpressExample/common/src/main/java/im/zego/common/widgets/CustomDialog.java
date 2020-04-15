@@ -14,15 +14,12 @@ import im.zego.common.R;
  */
 
 public class CustomDialog extends Dialog {
-
-
+    private TextView textView;
+    private String loadingText = "";
     public CustomDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
+        loadingText=context.getString(R.string.loading);
     }
-
-    private TextView textView;
-    private String loadingText = "加载中";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

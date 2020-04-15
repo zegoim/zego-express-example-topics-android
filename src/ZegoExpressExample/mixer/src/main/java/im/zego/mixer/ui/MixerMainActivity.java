@@ -10,15 +10,15 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import im.zego.common.GetAppIDConfig;
 import im.zego.common.util.AppLogger;
+import im.zego.common.util.SettingDataUtil;
 import im.zego.common.widgets.log.FloatingView;
 import im.zego.mixer.R;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
 import im.zego.zegoexpress.constants.ZegoLanguage;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
-import im.zego.zegoexpress.constants.ZegoScenario;
+import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
@@ -44,7 +44,7 @@ public class MixerMainActivity extends AppCompatActivity {
         TextView tv_room = findViewById(R.id.tv_room_id);
         tv_room.setText(roomID);
 
-        engine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, this.getApplication(), null);
+        engine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
         if (engine != null) {
             IZegoEventHandler handler = new IZegoEventHandler() {
                 @Override
@@ -84,6 +84,18 @@ public class MixerMainActivity extends AppCompatActivity {
                         else {
                             Toast.makeText(MixerMainActivity.this, getString(R.string.tx_mixer_publish_fail) + errorCode, Toast.LENGTH_SHORT).show();
                         }
+                    }
+                }
+
+                @Override
+                public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
+                    /** 房间状态回调，在登录房间后，当房间状态发生变化（例如房间断开，认证失败等），SDK会通过该接口通知 */
+                    /** Room status update callback: after logging into the room, when the room connection status changes
+                     * (such as room disconnection, login authentication failure, etc.), the SDK will notify through the callback
+                     */
+                    AppLogger.getInstance().i("onRoomStateUpdate: roomID = " + roomID + ", state = " + state + ", errorCode = " + errorCode);
+                    if (errorCode != 0) {
+                        Toast.makeText(MixerMainActivity.this, String.format("login room fail, errorCode: %d", errorCode), Toast.LENGTH_LONG).show();
                     }
                 }
             };

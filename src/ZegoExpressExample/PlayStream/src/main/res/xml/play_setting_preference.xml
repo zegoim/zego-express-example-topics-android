@@ -2,29 +2,29 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="视图设置">
+    <PreferenceCategory android:title="@string/common_title3">
 
         <ListPreference
             android:defaultValue="1"
             android:entries="@array/view_setting_describe"
             android:entryValues="@array/view_setting_values"
             android:key="play_view_mode"
-            android:summary="等比缩放填充整个View"
-            android:title="选择拉流View视图模式 (拉流后设置生效)" />
+            android:summary="@string/common_summary1"
+            android:title="@string/common_title1" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="其他设置">
+    <PreferenceCategory android:title="@string/common_other_setting">
 
 
         <im.zego.common.widgets.SeekBarPreference
             android:key="play_volume"
-            android:title="拉流音量设置"
+            android:title="@string/common_play_volume"
             app:max="100" />
 
         <SwitchPreference
             android:key="play_hardware_decode"
             android:summary="@string/tx_hardware_decode_describe"
-            android:title="硬解开关(拉流前设置生效)" />
+            android:title="@string/common_title2" />
 
     </PreferenceCategory>
 

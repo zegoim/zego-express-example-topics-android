@@ -1,22 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ZegoExpressSample</string>
-    <string name="tx_setting">设置</string>
-    <string name="tx_copyed">已复制</string>
-    <string name="tx_save">保存</string>
-    <string name="tx_appid">AppID：</string>
-    <string name="tx_appsign">AppSign：</string>
-    <string name="tx_env">环境（请选择与AppID对应的环境）</string>
-    <string name="tx_title">示例代码</string>
-    <string name="tx_module_basic">基础通信</string>
-    <string name="tx_module_mixer">混流</string>
-    <string name="tx_module_publish">推流</string>
-    <string name="tx_module_play">拉流</string>
-    <string name="tx_module_custom_cdn_publish">自定义CDN推流</string>
-    <string name="tx_module_im">IM</string>
-    <string name="tx_module_soundlevelandspectrum">声浪与音频频谱</string>
-    <string name="tx_module_mediaplayer">媒体播放器</string>
-    <string name="tx_module_custom_render">自定义渲染</string>
-    <string name="tx_module_custom_capture">自定义采集</string>
-    <string name="tx_title_quickstart">快速开始</string>
-    <string name="tx_title_advance">进阶功能</string>
+
 </resources>

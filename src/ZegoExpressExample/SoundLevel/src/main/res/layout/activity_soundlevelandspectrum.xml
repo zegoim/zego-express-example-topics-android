@@ -24,27 +24,29 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_weight="1">
 
             <Switch
+                android:textSize="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_soundlevelandspectrum_soundlevel_monitor"
-                android:text="启动声浪监听:" />
+                android:text="@string/sound_monitor" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_weight="1">
 
             <Switch
+                android:textSize="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_soundlevelandspectrum_spectrum_monitor"
-                android:text="启动频谱监听:" />
+                android:text="@string/spectrum_monitor" />
 
         </LinearLayout>
 

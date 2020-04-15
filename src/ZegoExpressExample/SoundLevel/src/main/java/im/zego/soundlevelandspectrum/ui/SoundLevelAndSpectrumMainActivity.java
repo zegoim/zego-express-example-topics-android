@@ -10,11 +10,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 
 import org.json.JSONObject;
 
-import im.zego.common.GetAppIDConfig;
+import im.zego.common.util.AppLogger;
+import im.zego.common.util.SettingDataUtil;
+import im.zego.common.widgets.log.FloatingView;
 import im.zego.soundlevelandspectrum.R;
 import im.zego.soundlevelandspectrum.widget.SoundLevelAndSpectrumItem;
 import im.zego.soundlevelandspectrum.widget.SpectrumView;
@@ -22,7 +26,6 @@ import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
-import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
@@ -41,11 +44,13 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
     Switch mSwSoundlevelMonitor;
     Switch mSwSpectrumMonitor;
     // 本地推流的声浪的展现，需要获取该控件来设置进度值
+//    To show the sound of local push, you need to get this control to set the progress value
     public ProgressBar mPbCaptureSoundLevel;
     TextView mTvSoundlevelandspectrumUserid ;
     TextView mTvSoundlevelandspectrumStreamid ;
     public SpectrumView mCaptureSpectrumView;
     // 使用线性布局作为容器，以动态添加所拉的流频谱和声浪展现
+//    Use a linear layout as a container to dynamically add the stream spectrum and sound wave presentation
     public LinearLayout ll_container;
 
     String roomID = "SoundLevelRoom-1";
@@ -54,6 +59,7 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
     String streamID;
 
     // 拉多条流的时候，使用list来保存展现的频谱和声浪的视图
+//    When pulling multiple streams, use list to save the displayed spectrum and sound wave view
     public ArrayList<SoundLevelAndSpectrumItem> frequencySpectrumAndSoundLevelItemList = new ArrayList<>();
 
     private static final String TAG = "Sound-Spectrum-Activity";
@@ -62,7 +68,12 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_soundlevelandspectrum);
-
+        /** 添加悬浮日志视图 */
+        /** Add floating log view */
+        FloatingView.get().add();
+        /** 记录SDK版本号 */
+        /** Record SDK version */
+        AppLogger.getInstance().i("SDK version : %s", ZegoExpressEngine.getVersion());
 
         /** 生成随机的用户ID，避免不同手机使用时用户ID冲突，相互影响 */
         /** Generate random user ID to avoid user ID conflict and mutual influence when different mobile phones are used */
@@ -98,23 +109,30 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
                 }
             }
         });
+        AppLogger.getInstance().i(getString(R.string.create_zego_engine));
         // 创建引擎
-        mSDKEngine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, this.getApplication(), null);
+        //create Engine
+        mSDKEngine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
         // 增加本专题所用的回调
+        //Increase the callback used in this topic
         mSDKEngine.setEventHandler(new IZegoEventHandler() {
 
             // 由于本专题中声浪需要做动画效果，这里使用两个实例变量来保存上一次SDK声浪回调中抛出的值，以实现过度动画的效果
             // 上一次本地采集的进度值
+//            Since the sound waves in this topic need to be animated, two instance variables are used here to save the value thrown in the previous SDK sound wave callback to achieve the effect of excessive animation
+//            The progress value of the last local collection
             private double last_progress_captured = 0.0;
             // 默认情况SDK默认支持最多拉12路流，这里使用一个12长度的int数值来保存所拉的流监控周期
-            private HashMap<String, Double> last_stream_to_progress_value = new HashMap();
+//            By default, the SDK supports up to 12 streams by default. Here, a 12-length int value is used to save the stream monitoring period.
+            private HashMap<String, Float> last_stream_to_progress_value = new HashMap();
 
             @Override
             public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
                 super.onRoomStreamUpdate(roomID, updateType, streamList);
                 Log.v(TAG, "onRoomStreamUpdate: roomID" + roomID + ", updateType:" + updateType.value() + ", streamList: " + streamList);
-
+                AppLogger.getInstance().i("onRoomStreamUpdate: roomID" + roomID + ", updateType:" + updateType.value() + ", streamList: " + streamList);
                 // 这里拉流之后动态添加渲染的View
+//                Add the rendered view dynamically after pulling the stream here
                 if(updateType == ZegoUpdateType.ADD){
                     for(ZegoStream zegoStream: streamList){
                         mSDKEngine.startPlayingStream(zegoStream.streamID, new ZegoCanvas(null));
@@ -123,7 +141,7 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
                         soundLevelAndSpectrumItem.getTvStreamId().setText(zegoStream.streamID);
                         soundLevelAndSpectrumItem.getTvUserId().setText(zegoStream.user.userID);
                         soundLevelAndSpectrumItem.setStreamid(zegoStream.streamID);
-                        last_stream_to_progress_value.put(zegoStream.streamID, 0.0);
+                        last_stream_to_progress_value.put(zegoStream.streamID, 0.0f);
                         frequencySpectrumAndSoundLevelItemList.add(soundLevelAndSpectrumItem);
 
                     }
@@ -143,7 +161,7 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
                 }
             }
             @Override
-            public void onCapturedSoundLevelUpdate(double soundLevel) {
+            public void onCapturedSoundLevelUpdate(float soundLevel) {
                 super.onCapturedSoundLevelUpdate(soundLevel);
                 Log.v(TAG, "onCapturedSoundLevelUpdate:" + soundLevel);
                 ValueAnimator animator = ValueAnimator.ofFloat((float) last_progress_captured, (float)soundLevel).setDuration(100);
@@ -157,15 +175,14 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
                 last_progress_captured = soundLevel;
             }
             @Override
-            public void onRemoteSoundLevelUpdate(HashMap<String, Double> soundLevels) {
+            public void onRemoteSoundLevelUpdate(HashMap<String, Float> soundLevels) {
                 super.onRemoteSoundLevelUpdate(soundLevels);
                 Log.v(TAG, "onRemoteSoundLevelUpdate:"+ soundLevels.size());
-
-                Iterator<HashMap.Entry<String, Double>> it = soundLevels.entrySet().iterator();
+                Iterator<HashMap.Entry<String, Float>> it = soundLevels.entrySet().iterator();
                 while(it.hasNext()){
-                    HashMap.Entry<String, Double> entry = it.next();
+                    HashMap.Entry<String, Float> entry = it.next();
                     String streamid = entry.getKey();
-                    Double value = entry.getValue();
+                    Float value = entry.getValue();
                     for(final SoundLevelAndSpectrumItem soundLevelAndSpectrumItem: frequencySpectrumAndSoundLevelItemList){
                         if(streamid.equals(soundLevelAndSpectrumItem.getStreamid())){
                             ValueAnimator animator = ValueAnimator.ofFloat(value.floatValue(), soundLevels.get(streamid).floatValue()).setDuration(100);
@@ -191,7 +208,6 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
             public void onRemoteAudioSpectrumUpdate(HashMap<String, float[]> frequencySpectrums) {
                 super.onRemoteAudioSpectrumUpdate(frequencySpectrums);
                 Log.v(TAG, "call back onRemoteAudioSpectrumUpdate:" + frequencySpectrums);
-
                 Iterator<HashMap.Entry<String, float[]>> it = frequencySpectrums.entrySet().iterator();
                 while(it.hasNext()){
                     HashMap.Entry<String, float[]> entry = it.next();
@@ -208,13 +224,20 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
 
             @Override
             public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
-
+                /** 房间状态回调，在登录房间后，当房间状态发生变化（例如房间断开，认证失败等），SDK会通过该接口通知 */
+                /** Room status update callback: after logging into the room, when the room connection status changes
+                 * (such as room disconnection, login authentication failure, etc.), the SDK will notify through the callback
+                 */
+                AppLogger.getInstance().i("onRoomStateUpdate: roomID = " + roomID + ", state = " + state + ", errorCode = " + errorCode);
                 Log.v(TAG, "onRoomStateUpdate: errorcode:"+ errorCode + ", roomID: "+ roomID + ", state:" + state.value());
+                if (errorCode != 0) {
+                    Toast.makeText(SoundLevelAndSpectrumMainActivity.this, String.format("登陆房间失败, 错误码: %d", errorCode), Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode, JSONObject extendedData) {
-
+                AppLogger.getInstance().i("onPublisherStateUpdate: errorcode:"+ errorCode + ", streamID:" + streamID + ", state:" + state.value());
                 Log.v(TAG, "onPublisherStateUpdate: errorcode:"+ errorCode + ", streamID:" + streamID + ", state:" + state.value());
 
             }
@@ -234,6 +257,7 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
         config.isUserStatusNotify = true;
         mSDKEngine.loginRoom(roomID, new ZegoUser(userID, userName), config);
         // 本专题展示声浪与频谱，无需推视频流
+        //This topic shows sound waves and spectrum without pushing video streams
         mSDKEngine.enableCamera(false);
         mSDKEngine.startPublishingStream(streamID);
 
@@ -255,5 +279,16 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
     public static void actionStart(Activity activity) {
         Intent intent = new Intent(activity, SoundLevelAndSpectrumMainActivity.class);
         activity.startActivity(intent);
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FloatingView.get().attach(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FloatingView.get().detach(this);
     }
 }

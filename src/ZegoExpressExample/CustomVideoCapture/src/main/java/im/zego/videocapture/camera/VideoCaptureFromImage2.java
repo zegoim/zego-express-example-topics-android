@@ -23,6 +23,7 @@ import android.view.View;
 import java.io.InputStream;
 import java.util.concurrent.CountDownLatch;
 
+import im.zego.common.util.AppLogger;
 import im.zego.videocapture.ve_gl.EglBase;
 import im.zego.videocapture.ve_gl.GlRectDrawer;
 import im.zego.videocapture.ve_gl.GlUtil;
@@ -249,6 +250,7 @@ public class VideoCaptureFromImage2 extends ZegoVideoCaptureCallback
 
     @Override
     public void onStart(ZegoPublishChannel channel) {
+        AppLogger.getInstance().i(" VideoCaptureFromImage2 onStart callBack,channel:"+channel);
         // 初始化 OpenGL ES 的资源
         init();
         // 设置图片的位图
@@ -261,6 +263,7 @@ public class VideoCaptureFromImage2 extends ZegoVideoCaptureCallback
 
     @Override
     public void onStop(ZegoPublishChannel channel) {
+        AppLogger.getInstance().i(" VideoCaptureFromImage2 onStop callBack,channel:"+channel);
         stopPreview();
         stopCapture();
         uninit();

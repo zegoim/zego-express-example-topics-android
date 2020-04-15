@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import java.nio.ByteBuffer;
+
+import im.zego.common.util.AppLogger;
 import im.zego.mediaplayer.R;
 import im.zego.mediaplayer.tools.CommonTools;
 import im.zego.zegoexpress.ZegoExpressEngine;
@@ -108,21 +110,20 @@ public class MediaPlayerPanelFragment extends Fragment {
 
                             @Override
                             public void onMediaPlayerNetworkEvent(ZegoMediaPlayer mediaPlayer, ZegoMediaPlayerNetworkEvent networkEvent) {
-
+                                AppLogger.getInstance().i("onMediaPlayerNetworkEvent: " + networkEvent);
                                 Log.d(TAG, "onMediaPlayerNetworkEvent: " + networkEvent);
                                 Toast.makeText(mActivity, "onMediaPlayerNetworkEvent: "+networkEvent, Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onMediaPlayerPlayingProgress(ZegoMediaPlayer mediaPlayer, long millisecond) {
-
                                 Log.d(TAG, "onMediaPlayerPlayingProgress: millisecond = "+millisecond+", currentResourceTotalDuration = "+ currentResourceTotalDuration);
                                 aProgressBar.setProgress((int) (100*(millisecond)/(double)currentResourceTotalDuration));
                             }
 
                             @Override
                             public void onMediaPlayerStateUpdate(ZegoMediaPlayer mediaPlayer, ZegoMediaPlayerState state, int errorCode) {
-
+                                AppLogger.getInstance().i("onMediaPlayerStateUpdate: state = " + state + ", errorCode = " + errorCode);
                                 Log.d(TAG, "onMediaPlayerStateUpdate: state = " + state + ", errorCode = " + errorCode);
                                 if(errorCode != 0){
                                     Toast.makeText(mActivity,
@@ -241,10 +242,13 @@ public class MediaPlayerPanelFragment extends Fragment {
                             public void onLoadResourceCallback(int i) {
                                 if(i != 0){
                                     Log.e(TAG, "onLoadResourceCallback:" + i);
-                                    Toast.makeText(mActivity, "加载本地资源异常:"+i, Toast.LENGTH_LONG).show();
+                                    AppLogger.getInstance().i("onLoadResourceCallback:" + i);
+                                    Toast.makeText(mActivity, getString(R.string.local_res_error)+i, Toast.LENGTH_LONG).show();
                                 }
                                 // 只有在加载成功之后 getTotalDuration 才会返回正常的数值
+                                //Only after the load is successful, getTotalDuration will return to the normal value
                                 currentResourceTotalDuration = mMediaplayer.getTotalDuration();
+                                AppLogger.getInstance().i("currentResourceTotalDuration: " + currentResourceTotalDuration);
                                 Log.d(TAG, "currentResourceTotalDuration: " + currentResourceTotalDuration);
                                 Toast.makeText(mActivity, "currentResourceTotalDuration: "+ currentResourceTotalDuration, Toast.LENGTH_LONG).show();
 
@@ -255,12 +259,15 @@ public class MediaPlayerPanelFragment extends Fragment {
                             @Override
                             public void onLoadResourceCallback(int i) {
                                 // 只有在加载成功之后 getTotalDuration 才会返回正常的数值
+                                //Only after the load is successful, getTotalDuration will return to the normal value
                                 if(i != 0){
                                     Log.e(TAG, "onLoadResourceCallback:" + i);
-                                    Toast.makeText(mActivity, "加载网络资源异常:"+i, Toast.LENGTH_LONG).show();
+                                    AppLogger.getInstance().i("onLoadResourceCallback:" + i);
+                                    Toast.makeText(mActivity, getString(R.string.net_res_error)+i, Toast.LENGTH_LONG).show();
                                 }
                                 currentResourceTotalDuration = mMediaplayer.getTotalDuration();
                                 Log.d(TAG, "currentResourceTotalDuration: " + currentResourceTotalDuration);
+                                AppLogger.getInstance().i("currentResourceTotalDuration: " + currentResourceTotalDuration);
                                 Toast.makeText(mActivity, "currentResourceTotalDuration: "+ currentResourceTotalDuration, Toast.LENGTH_LONG).show();
                             }
                         });

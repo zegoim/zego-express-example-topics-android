@@ -16,6 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.zego.videofilter.ui.VideoFilterMainUI;
+
+import im.zego.common.GetAppIDConfig;
+import im.zego.common.util.PreferenceUtil;
+import im.zego.video.talk.ui.ZGVideoTalkUI;
+
+import im.zego.aux.publisher.ui.ZGAuxPublisherLoginUI;
 import im.zego.custom.publish.ui.CustomCDNPublishActivity;
 import im.zego.customrender.ui.ZGVideoRenderTypeUI;
 import im.zego.expresssample.R;
@@ -31,6 +38,9 @@ import im.zego.publish.ui.PublishActivityUI;
 import im.zego.quickstart.ui.BasicCommunicationActivity;
 import im.zego.soundlevelandspectrum.ui.SoundLevelAndSpectrumMainActivity;
 import im.zego.videocapture.ui.ZGVideoCaptureOriginUI;
+
+import static im.zego.common.util.PreferenceUtil.KEY_APP_ID;
+import static im.zego.common.util.PreferenceUtil.KEY_APP_SIGN;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -54,9 +64,26 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
-
+        //
+        if (PreferenceUtil.getInstance().getStringValue(KEY_APP_ID, "").equals("")) {
+            PreferenceUtil.getInstance().setStringValue(KEY_APP_ID, String.valueOf(GetAppIDConfig.appID));
+        }
+        if (PreferenceUtil.getInstance().getStringValue(KEY_APP_SIGN, "").equals("")) {
+            PreferenceUtil.getInstance().setStringValue(KEY_APP_SIGN, GetAppIDConfig.appSign);
+        }
+        //
         setTitle(getString(R.string.tx_title));
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.codeDownload.setText(getString(R.string.code_download));
+        binding.doc.setText(R.string.doc);
+        binding.quickStart.setText(R.string.quick_start);
+        binding.setting.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                SettingActivity.actionStart(MainActivity.this);
+            }
+        });
 
         mainAdapter.setOnItemClickListener((view, position) -> {
             boolean orRequestPermission = this.checkOrRequestPermission(REQUEST_PERMISSION_CODE);
@@ -71,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     PlayActivityUI.actionStart(MainActivity.this);
                 } else if (module.equals(getString(R.string.tx_module_custom_cdn_publish))) {
                     CustomCDNPublishActivity.actionStart(MainActivity.this);
-                }else if (module.equals(getString(R.string.tx_module_mixer))) {
+                } else if (module.equals(getString(R.string.tx_module_mixer))) {
                     MixerMainActivity.actionStart(MainActivity.this);
                 } else if (module.equals(getString(R.string.tx_module_im))) {
                     IMActivity.actionStart(MainActivity.this);
@@ -83,8 +110,13 @@ public class MainActivity extends AppCompatActivity {
                     ZGVideoRenderTypeUI.actionStart(MainActivity.this);
                 } else if (module.equals(getString(R.string.tx_module_custom_capture))) {
                     ZGVideoCaptureOriginUI.actionStart(MainActivity.this);
+                } else if (module.equals(getString(R.string.txt_title_aux))) {
+                    ZGAuxPublisherLoginUI.actionStart(MainActivity.this);
+                } else if (module.equals(getString(R.string.txt_title_video_talk))) {
+                    ZGVideoTalkUI.actionStart(MainActivity.this);
+                } else if(module.equals(getString(R.string.tx_module_custom_capture_faceu))){
+                    VideoFilterMainUI.actionStart(MainActivity.this);
                 }
-
             }
         });
 
@@ -114,6 +146,10 @@ public class MainActivity extends AppCompatActivity {
                 .moduleName(getString(R.string.tx_module_custom_render)));
         mainAdapter.addModuleInfo(new ModuleInfo()
                 .moduleName(getString(R.string.tx_module_custom_capture)));
+        mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_title_aux)));
+        mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_title_video_talk)));
+        mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.tx_module_custom_capture_faceu)));
+
     }
 
 

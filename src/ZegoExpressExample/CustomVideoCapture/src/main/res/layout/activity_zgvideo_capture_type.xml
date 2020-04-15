@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
-            android:text="采集来源: "
+            android:text="@string/collect_source"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -65,7 +65,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:onClick="JumpPublish"
-        android:text="开始推流"
+        android:text="@string/tx_start_live"
         android:textAllCaps="false" />
 
 </LinearLayout>

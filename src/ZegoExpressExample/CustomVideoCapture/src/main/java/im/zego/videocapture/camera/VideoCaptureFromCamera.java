@@ -20,6 +20,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import im.zego.common.util.AppLogger;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoVideoFrameFormat;
@@ -77,6 +78,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
     @Override
     public void onStart(ZegoPublishChannel channel) {
         Log.i(TAG, "onStart");
+        AppLogger.getInstance().i(" VideoCaptureFromCamera onStart callBack,channel:"+channel);
         mThread = new HandlerThread("camera-cap");
         mThread.start();
         // 创建camera异步消息处理handler
@@ -94,6 +96,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
     @Override
     public void onStop(ZegoPublishChannel channel) {
         Log.i(TAG, "onStop");
+        AppLogger.getInstance().i(" VideoCaptureFromCamera onStop callBack,channel:"+channel);
         // 停止camera采集任务
         stopCapture();
         mThread.quit();
@@ -526,7 +529,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
         param.strides[0] = mWidth;
         param.strides[1] = mWidth;
         param.format = ZegoVideoFrameFormat.NV21;
-
+        param.rotation = mCamInfo.orientation;
 
         long now;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -540,6 +543,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
         }
         byteBuffer.put(data);
         byteBuffer.flip();
+
         mSDKEngine.sendCustomVideoCaptureRawData(byteBuffer, data.length, param, now);
 
         // 实现camera预览时的内存复用

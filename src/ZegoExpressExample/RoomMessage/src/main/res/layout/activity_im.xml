@@ -2,6 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -119,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="#E6E6E6"
-                android:text="用户列表："
+                android:text="@string/tx_im_user_list"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -157,5 +160,38 @@
                 android:singleLine="true"
                 android:textSize="14sp" />
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:text="@string/tx_im_bar_msg"
+            android:textColor="#1135E9"
+            android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:onClick="ClickSendBarrageMsg"
+                android:text="@string/tx_im_send" />
+
+            <EditText
+                android:id="@+id/ed_bar_message"
+                style="@android:style/Widget.Holo.Light.AutoCompleteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@layout/et_circle_bg"
+                android:hint=""
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 </layout>

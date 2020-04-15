@@ -15,9 +15,6 @@ import im.zego.common.util.AppLogger;
 import im.zego.common.widgets.log.FloatingView;
 import im.zego.publish.R;
 
-import com.zego.zegoliveroom.constants.ZegoAvConfig;
-import com.zego.zegoliveroom.constants.ZegoConstants;
-import com.zego.zegoliveroom.constants.ZegoVideoViewMode;
 
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.constants.ZegoVideoMirrorMode;
@@ -91,10 +88,8 @@ public class PublishSettingActivityUI extends FragmentActivity {
                 String viewModeStr = sharedPreferences.getString(key, "1");
                 int viewMode = Integer.valueOf(viewModeStr);
                 PublishActivityUI.viewMode = ZegoViewMode.values()[viewMode];
-
                 // 动态修改当前描述
                 viewModeListPreference.setSummary(stringArray[viewMode]);
-
             } else if ("publish_hardware_encode".equals(key)) {
 
                 boolean enable = sharedPreferences.getBoolean(key, false);

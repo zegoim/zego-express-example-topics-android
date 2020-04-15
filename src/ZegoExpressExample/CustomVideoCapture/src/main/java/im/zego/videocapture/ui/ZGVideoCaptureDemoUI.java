@@ -12,9 +12,10 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-import im.zego.common.GetAppIDConfig;
 import im.zego.common.ui.BaseActivity;
+import im.zego.common.util.AppLogger;
 import im.zego.common.util.DeviceInfoManager;
+import im.zego.common.util.SettingDataUtil;
 import im.zego.videocapture.R;
 import im.zego.videocapture.camera.VideoCaptureFromCamera;
 import im.zego.videocapture.camera.VideoCaptureFromImage2;
@@ -23,11 +24,9 @@ import im.zego.videocapture.camera.ZegoVideoCaptureCallback;
 import im.zego.videocapture.enums.CaptureOrigin;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
-import im.zego.zegoexpress.constants.ZegoOrientation;
 import im.zego.zegoexpress.constants.ZegoPlayerMediaEvent;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
-import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
@@ -97,7 +96,8 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
     private void initSDK() {
         ZegoVideoCaptureCallback videoCapture = null;
         // 创建sdk
-        mSDKEngine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, this.getApplication(), null);
+        AppLogger.getInstance().i(getString(R.string.create_zego_engine));
+        mSDKEngine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
         mSDKEngine.setEventHandler(zegoEventHandler);
         if (captureOrigin == CaptureOrigin.CaptureOrigin_Camera.getCode()) {
             videoCapture = new VideoCaptureFromCamera(mSDKEngine);
@@ -125,6 +125,11 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
 
         @Override
         public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
+            /** 房间状态回调，在登录房间后，当房间状态发生变化（例如房间断开，认证失败等），SDK会通过该接口通知 */
+            /** Room status update callback: after logging into the room, when the room connection status changes
+             * (such as room disconnection, login authentication failure, etc.), the SDK will notify through the callback
+             */
+            AppLogger.getInstance().i("onRoomStateUpdate: roomID = " + roomID + ", state = " + state + ", errorCode = " + errorCode);
             if (state == ZegoRoomState.CONNECTED) {
                 isLoginSuccess = true;
                 mErrorTxt.setText("");
@@ -136,6 +141,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
 
         @Override
         public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode, JSONObject extendedData) {
+            AppLogger.getInstance().i("onPublisherStateUpdate: streamID = " + streamID + ", state = " + state + ", errCode = " + errorCode);
             if (state == ZegoPublisherState.PUBLISH_REQUESTING) {
                 mDealBtn.setText("StopPublish");
             }
@@ -145,7 +151,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         public void onPlayerMediaEvent(String streamID, ZegoPlayerMediaEvent event) {
             if (event == ZegoPlayerMediaEvent.VIDEO_BREAK_OCCUR) {
                 runOnUiThread(() -> {
-                    mErrorTxt.setText("拉流失败，err：");
+                    mErrorTxt.setText("play stream fail，err：");
                 });
             } else if (event == ZegoPlayerMediaEvent.VIDEO_BREAK_RESUME) {
                 runOnUiThread(() -> {

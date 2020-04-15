@@ -78,7 +78,7 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
                     zegoEngineConfig.customVideoCaptureMainConfig.bufferType = ZegoVideoBufferType.SURFACE_TEXTURE;
                     captureOrigin = CaptureOrigin.CaptureOrigin_Screen; //摄像头 码流数据
                     if (Build.VERSION.SDK_INT < 21) {
-                        Toast.makeText(ZGVideoCaptureOriginUI.this, "录屏功能只能在Android5.0及以上版本的系统中运行", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ZGVideoCaptureOriginUI.this, getString(R.string.record_request), Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
                         // 1. 请求录屏权限，等待用户授权

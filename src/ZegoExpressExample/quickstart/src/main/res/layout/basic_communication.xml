@@ -40,7 +40,6 @@
                 android:layout_toStartOf="@id/view"
                 android:layout_toLeftOf="@id/view"
                 android:gravity="center"
-                android:text="本地预览画面"
                 android:textColor="@color/white_color" />
 
             <ImageButton
@@ -73,7 +72,6 @@
                 android:layout_toEndOf="@id/view"
                 android:layout_toRightOf="@id/view"
                 android:gravity="center"
-                android:text="远端拉流画面"
                 android:textColor="@color/white_color" />
 
             <ImageButton
@@ -101,7 +99,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="步骤1: 初始化"
                 android:textColor="#0C0B0B"
                 android:textStyle="bold" />
 
@@ -144,7 +141,6 @@
                 android:layout_weight="2"
                 android:background="#8D8B8B"
                 android:onClick="ClickInit"
-                android:text="初始化SDK"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
             <!--
@@ -170,7 +166,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="步骤2: 进入房间"
                 android:textAllCaps="false"
                 android:textColor="#0C0B0B"
                 android:textStyle="bold" />
@@ -211,7 +206,6 @@
                 android:layout_weight="2"
                 android:background="#8D8B8B"
                 android:onClick="ClickLogin"
-                android:text="进入房间"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
             <!--
@@ -236,7 +230,6 @@
                 android:layout_height="32dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="步骤3: 推流并预览"
                 android:textColor="#000000"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -258,8 +251,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="4"
+                    android:textSize="10dp"
                     android:gravity="center_vertical"
-                    android:text="流ID: " />
+                    android:text="streamID: " />
 
                 <EditText
                     android:id="@+id/ed_publish_stream_id"
@@ -290,7 +284,6 @@
                 android:layout_weight="2"
                 android:background="#8D8B8B"
                 android:onClick="ClickPublish"
-                android:text="推流"
                 android:textAllCaps="false"
                 android:textColor="#FDFCFD" />
 
@@ -307,7 +300,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="步骤4: 拉流"
                 android:textAllCaps="false"
                 android:textColor="#000000"
                 android:textStyle="bold" />
@@ -330,8 +322,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="4"
+                    android:textSize="10dp"
                     android:gravity="center_vertical"
-                    android:text="流ID:" />
+                    android:text="streamID:" />
 
                 <EditText
                     android:id="@+id/ed_play_stream_id"
@@ -359,7 +352,6 @@
                 android:layout_weight="2"
                 android:background="#8D8B8B"
                 android:onClick="ClickPlay"
-                android:text="拉流"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
@@ -378,7 +370,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
-                android:text="使用提示：您也可以使用两台手机，在步骤4拉流时，输入对方推流的流ID进行体验" />
+                 />
         </LinearLayout>
 
     </LinearLayout>

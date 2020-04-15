@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import im.zego.common.GetAppIDConfig;
 import im.zego.common.util.AppLogger;
+import im.zego.common.util.SettingDataUtil;
 import im.zego.common.widgets.log.FloatingView;
 import im.zego.quickstart.R;
 import im.zego.quickstart.databinding.BasicCommunicationBinding;
@@ -29,9 +30,7 @@ import im.zego.zegoexpress.constants.ZegoLanguage;
 import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
-import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
-import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
@@ -69,7 +68,17 @@ public class BasicCommunicationActivity extends AppCompatActivity {
         /** 记录SDK版本号 */
         /** Record SDK version */
         AppLogger.getInstance().i("SDK version : %s", ZegoExpressEngine.getVersion());
-
+        binding.textView.setText(getString(R.string.local_preview));
+        binding.textView2.setText(getString(R.string.remote_screen));
+        binding.textView3.setText(getString(R.string.step1));
+        binding.textView5.setText(getString(R.string.step2));
+        binding.textView6.setText(getString(R.string.step3));
+        binding.textView8.setText(getString(R.string.step4));
+        binding.textView4.setText(getString(R.string.tips));
+        binding.btnInit.setText(getString(R.string.tx_init_sdk));
+        binding.btnLogin.setText(getString(R.string.tx_basic_login_room));
+        binding.btnStartPublish.setText(getString(R.string.tx_basic_publish));
+        binding.btnStartPlay.setText(getString(R.string.tx_basic_play));
         TextView tvAppID = findViewById(R.id.tv_appid);
         tvAppID.setText("AppID: " + GetAppIDConfig.appID);
 
@@ -80,7 +89,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
         /** RoomID used by example */
         roomID = "QuickStartRoom-1";
         TextView tvRoomID = findViewById(R.id.tv_roomid);
-        tvRoomID.setText("房间ID: " + roomID);
+        tvRoomID.setText(getString(R.string.room_id) + roomID);
 
         /** 生成随机的用户ID，避免不同手机使用时用户ID冲突，相互影响 */
         /** Generate random user ID to avoid user ID conflict and mutual influence when different mobile phones are used */
@@ -88,7 +97,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
         userID = "user" + randomSuffix;
         userName = "user" + randomSuffix;
         TextView tvUserID = findViewById(R.id.tv_userid);
-        tvUserID.setText("用户ID: " + userID);
+        tvUserID.setText(getString(R.string.user_id) + userID);
 
         /** 生成随机的流ID, 默认推流ID和拉流ID一致，可以拉自己的流，也可以在界面上修改流ID */
         /** Generate a random streamID. the default publishing streamID is the same as playing streamID. you can modify in the UI */
@@ -121,7 +130,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
         if (button.getText().equals(getString(R.string.tx_init_sdk))) {
             /** 初始化SDK, 使用测试环境，使用通用场景 */
             /** Initialize SDK, use test environment, access to general scenarios */
-            engine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, isTestEnv, ZegoScenario.GENERAL, getApplication(), null);
+            engine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), getApplication(), null);
             AppLogger.getInstance().i(getString(R.string.tx_init_sdk_ok));
             Toast.makeText(this, getString(R.string.tx_init_sdk_ok), Toast.LENGTH_SHORT).show();
             button.setText(getString(R.string.tx_uninit_sdk));
@@ -136,6 +145,9 @@ public class BasicCommunicationActivity extends AppCompatActivity {
                      * (such as room disconnection, login authentication failure, etc.), the SDK will notify through the callback
                      */
                     AppLogger.getInstance().i("onRoomStateUpdate: roomID = " + roomID + ", state = " + state + ", errorCode = " + errorCode);
+                    if (errorCode != 0) {
+                        Toast.makeText(BasicCommunicationActivity.this, String.format("login room fail, errorCode: %d", errorCode), Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override
@@ -258,12 +270,10 @@ public class BasicCommunicationActivity extends AppCompatActivity {
             AppLogger.getInstance().i("Start preview OK");
             Toast.makeText(this, getString(R.string.tx_basic_preview_ok), Toast.LENGTH_SHORT).show();
             button.setText(getString(R.string.tx_basic_stop_publish));
-        }
-        else {
+        } else {
             /** 停止推流 */
             /** Begin to stop publish stream */
             engine.stopPublishingStream();
-
             /** 停止本地预览 */
             /** Start stop preview */
             engine.stopPreview();

@@ -13,11 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.Date;
-import im.zego.common.GetAppIDConfig;
+
+import im.zego.common.util.AppLogger;
+import im.zego.common.util.SettingDataUtil;
+import im.zego.common.widgets.log.FloatingView;
 import im.zego.mediaplayer.R;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
-import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
 import im.zego.zegoexpress.entity.ZegoUser;
@@ -30,11 +32,12 @@ public class MediaplayerMainActivity extends AppCompatActivity {
     String userName;
     String userID;
     String streamID;
-    public static final String []sTitle = new String[]{"播放器1","播放器2","播放器3", "播放器4"};
+    public static final String []sTitle = new String[]{"Player1","Player2","Player3", "Player4"};
 
 
     IZegoEventHandler mIZegoEventHandler = new IZegoEventHandler() {
         // 本专题主要展示如何使用 Mediaplayer, 顾不考虑 IZegoEventHandler 的处理情况, 开发者应根据自身业务场景进行处理
+        //This topic mainly shows how to use Mediaplayer, regardless of the processing situation of IZegoEventHandler, developers should handle it according to their own business scenarios
     };
 
 
@@ -49,16 +52,21 @@ public class MediaplayerMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        /** 添加悬浮日志视图 */
+        /** Add floating log view */
+        FloatingView.get().add();
+        /** 记录SDK版本号 */
+        /** Record SDK version */
+        AppLogger.getInstance().i("SDK version : %s", ZegoExpressEngine.getVersion());
         /* 生成随机的用户ID，避免不同手机使用时用户ID冲突，相互影响 */
         /* Generate random user ID to avoid user ID conflict and mutual influence when different mobile phones are used */
         String randomSuffix = String.valueOf(new Date().getTime()%(new Date().getTime()/1000));
         userID = "userid-" + randomSuffix;
         userName = "username-" + randomSuffix;
         streamID = "streamid-" + randomSuffix;
-
+        AppLogger.getInstance().i(getString(R.string.create_zego_engine));
         // 创建 ZEGO 引擎对象
-        mSDKEngine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, this.getApplication(), null);
+        mSDKEngine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
         mSDKEngine.setEventHandler(mIZegoEventHandler);
         ZegoRoomConfig config = new ZegoRoomConfig();
         /* 使能用户登录/登出房间通知 */
@@ -201,5 +209,16 @@ public class MediaplayerMainActivity extends AppCompatActivity {
     public static void actionStart(Activity activity) {
         Intent intent = new Intent(activity, MediaplayerMainActivity.class);
         activity.startActivity(intent);
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FloatingView.get().attach(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FloatingView.get().detach(this);
     }
 }

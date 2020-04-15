@@ -1,6 +1,5 @@
 package im.zego.customrender.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.TextureView;
@@ -15,15 +14,16 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-import im.zego.common.GetAppIDConfig;
+import im.zego.common.ui.BaseActivity;
+import im.zego.common.util.AppLogger;
 import im.zego.common.util.DeviceInfoManager;
+import im.zego.common.util.SettingDataUtil;
 import im.zego.customrender.videorender.VideoRenderHandler;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
 import im.zego.zegoexpress.constants.ZegoPlayerMediaEvent;
 import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
-import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoVideoMirrorMode;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
@@ -31,7 +31,7 @@ import im.zego.zegoexpress.entity.ZegoRoomConfig;
 import im.zego.zegoexpress.entity.ZegoUser;
 import im.zego.zegoexpress.entity.ZegoVideoConfig;
 
-public class ZGVideoRenderUI extends Activity {
+public class ZGVideoRenderUI extends BaseActivity {
     private TextureView mPreView;
     private TextureView mPlayView;
     private TextView mErrorTxt;
@@ -74,8 +74,8 @@ public class ZGVideoRenderUI extends Activity {
         videoRenderer = new VideoRenderHandler();
 
         videoRenderer.init();
-
-        mSDKEngine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, this.getApplication(), null);
+        AppLogger.getInstance().i(getString(R.string.create_zego_engine));
+        mSDKEngine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
         mSDKEngine.setCustomVideoRenderHandler(videoRenderer);
 
         mSDKEngine.setVideoMirrorMode(ZegoVideoMirrorMode.BOTH_MIRROR);
@@ -89,6 +89,11 @@ public class ZGVideoRenderUI extends Activity {
 
             @Override
             public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
+                /** 房间状态回调，在登录房间后，当房间状态发生变化（例如房间断开，认证失败等），SDK会通过该接口通知 */
+                /** Room status update callback: after logging into the room, when the room connection status changes
+                 * (such as room disconnection, login authentication failure, etc.), the SDK will notify through the callback
+                 */
+                AppLogger.getInstance().i("onRoomStateUpdate: roomID = " + roomID + ", state = " + state + ", errorCode = " + errorCode);
                 if (state == ZegoRoomState.CONNECTED) {
 
                     mSDKEngine.enableCamera(true);
@@ -111,7 +116,7 @@ public class ZGVideoRenderUI extends Activity {
             public void onPlayerMediaEvent(String streamID, ZegoPlayerMediaEvent event) {
                 if (event == ZegoPlayerMediaEvent.VIDEO_BREAK_OCCUR) {
 
-                    mErrorTxt.setText("视频中断, 正在重连");
+                    mErrorTxt.setText(getString(R.string.video_interrupt));
 
                 } else if (event == ZegoPlayerMediaEvent.VIDEO_BREAK_RESUME) {
 

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -58,7 +60,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="推流id:"
+                android:text="publish stream id:"
                 android:gravity="center"/>
 
             <EditText
@@ -78,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="拉流id:"
+                android:text="play stream id:"
                 android:gravity="center"/>
             <EditText
                 android:id="@+id/et_mediaplayer_play_streamid"
@@ -98,20 +100,20 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="停止推流/开始推流："
+                android:text="@string/player_publish"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_mediaplayer_publish"/>
 
         </LinearLayout>
@@ -124,14 +126,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="停止拉流/开始拉流："
+                android:layout_height="50dp"
+                android:text="@string/player_play"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_mediaplayer_play"/>
 
         </LinearLayout>
@@ -145,20 +147,20 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="不推音频："
+                android:text="@string/player_soud"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_mediaplayer_mic"/>
 
         </LinearLayout>
@@ -171,14 +173,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="不推视频："
+                android:layout_height="50dp"
+                android:text="@string/player_video"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_mediaplayer_cam" />
 
         </LinearLayout>
@@ -229,3 +231,4 @@
 
 
 </LinearLayout>
+</ScrollView>

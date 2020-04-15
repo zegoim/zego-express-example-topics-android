@@ -17,14 +17,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="销毁/创建播放器："
+                android:layout_height="50dp"
+                android:text="@string/player_create"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_mediaplayer_create"/>
 
         </LinearLayout>
@@ -37,14 +37,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="重复播放："
+                android:layout_height="50dp"
+                android:text="@string/player_repeat"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_mediaplayer_repeat"/>
 
         </LinearLayout>
@@ -59,9 +59,10 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
+            android:textSize="10dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="加载视频资源:"
+            android:text="@string/player_load"
             android:id="@+id/btn_load_video_resource"
             android:gravity="center" />
         <RadioGroup
@@ -75,16 +76,16 @@
                 android:layout_height="match_parent"
                 android:id="@+id/rb_mediapalyer_local_resource"
                 android:checked="true"
-                android:text="本地"/>
+                android:text="@string/player_local"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/rb_mediapalyer_net_resource"
-                android:text="网络"/>
+                android:text="@string/player_network"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="例如 https://.../xxx.mp4"
+                android:hint="eg: https://.../xxx.mp4"
                 android:textSize="10sp"
                 />
 
@@ -105,14 +106,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="停止播放/开始播放："
+                android:layout_height="50dp"
+                android:text="@string/player_pause"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_mediaplayer_start_or_stop"/>
 
         </LinearLayout>
@@ -124,14 +125,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="恢复播放/暂停播放："
+                android:layout_height="50dp"
+                android:text="@string/player_recover"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_mediaplayer_resume_or_pause"/>
 
         </LinearLayout>
@@ -150,14 +151,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="播放声音/静音："
+                android:layout_height="50dp"
+                android:text="@string/player_play_soud"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_mediaplayer_mute_audio"/>
 
         </LinearLayout>
@@ -169,14 +170,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="推流混入播放器音频："
+                android:layout_height="50dp"
+                android:text="@string/player_1"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_mediaplayer_aux_audio"/>
 
         </LinearLayout>
@@ -195,14 +196,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="是否抛出视频数据："
+                android:layout_height="50dp"
+                android:text="@string/player_2"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/sw_mediaplayer_video_data"/>
 
         </LinearLayout>
@@ -214,20 +215,21 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="是否抛出音频数据："
+                android:layout_height="50dp"
+                android:text="@string/player_3"
                 android:gravity="left|center"
                 android:layout_weight="1"/>
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                     android:id="@+id/sw_mediaplayer_audio_data"/>
 
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -235,7 +237,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="进度:"
+            android:text="@string/player_progress"
             android:gravity="left|center" />
         <ProgressBar
             android:layout_width="0dp"

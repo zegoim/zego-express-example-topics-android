@@ -39,6 +39,7 @@
         <activity android:name="im.zego.quickstart.ui.BasicCommunicationActivity"></activity>
         <activity android:name="im.zego.mixer.ui.MixerMainActivity"></activity>
         <activity android:name="im.zego.im.ui.IMActivity"></activity>
+        <activity android:name=".ui.SettingActivity"></activity>
     </application>
 
 </manifest>

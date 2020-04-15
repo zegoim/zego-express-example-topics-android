@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -12,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".expresssample.ui.SettingActivity">
+        tools:context=".demo.ui.SettingActivity">
 
         <im.zego.common.widgets.TitleLayout
             android:layout_width="match_parent"
@@ -27,20 +26,34 @@
                 android:layout_marginLeft="10dp"
                 android:background="@mipmap/ic_round_left" />
 
-            <!--<TextView-->
-                <!--android:id="@+id/save_setting"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:layout_gravity="end"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:layout_marginEnd="10dp"-->
-                <!--android:textSize="16sp"-->
-                <!--android:textColor="@color/blue"-->
-                <!--android:text="@string/tx_save"-->
-                <!--android:clickable="true"-->
-                <!--android:focusable="true"/>-->
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:textColor="@color/blue"
+                    android:clickable="true"
+                    android:id="@+id/btn_reset"
+                    android:onClick="createResetDialog"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="reset "></TextView>
+
+                <TextView
+                    android:onClick="createSaveDialog"
+                    android:textColor="@color/blue"
+                    android:clickable="true"
+                    android:id="@+id/btn_save"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="save"></TextView>
+            </LinearLayout>
         </im.zego.common.widgets.TitleLayout>
 
         <RelativeLayout
@@ -54,22 +67,22 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:textColor="#333333"
-                android:text="@string/tx_appid"/>
+                android:text="@string/tx_appid"
+                android:textColor="#333333" />
 
             <im.zego.common.widgets.CustomEditText
                 android:id="@+id/ed_app_id"
-                app:key="app_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="90dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
                 android:background="@drawable/edit_shape"
                 android:hint="请输入 AppID"
                 android:padding="8dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                app:key="app_id" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -89,22 +102,22 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:textColor="#333333"
-                android:text="@string/tx_appsign"/>
+                android:text="@string/tx_appsign"
+                android:textColor="#333333" />
 
             <im.zego.common.widgets.CustomEditText
                 android:id="@+id/ed_app_sign"
-                app:key="app_sign"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="90dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
                 android:background="@drawable/edit_shape"
                 android:hint="请输入 AppSign"
                 android:padding="8dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                app:key="app_sign" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -124,20 +137,19 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:textColor="#333333"
-                android:text="@string/tx_env"/>
+                android:text="@string/tx_env"
+                android:textColor="#333333" />
 
             <Spinner
                 android:id="@+id/sp_env"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:paddingRight="30dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/spinner_border"
-                android:entries="@array/environment_types">
-            </Spinner>
+                android:entries="@array/environment_types"
+                android:paddingRight="30dp"></Spinner>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -145,6 +157,15 @@
                 android:layout_alignParentBottom="true"
                 android:background="#9b9b9b" />
         </RelativeLayout>
+
+        <Spinner
+            android:id="@+id/sp_sc"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/spinner_border"
+            android:entries="@array/scenario_types">
+        </Spinner>
 
         <RelativeLayout
             android:id="@+id/SDK"
@@ -158,7 +179,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:textColor="#333333"/>
+                android:textColor="#333333" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -180,7 +201,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:textColor="#333333"/>
+                android:textColor="#333333" />
 
 
             <ImageView
