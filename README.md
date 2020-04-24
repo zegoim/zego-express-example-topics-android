@@ -1,5 +1,7 @@
 # Zego Express Example Topics Android (Java)
 
+[English](README.md) | [中文](README_zh.md)
+
 Zego Express Android (Java) Example Topics Demo
 
 ## Download SDK
