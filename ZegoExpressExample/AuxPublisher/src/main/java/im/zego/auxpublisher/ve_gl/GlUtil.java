@@ -1,4 +1,4 @@
-package im.zego.aux.publisher.ve_gl;
+package im.zego.auxpublisher.ve_gl;
 
 import android.opengl.GLES20;
 

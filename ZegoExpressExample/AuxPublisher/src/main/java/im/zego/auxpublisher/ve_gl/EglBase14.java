@@ -8,7 +8,7 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 
-package im.zego.aux.publisher.ve_gl;
+package im.zego.auxpublisher.ve_gl;
 
 import android.annotation.TargetApi;
 import android.graphics.SurfaceTexture;

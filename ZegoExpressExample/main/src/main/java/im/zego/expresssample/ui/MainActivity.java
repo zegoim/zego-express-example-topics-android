@@ -16,13 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zego.videofilter.ui.VideoFilterMainUI;
 
 import im.zego.common.GetAppIDConfig;
 import im.zego.common.util.PreferenceUtil;
 import im.zego.video.talk.ui.ZGVideoTalkUI;
 
-import im.zego.aux.publisher.ui.ZGAuxPublisherLoginUI;
+import im.zego.auxpublisher.ui.ZGAuxPublisherLoginUI;
 import im.zego.custom.publish.ui.CustomCDNPublishActivity;
 import im.zego.customrender.ui.ZGVideoRenderTypeUI;
 import im.zego.expresssample.R;
@@ -114,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
                     ZGAuxPublisherLoginUI.actionStart(MainActivity.this);
                 } else if (module.equals(getString(R.string.txt_title_video_talk))) {
                     ZGVideoTalkUI.actionStart(MainActivity.this);
-                } else if(module.equals(getString(R.string.tx_module_custom_capture_faceu))){
-                    VideoFilterMainUI.actionStart(MainActivity.this);
                 }
             }
         });
@@ -148,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
                 .moduleName(getString(R.string.tx_module_custom_capture)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_title_aux)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_title_video_talk)));
-        mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.tx_module_custom_capture_faceu)));
 
     }
 

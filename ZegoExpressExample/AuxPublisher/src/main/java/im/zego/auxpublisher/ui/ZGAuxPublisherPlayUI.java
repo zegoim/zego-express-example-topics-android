@@ -1,4 +1,4 @@
-package im.zego.aux.publisher.ui;
+package im.zego.auxpublisher.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,7 +28,7 @@ import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
 import im.zego.zegoexpress.entity.ZegoUser;
 
-import static im.zego.aux.publisher.ui.ZGAuxPublisherPublishUI.mRoomID;
+import static im.zego.auxpublisher.ui.ZGAuxPublisherPublishUI.mRoomID;
 
 public class ZGAuxPublisherPlayUI extends Activity {
     private AuxPlayBinding binding;

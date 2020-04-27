@@ -1,4 +1,4 @@
-package im.zego.aux.publisher.camera;
+package im.zego.auxpublisher.camera;
 
 import android.view.View;
 

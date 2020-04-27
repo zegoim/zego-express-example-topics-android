@@ -1,4 +1,4 @@
-package im.zego.aux.publisher.ui;
+package im.zego.auxpublisher.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,8 +16,8 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-import im.zego.aux.publisher.camera.VideoCaptureFromImage2;
-import im.zego.aux.publisher.camera.ZegoVideoCaptureCallback;
+import im.zego.auxpublisher.camera.VideoCaptureFromImage2;
+import im.zego.auxpublisher.camera.ZegoVideoCaptureCallback;
 import im.zego.common.util.AppLogger;
 import im.zego.common.util.SettingDataUtil;
 import im.zego.common.widgets.log.FloatingView;

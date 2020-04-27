@@ -1,4 +1,4 @@
-package im.zego.aux.publisher.camera;
+package im.zego.auxpublisher.camera;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.Choreographer;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -23,9 +22,9 @@ import android.view.View;
 import java.io.InputStream;
 import java.util.concurrent.CountDownLatch;
 
-import im.zego.aux.publisher.ve_gl.EglBase;
-import im.zego.aux.publisher.ve_gl.GlRectDrawer;
-import im.zego.aux.publisher.ve_gl.GlUtil;
+import im.zego.auxpublisher.ve_gl.EglBase;
+import im.zego.auxpublisher.ve_gl.GlRectDrawer;
+import im.zego.auxpublisher.ve_gl.GlUtil;
 import im.zego.common.util.AppLogger;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.constants.ZegoPublishChannel;

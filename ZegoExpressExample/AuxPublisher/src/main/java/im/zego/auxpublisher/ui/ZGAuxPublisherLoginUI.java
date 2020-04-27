@@ -1,4 +1,4 @@
-package im.zego.aux.publisher.ui;
+package im.zego.auxpublisher.ui;
 
 import android.app.Activity;
 import android.content.Intent;

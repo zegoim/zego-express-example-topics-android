@@ -107,7 +107,7 @@ dependencies {
     implementation project(path: ':PublishStream')
     implementation project(path: ':AuxPublisher')
     implementation project(path: ':Videotalk')
-    implementation project(path: ':CustomVideoFilter')
+
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.code.gson:gson:2.8.5'
