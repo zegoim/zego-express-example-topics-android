@@ -8,8 +8,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
-import com.zego.aux.publisher.R;
-import com.zego.aux.publisher.databinding.AuxLoginBinding;
+import im.zego.auxpublisher.R;
+import im.zego.auxpublisher.databinding.AuxLoginBinding;
 
 
 public class ZGAuxPublisherLoginUI extends Activity {

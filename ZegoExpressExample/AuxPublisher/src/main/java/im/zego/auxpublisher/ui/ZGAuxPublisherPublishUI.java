@@ -9,15 +9,15 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
-import com.zego.aux.publisher.R;
-import com.zego.aux.publisher.databinding.AuxPublishBinding;
 
 import org.json.JSONObject;
 
 import java.util.Date;
 
+import im.zego.auxpublisher.R;
 import im.zego.auxpublisher.camera.VideoCaptureFromImage2;
 import im.zego.auxpublisher.camera.ZegoVideoCaptureCallback;
+import im.zego.auxpublisher.databinding.AuxPublishBinding;
 import im.zego.common.util.AppLogger;
 import im.zego.common.util.SettingDataUtil;
 import im.zego.common.widgets.log.FloatingView;
