@@ -149,7 +149,7 @@ public class IMActivity extends AppCompatActivity {
         EditText etMsg = findViewById(R.id.ed_bc_message);
         final String msg = etMsg.getText().toString();
         if (!msg.equals("")) {
-            engine.sendBroadcastMessage(msg, roomID, new IZegoIMSendBroadcastMessageCallback() {
+            engine.sendBroadcastMessage(roomID, msg, new IZegoIMSendBroadcastMessageCallback() {
                 /** 发送广播消息结果回调处理 */
                 /** Send broadcast message result callback processing */
 
@@ -215,7 +215,7 @@ public class IMActivity extends AppCompatActivity {
         EditText etMsg = findViewById(R.id.ed_bar_message);
         final String msg = etMsg.getText().toString();
         if (!msg.equals("")) {
-            engine.sendBarrageMessage(msg, roomID, new IZegoIMSendBarrageMessageCallback() {
+            engine.sendBarrageMessage(roomID, msg, new IZegoIMSendBarrageMessageCallback() {
                 @Override
                 public void onIMSendBarrageMessageResult(int errorCode, String messageID) {
                     if (errorCode == 0) {

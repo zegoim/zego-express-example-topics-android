@@ -31,11 +31,13 @@ import im.zego.zegoexpress.entity.ZegoVideoFrameParam;
  * 实现从摄像头采集数据并传给ZEGO SDK，需要继承实现ZEGO SDK 的ZegoVideoCaptureDevice类
  * 采用内存拷贝方式传递数据，即YUV格式，通过client的onByteBufferFrameCaptured传递采集数据
  */
+
 /**
-         * VideoCaptureFromCamera
-         * To collect data from the camera and pass it to the ZEGO SDK, you need to inherit the ZegoVideoCaptureDevice class that implements the ZEGO SDK
- * Use memory copy to transfer data, that is, YUV format, through client's onByteBufferFrameCaptured to transfer collected data
-         */
+ *  * VideoCaptureFromCamera
+ *  * To collect data from the camera and pass it to the ZEGO SDK, you need to inherit the ZegoVideoCaptureDevice class that implements the ZEGO SDK
+ *  * Use memory copy to transfer data, that is, YUV format, through client's onByteBufferFrameCaptured to transfer collected data
+ *  
+ */
 public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements Camera.PreviewCallback, TextureView.SurfaceTextureListener {
     private static final String TAG = "VideoCaptureFromCamera";
     private static final int CAMERA_STOP_TIMEOUT_MS = 7000;
@@ -90,7 +92,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
     @Override
     public void onStart(ZegoPublishChannel channel) {
         Log.i(TAG, "onStart");
-        AppLogger.getInstance().i(" VideoCaptureFromCamera onStart callBack,channel:"+channel);
+        AppLogger.getInstance().i(" VideoCaptureFromCamera onStart callBack,channel:" + channel);
         mThread = new HandlerThread("camera-cap");
         mThread.start();
         // 创建camera异步消息处理handler
@@ -110,7 +112,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
     @Override
     public void onStop(ZegoPublishChannel channel) {
         Log.i(TAG, "onStop");
-        AppLogger.getInstance().i(" VideoCaptureFromCamera onStop callBack,channel:"+channel);
+        AppLogger.getInstance().i(" VideoCaptureFromCamera onStop callBack,channel:" + channel);
         // 停止camera采集任务
         stopCapture();
         mThread.quit();
@@ -353,15 +355,10 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
         // Get the camera's preferred size
         Camera.Size psz = parms.getPreferredPreviewSizeForVideo();
 
-        // hardcode
-        psz.width = 640;
-        psz.height = 480;
-        // 设置camera的采集视图size
-        // Set the camera's collection view size
-        parms.setPreviewSize(psz.width, psz.height);
+        mWidth = 640;
+        mHeight = 480;
 
-        mWidth = psz.width;
-        mHeight = psz.height;
+        parms.setPreviewSize(640, 480);
 
         // 获取camera支持的帧率范围，并设置预览帧率范围
         // Get the frame rate range supported by the camera and set the preview frame rate range
