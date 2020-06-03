@@ -1,32 +1,17 @@
 # Zego Express Example Topics Android (Java)
 
-[English](README.md) | [中文](README_zh.md)
+## Video
 
-Zego Express Android (Java) Example Topics Demo
+Zego Express Example Topics Video Android Demo (Java)
 
-## Download SDK
+Please refer to the project in the `video` directory
 
-The SDK `libZegoExpressEngine.so` and `ZegoExpressEngine.jar` required to run the Demo project is missing from this Repository, and needs to be downloaded and placed in the Libs folder of the Demo project.
+[English](ZegoExpressExample/video/README.md) | [中文](ZegoExpressExample/video/README_zh.md)
 
-**[https://storage.zego.im/express/video/android/en/zego-express-video-android-en.zip](https://storage.zego.im/express/video/android/en/zego-express-video-android-en.zip)**
+## Audio
 
-finally, the structure under the `ZegoExpressExample/main/libs` directory should be as follows:
+Zego Express Example Topics Audio Android Demo (Java)
 
-```tree
-.
-├── README.md
-├── README_zh.md
-└── ZegoExpressExample/main
-                        └── libs
-                            ├── ZegoExpressEngine.jar
-                            ├── arm64-v8a
-                            │   └── libZegoExpressEngine.so
-                            ├── armeabi-v7a
-                            │   └── libZegoExpressEngine.so
-                            └── x86
-                                └── libZegoExpressEngine.so
-```
+Please refer to the project in the `audio` directory
 
-## Fill in the appID and appSign required by the SDK
-
-You should go to [ZEGO Management Site](https://console-express.zego.im/acount/register) apply for appID and appSign , then fill it in `ZegoExpressExample/common/src/main/java/im/zego/common/GetAppIDConfig.java`.
+[English](ZegoExpressExample/audio/README.md) | [中文](ZegoExpressExample/audio/README_zh.md)

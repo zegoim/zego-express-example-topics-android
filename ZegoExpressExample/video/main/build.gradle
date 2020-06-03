@@ -9,12 +9,9 @@ android {
         minSdkVersion 15
         targetSdkVersion 28
         versionCode getAppVersionCode()
+        versionName "1.8.0"
 
-        versionName getAppVersionName()
-
-        
         ndk {
-            //设置支持的SO库架构
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86'
         }
 
@@ -36,17 +33,6 @@ android {
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-
-//            //修改生成的apk名字
-//            applicationVariants.all { variant ->
-//                variant.outputs.all { output ->
-//                    def outputFile = output.outputFile
-//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                        def fileName = "LiveRoomPlayground-release-v${defaultConfig.versionName}.apk"
-//                        outputFileName = fileName
-//                    }
-//                }
-//            }
         }
     }
 
@@ -69,26 +55,6 @@ android {
             dirs '../common/libs'   // aar目录
         }
     }
-}
-
-def static getAppVersionName() {
-
-    String versionName = "1.0.0."
-    if (System.getenv("BUILD_NUMBER") == null) {
-        versionName += "0"
-    } else {
-        versionName += System.getenv("BUILD_NUMBER")
-    }
-    return versionName
-}
-
-def static getAppVersionCode() {
-    int versionCode = 1
-    if (System.getenv("BUILD_NUMBER") != null) {
-        versionCode = Integer.parseInt(System.getenv("BUILD_NUMBER"))
-    }
-
-    return versionCode
 }
 
 dependencies {
@@ -116,4 +82,22 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
     // implementation files('libs/ZegoExpressEngine.jar')
     implementation files('libs/ZegoExpressEngine.jar')
+}
+
+def static getAppVersionName() {
+    String versionName = "1.0.0."
+    if (System.getenv("BUILD_NUMBER") == null) {
+        versionName += "0"
+    } else {
+        versionName += System.getenv("BUILD_NUMBER")
+    }
+    return versionName
+}
+
+def static getAppVersionCode() {
+    int versionCode = 1
+    if (System.getenv("BUILD_NUMBER") != null) {
+        versionCode = Integer.parseInt(System.getenv("BUILD_NUMBER"))
+    }
+    return versionCode
 }
