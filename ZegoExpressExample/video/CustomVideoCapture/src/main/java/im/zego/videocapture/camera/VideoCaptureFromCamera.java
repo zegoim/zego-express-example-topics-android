@@ -588,9 +588,9 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
 
         long now;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            now = SystemClock.elapsedRealtimeNanos();
+            now = SystemClock.elapsedRealtime();
         } else {
-            now = TimeUnit.MILLISECONDS.toNanos(SystemClock.elapsedRealtime());
+            now = TimeUnit.MILLISECONDS.toMillis(SystemClock.elapsedRealtime());
         }
         // 将采集的数据传给ZEGO SDK
         // Pass the collected data to ZEGO SDK
