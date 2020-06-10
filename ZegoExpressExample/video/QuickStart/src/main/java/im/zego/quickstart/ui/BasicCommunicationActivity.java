@@ -26,6 +26,7 @@ import im.zego.quickstart.R;
 import im.zego.quickstart.databinding.BasicCommunicationBinding;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
+import im.zego.zegoexpress.constants.ZegoBeautifyFeature;
 import im.zego.zegoexpress.constants.ZegoLanguage;
 import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
@@ -254,8 +255,8 @@ public class BasicCommunicationActivity extends AppCompatActivity {
         if (button.getText().equals(getString(R.string.tx_basic_publish))) {
             EditText et = findViewById(R.id.ed_publish_stream_id);
             String streamID = et.getText().toString();
+            engine.enableBeautify(ZegoBeautifyFeature.POLISH.value()|ZegoBeautifyFeature.WHITEN.value()|ZegoBeautifyFeature.SHARPEN.value());
             publishStreamID = streamID;
-
             /** 开始推流 */
             /** Begin to publish stream */
             engine.startPublishingStream(streamID);

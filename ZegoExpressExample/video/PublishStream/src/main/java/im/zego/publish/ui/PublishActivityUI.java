@@ -217,9 +217,11 @@ public class PublishActivityUI extends BaseActivity {
     protected void onDestroy() {
         // 停止所有的推流和拉流后，才能执行 logoutRoom
         engine.stopPreview();
+        engine.setEventHandler(null);
         engine.stopPublishingStream();
         // 当用户退出界面时退出登录房间
         engine.logoutRoom(roomID);
+        ZegoExpressEngine.destroyEngine(null);
         super.onDestroy();
     }
 

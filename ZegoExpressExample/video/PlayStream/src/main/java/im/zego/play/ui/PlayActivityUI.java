@@ -149,6 +149,8 @@ public class PlayActivityUI extends BaseActivity {
 
         // 当用户退出界面时退出登录房间
         engine.logoutRoom(roomID);
+        engine.setEventHandler(null);
+        ZegoExpressEngine.destroyEngine(null);
         super.onDestroy();
     }
 
