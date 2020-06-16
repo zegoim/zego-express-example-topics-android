@@ -3,11 +3,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'bugly'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
     defaultConfig {
-        applicationId "im.zego.expresssample"
+        applicationId "im.zego.express.example.video"
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode getAppVersionCode()
         versionName "1.8.0"
 
@@ -36,24 +38,19 @@ android {
         }
     }
 
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
-    }
-
     dataBinding {
         enabled = true
     }
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
         }
     }
 
-    repositories {
-        flatDir {
-            dirs '../common/libs'   // aar目录
-        }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 
@@ -64,6 +61,7 @@ dependencies {
     implementation project(path: ':QuickStart')
     implementation project(path: ':CustomCdnPublish')
     implementation project(path: ':Mixer')
+    implementation project(path: ':Mixing')
     implementation project(path: ':RoomMessage')
     implementation project(path: ':SoundLevel')
     implementation project(path: ':Mediaplayer')
@@ -80,7 +78,6 @@ dependencies {
     //腾讯bug管理平台
     implementation 'com.tencent.bugly:crashreport:3.1.0'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
-    // implementation files('libs/ZegoExpressEngine.jar')
     implementation files('libs/ZegoExpressEngine.jar')
 }
 

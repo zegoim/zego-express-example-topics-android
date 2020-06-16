@@ -140,6 +140,7 @@
     <string name="tx_title_advance">进阶功能</string>
     <string name="txt_title_aux">推多路流</string>
     <string name="txt_title_video_talk">VideoTalk视频通话</string>
+    <string name="txt_title_mixing">音频混音</string>
     <!-- CustomCdnPublish-->
     <string name="room_id">房间ID: </string>
     <string name="user_id">用户ID: </string>

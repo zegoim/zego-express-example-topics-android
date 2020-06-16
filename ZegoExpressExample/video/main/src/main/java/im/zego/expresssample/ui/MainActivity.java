@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import im.zego.common.GetAppIDConfig;
 import im.zego.common.util.PreferenceUtil;
+import im.zego.express.mixing.ui.ZGMixingDemoUI;
 import im.zego.video.talk.ui.ZGVideoTalkUI;
 
 import im.zego.auxpublisher.ui.ZGAuxPublisherLoginUI;
@@ -113,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
                     ZGAuxPublisherLoginUI.actionStart(MainActivity.this);
                 } else if (module.equals(getString(R.string.txt_title_video_talk))) {
                     ZGVideoTalkUI.actionStart(MainActivity.this);
+                } else if (module.equals(getString(R.string.txt_title_mixing))) {
+                    ZGMixingDemoUI.actionStart(MainActivity.this);
                 }
             }
         });
@@ -133,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
                 .moduleName(getString(R.string.tx_module_custom_cdn_publish)).titleName(getString(R.string.tx_title_advance)));
         mainAdapter.addModuleInfo(new ModuleInfo()
                 .moduleName(getString(R.string.tx_module_mixer)));
+        mainAdapter.addModuleInfo(new ModuleInfo()
+                .moduleName(getString(R.string.txt_title_mixing)));
         mainAdapter.addModuleInfo(new ModuleInfo()
                 .moduleName(getString(R.string.tx_module_im)));
         mainAdapter.addModuleInfo(new ModuleInfo()

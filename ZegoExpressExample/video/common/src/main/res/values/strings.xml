@@ -247,6 +247,8 @@ To achieve the effect of power saving and no heat. </string>
     <string name="txt_title_aux"> Push multi-channel stream </string>
         
     <string name="txt_title_video_talk"> VideoTalk video call </string>
+
+    <string name="txt_title_mixing">Audio Mixing</string>
     <!-- CustomCdnPublish-->
     <string name="room_id"> Room ID: </string>
         
