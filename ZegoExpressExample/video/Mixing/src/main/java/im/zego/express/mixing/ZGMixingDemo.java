@@ -26,11 +26,14 @@ import javazoom.jl.decoder.DecoderException;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.SampleBuffer;
 
+import static im.zego.zegoexpress.constants.ZegoAudioSampleRate.ZEGO_AUDIO_SAMPLE_RATE_16K;
+import static im.zego.zegoexpress.constants.ZegoAudioSampleRate.ZEGO_AUDIO_SAMPLE_RATE_22K;
+
 public class ZGMixingDemo {
 
-    private final int DURATION = 15000;
+    private final int DURATION = 30000;
     private ZegoAudioSampleRate mSampleRate;
-    private ZegoAudioChannel mChannels = ZegoAudioChannel.MONO;;
+    private ZegoAudioChannel mChannels = ZegoAudioChannel.STEREO;;
     private int mBitRate;
 
     private static ZGMixingDemo zgMixingDemo = null;
@@ -91,10 +94,10 @@ public class ZGMixingDemo {
 
     public ZegoAudioMixingData handleAuxCallback(String pcmFilePath, int exceptDataLength) {
 
-        if (dataBuf.length < exceptDataLength) {
+        if (dataBuf.length != exceptDataLength) {
             dataBuf = new byte[exceptDataLength];
         }
-        if (mPcmBuffer.capacity() < exceptDataLength) {
+        if (mPcmBuffer.capacity() != exceptDataLength) {
             mPcmBuffer = ByteBuffer.allocateDirect(exceptDataLength);
         }
         mPcmBuffer.clear();
@@ -250,7 +253,7 @@ public class ZGMixingDemo {
 
             String format = header.getFormat();
             String channels = header.getChannels();
-            if (channels.equals("Joint Stereo")) {
+            if (channels.contains("Stereo")) {
                 mChannels = ZegoAudioChannel.STEREO;
             } else {
                 mChannels = ZegoAudioChannel.MONO;
