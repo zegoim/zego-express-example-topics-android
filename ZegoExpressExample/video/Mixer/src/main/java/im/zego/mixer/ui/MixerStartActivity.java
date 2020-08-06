@@ -18,9 +18,11 @@ import org.json.JSONObject;
 import im.zego.common.util.AppLogger;
 import im.zego.common.widgets.log.FloatingView;
 import im.zego.mixer.R;
+import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoMixerStartCallback;
 import im.zego.zegoexpress.callback.IZegoMixerStopCallback;
 import im.zego.zegoexpress.constants.ZegoMixerInputContentType;
+import im.zego.zegoexpress.entity.ZegoAudioConfig;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoMixerAudioConfig;
 import im.zego.zegoexpress.entity.ZegoMixerInput;
@@ -88,9 +90,11 @@ public class MixerStartActivity extends AppCompatActivity implements IMixerStrea
         task = new ZegoMixerTask("task1");
         ArrayList<ZegoMixerInput> inputList = new ArrayList<>();
         ZegoMixerInput input_1 = new ZegoMixerInput(streamID_1, ZegoMixerInputContentType.VIDEO, new Rect(0, 0, 360, 320));
+        input_1.soundLevelID = 123;
         inputList.add(input_1);
 
         ZegoMixerInput input_2 = new ZegoMixerInput(streamID_2, ZegoMixerInputContentType.VIDEO, new Rect(0, 320, 360, 640));
+        input_2.soundLevelID = 1235;
         inputList.add(input_2);
 
         ArrayList<ZegoMixerOutput> outputList = new ArrayList<>();
@@ -100,7 +104,7 @@ public class MixerStartActivity extends AppCompatActivity implements IMixerStrea
         task.setVideoConfig(videoConfig);
         task.setAudioConfig(audioConfig);
         outputList.add(output);
-
+        task.enableSoundLevel(true);
         task.setInputList(inputList);
         task.setOutputList(outputList);
 
@@ -126,6 +130,7 @@ public class MixerStartActivity extends AppCompatActivity implements IMixerStrea
             }
         });
 
+        ZegoExpressEngine.getEngine().setAudioConfig(new ZegoAudioConfig());
         TextureView tv_play_mix = findViewById(R.id.tv_play_mix);
         ZegoCanvas canvas = new ZegoCanvas(tv_play_mix);
         MixerMainActivity.engine.startPlayingStream(mixStreamID, canvas);

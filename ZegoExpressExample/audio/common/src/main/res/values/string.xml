@@ -1,0 +1,8 @@
+<resources>
+    <string name="audio_custom_capture">audio custom capture</string>
+
+    <string name="audio_custom_render">audio custom render</string>
+
+
+
+</resources>

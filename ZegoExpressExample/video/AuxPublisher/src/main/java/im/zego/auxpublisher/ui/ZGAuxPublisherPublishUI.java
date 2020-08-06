@@ -39,16 +39,17 @@ import static im.zego.zegoexpress.constants.ZegoVideoConfigPreset.PRESET_1080P;
 
 public class ZGAuxPublisherPublishUI extends Activity {
     private AuxPublishBinding binding;
-    private ZegoCustomVideoCaptureConfig  captureConfig;
+    private ZegoCustomVideoCaptureConfig captureConfig;
     private ZegoExpressEngine mSDKEngine;
-    private boolean loginRoomFlag=false;
-    private boolean startMainPublishFlag=false;
-    private boolean startAuxPublishFlag=false;
+    private boolean loginRoomFlag = false;
+    private boolean startMainPublishFlag = false;
+    private boolean startAuxPublishFlag = false;
     private String userID;
     private String userName;
-    private String mainStreamId =String.valueOf(new Date().getTime() % (new Date().getTime() / 1000));
-    private String auxStreamId =String.valueOf(new Date().getTime() % (new Date().getTime() / 1000))+"123";
-    public static final String mRoomID="AuxPublisherRoom-1";
+    private String mainStreamId = String.valueOf(new Date().getTime() % (new Date().getTime() / 1000));
+    private String auxStreamId = String.valueOf(new Date().getTime() % (new Date().getTime() / 1000)) + "123";
+    public static final String mRoomID = "AuxPublisherRoom-1";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,7 @@ public class ZGAuxPublisherPublishUI extends Activity {
         binding.startMain.setText(getString(R.string.start_publish_main));
         binding.startAux.setText(getString(R.string.start_publish_aux));
         binding.show.setVisibility(View.GONE);
-        binding.auxRoomId.setText("roomId："+mRoomID);
+        binding.auxRoomId.setText("roomId：" + mRoomID);
         binding.roomConnectState.setText(getString(R.string.room_unconnect));
         binding.mainConnectState.setText(getString(R.string.no_publish));
         binding.auxConnectState.setText(getString(R.string.no_publish));
@@ -89,13 +90,13 @@ public class ZGAuxPublisherPublishUI extends Activity {
             if (state == ZegoRoomState.CONNECTED) {
                 binding.roomConnectState.setText(getString(R.string.room_connect));
                 binding.auxLoginRoom.setText(getString(R.string.logout_room));
-                loginRoomFlag=!loginRoomFlag;
+                loginRoomFlag = !loginRoomFlag;
                 binding.show.setVisibility(View.VISIBLE);
 
             } else if (state == ZegoRoomState.DISCONNECTED) {
                 binding.roomConnectState.setText(getString(R.string.room_unconnect));
                 binding.auxLoginRoom.setText(getString(R.string.login_room));
-                loginRoomFlag=!loginRoomFlag;
+                loginRoomFlag = !loginRoomFlag;
                 binding.show.setVisibility(View.GONE);
             }
             if (errorCode != 0) {
@@ -107,38 +108,38 @@ public class ZGAuxPublisherPublishUI extends Activity {
         public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode, JSONObject extendedData) {
             AppLogger.getInstance().i("onPublisherStateUpdate: streamID = " + streamID + ", state = " + state + ", errCode = " + errorCode);
             if (state == ZegoPublisherState.PUBLISH_REQUESTING) {
-                if(streamID.equals(mainStreamId)){
+                if (streamID.equals(mainStreamId)) {
                     binding.mainConnectState.setText(getString(R.string.stream_request));
                     binding.startMain.setText(getString(R.string.stream_request));
                     binding.startMain.setClickable(false);
-                }else if(streamID.equals(auxStreamId)){
+                } else if (streamID.equals(auxStreamId)) {
                     binding.auxConnectState.setText(getString(R.string.stream_request));
                     binding.startAux.setText(getString(R.string.stream_request));
                     binding.startAux.setClickable(false);
                 }
-            }else if(state ==ZegoPublisherState.NO_PUBLISH){
-                if(streamID.equals(mainStreamId)){
+            } else if (state == ZegoPublisherState.NO_PUBLISH) {
+                if (streamID.equals(mainStreamId)) {
                     binding.mainConnectState.setText(getString(R.string.no_publish));
                     binding.startMain.setText(getString(R.string.start_publish_main));
-                    startMainPublishFlag=!startMainPublishFlag;
+                    startMainPublishFlag = !startMainPublishFlag;
                     binding.startMain.setClickable(true);
-                }else if(streamID.equals(auxStreamId)){
+                } else if (streamID.equals(auxStreamId)) {
                     binding.auxConnectState.setText(getString(R.string.no_publish));
                     binding.startAux.setText(getString(R.string.start_publish_aux));
-                    startAuxPublishFlag=!startAuxPublishFlag;
+                    startAuxPublishFlag = !startAuxPublishFlag;
                     binding.startAux.setClickable(true);
                 }
 
-            }else if(state ==ZegoPublisherState.PUBLISHING){
-                if(streamID.equals(mainStreamId)){
+            } else if (state == ZegoPublisherState.PUBLISHING) {
+                if (streamID.equals(mainStreamId)) {
                     binding.mainConnectState.setText(getString(R.string.publishing));
                     binding.startMain.setText(getString(R.string.stop_publish_main));
-                    startMainPublishFlag=!startMainPublishFlag;
+                    startMainPublishFlag = !startMainPublishFlag;
                     binding.startMain.setClickable(true);
-                }else if(streamID.equals(auxStreamId)){
+                } else if (streamID.equals(auxStreamId)) {
                     binding.auxConnectState.setText(getString(R.string.publishing));
                     binding.startAux.setText(getString(R.string.stop_publish_aux));
-                    startAuxPublishFlag=!startAuxPublishFlag;
+                    startAuxPublishFlag = !startAuxPublishFlag;
                     binding.startAux.setClickable(true);
                 }
             }
@@ -148,12 +149,12 @@ public class ZGAuxPublisherPublishUI extends Activity {
     };
 
     private void createEngine() {
-        captureConfig=new ZegoCustomVideoCaptureConfig();
+        captureConfig = new ZegoCustomVideoCaptureConfig();
         captureConfig.bufferType = ZegoVideoBufferType.GL_TEXTURE_2D;
-        ZegoEngineConfig engineConfig=new ZegoEngineConfig();
+        ZegoEngineConfig engineConfig = new ZegoEngineConfig();
         /** 辅流自定义视频采集配置，不设则默认辅流不开启自定义视频采集 */
         //Custom video capture configuration for auxiliary stream, if not set, the default auxiliary stream will not enable custom video capture
-        engineConfig.customVideoCaptureAuxConfig=captureConfig;
+        engineConfig.customVideoCaptureAuxConfig = captureConfig;
         ZegoExpressEngine.setEngineConfig(engineConfig);
         mSDKEngine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
         AppLogger.getInstance().i(getString(R.string.create_zego_engine));
@@ -162,23 +163,24 @@ public class ZGAuxPublisherPublishUI extends Activity {
         videoCapture = new VideoCaptureFromImage2(this.getApplicationContext(), mSDKEngine);
         videoCapture.setView(binding.auxView);
         mSDKEngine.setCustomVideoCaptureHandler(videoCapture);
-        ZegoVideoConfig videoConfig=new ZegoVideoConfig(PRESET_1080P);
+        ZegoVideoConfig videoConfig = new ZegoVideoConfig(PRESET_1080P);
         mSDKEngine.setVideoConfig(videoConfig, ZegoPublishChannel.MAIN);
         mSDKEngine.setVideoConfig(videoConfig, ZegoPublishChannel.AUX);
     }
-    public void loginRoom(View view){
-        if(loginRoomFlag){
+
+    public void loginRoom(View view) {
+        if (loginRoomFlag) {
             logOutRoom();
-        }else{
+        } else {
             loginRoom();
         }
-
     }
 
     private void logOutRoom() {
         mSDKEngine.logoutRoom(mRoomID);
     }
-    private void loginRoom(){
+
+    private void loginRoom() {
         String randomSuffix = String.valueOf(new Date().getTime() % (new Date().getTime() / 1000));
         userID = "user" + randomSuffix;
         userName = "userName" + randomSuffix;
@@ -188,19 +190,21 @@ public class ZGAuxPublisherPublishUI extends Activity {
         config.isUserStatusNotify = true;
         mSDKEngine.loginRoom(mRoomID, new ZegoUser(userID, userName), config);
     }
+
     public static void actionStart(Activity activity) {
         Intent intent = new Intent(activity, ZGAuxPublisherPublishUI.class);
         activity.startActivity(intent);
     }
-    public void startOrStopPushMain(View view){
-        if(startMainPublishFlag){
-            AppLogger.getInstance().i("stopPublishMainStream streamId:"+mainStreamId);
+
+    public void startOrStopPushMain(View view) {
+        if (startMainPublishFlag) {
+            AppLogger.getInstance().i("stopPublishMainStream streamId:" + mainStreamId);
             //通过ZegoPublishChannel.MAIN参数表明操作的是主流
             //ZegoPublishChannel.MAIN parameter indicates that the operation is mainstream
             mSDKEngine.stopPublishingStream(ZegoPublishChannel.MAIN);
             mSDKEngine.stopPreview();
-        }else {
-            AppLogger.getInstance().i("startPublishMainStream streamId:"+mainStreamId);
+        } else {
+            AppLogger.getInstance().i("startPublishMainStream streamId:" + mainStreamId);
             ZegoCanvas zegoCanvas = new ZegoCanvas(binding.mainView);
             zegoCanvas.viewMode = ZegoViewMode.ASPECT_FIT;
             // 设置预览视图及视图展示模式
@@ -210,19 +214,21 @@ public class ZGAuxPublisherPublishUI extends Activity {
             mSDKEngine.startPublishingStream(mainStreamId, ZegoPublishChannel.MAIN);
         }
     }
-    public void startOrStopPushAux(View view){
-        if(startAuxPublishFlag){
-            AppLogger.getInstance().i("stopPublishAuxStream streamId:"+auxStreamId);
+
+    public void startOrStopPushAux(View view) {
+        if (startAuxPublishFlag) {
+            AppLogger.getInstance().i("stopPublishAuxStream streamId:" + auxStreamId);
             //通过ZegoPublishChannel.AUX参数表明操作的是辅流
             //The ZegoPublishChannel.AUX parameter indicates that the auxiliary stream is operated
             mSDKEngine.stopPublishingStream(ZegoPublishChannel.AUX);
-        }else {
+        } else {
             //通过ZegoPublishChannel.AUX参数表明操作的是辅流
             //The ZegoPublishChannel.AUX parameter indicates that the auxiliary stream is operated
-            AppLogger.getInstance().i("startPublishAuxStream streamId:"+auxStreamId);
+            AppLogger.getInstance().i("startPublishAuxStream streamId:" + auxStreamId);
             mSDKEngine.startPublishingStream(auxStreamId, ZegoPublishChannel.AUX);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -231,12 +237,14 @@ public class ZGAuxPublisherPublishUI extends Activity {
         //Log out of the room and release the ZEGO SDK
         logoutLiveRoom();
     }
+
     // 登出房间，去除推拉流回调监听并释放ZEGO SDK
     //Log out of the room, remove the push-pull stream callback listener and release the ZEGO SDK
     public void logoutLiveRoom() {
         mSDKEngine.logoutRoom(mRoomID);
         ZegoExpressEngine.destroyEngine(null);
     }
+
     @Override
     protected void onStart() {
         super.onStart();

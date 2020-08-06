@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <TextView
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:gravity="center"
+        android:text="Current status: custom Audio capture has been disabled"
+        android:id="@+id/capture_state"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"></TextView>
+<LinearLayout
+    android:layout_marginBottom="20dp"
+    android:layout_width="290dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:text="streamId:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    <EditText
+        android:maxLines="1"
+        android:hint="please input streamId"
+        android:id="@+id/capture_stream_id"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"></EditText>
+</LinearLayout>
+    <TextView
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_red_dark"
+        android:id="@+id/publish_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TextView>
+        <Button
+            android:id="@+id/start_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="startCapture"></Button>
+
+
+    <Button
+        android:id="@+id/stop_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stopCapture"></Button>
+</LinearLayout>

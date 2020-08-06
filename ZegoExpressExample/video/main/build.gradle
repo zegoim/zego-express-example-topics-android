@@ -71,13 +71,15 @@ dependencies {
     implementation project(path: ':PublishStream')
     implementation project(path: ':AuxPublisher')
     implementation project(path: ':Videotalk')
-
+    implementation project(path: ':SoundProcessing')
+    implementation project(path: ':DataRecord')
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.code.gson:gson:2.8.5'
     //腾讯bug管理平台
     implementation 'com.tencent.bugly:crashreport:3.1.0'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
+    implementation files('libs/ZegoExpressEngine.jar')
     implementation files('libs/ZegoExpressEngine.jar')
 }
 

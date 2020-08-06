@@ -18,6 +18,7 @@ import im.zego.common.util.DeviceInfoManager;
 import im.zego.common.util.SettingDataUtil;
 import im.zego.videocapture.R;
 import im.zego.videocapture.camera.VideoCaptureFromCamera;
+import im.zego.videocapture.camera.VideoCaptureFromCamera3;
 import im.zego.videocapture.camera.VideoCaptureFromImage2;
 import im.zego.videocapture.camera.VideoCaptureScreen;
 import im.zego.videocapture.camera.ZegoVideoCaptureCallback;
@@ -113,6 +114,8 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
             videoCapture = new VideoCaptureFromImage2(this.getApplicationContext(), mSDKEngine);
         } else if (captureOrigin == CaptureOrigin.CaptureOrigin_Screen.getCode()) {
             videoCapture = new VideoCaptureScreen(ZGVideoCaptureOriginUI.mMediaProjection, DEFAULT_VIDEO_WIDTH, DEFAULT_VIDEO_HEIGHT, mSDKEngine);
+        } else if (captureOrigin == CaptureOrigin.CaptureOrigin_CameraV3.getCode()) {
+            videoCapture = new VideoCaptureFromCamera3();
         }
         videoCapture.setView(mPreView);
         mSDKEngine.setCustomVideoCaptureHandler(videoCapture);

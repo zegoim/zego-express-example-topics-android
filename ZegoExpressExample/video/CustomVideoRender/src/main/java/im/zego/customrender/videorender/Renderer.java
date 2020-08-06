@@ -93,6 +93,7 @@ public class Renderer implements TextureView.SurfaceTextureListener {
         }
     }
 
+
     // 将Buffer绘制到当前的view上
     public void draw(VideoRenderHandler.PixelBuffer pixelBuffer) {
 
@@ -341,6 +342,8 @@ public class Renderer implements TextureView.SurfaceTextureListener {
         shader = null;
         mDrawer = null;
         mRgbDrawer = null;
+
+
     }
 
     private boolean isTextureAvailable = false;

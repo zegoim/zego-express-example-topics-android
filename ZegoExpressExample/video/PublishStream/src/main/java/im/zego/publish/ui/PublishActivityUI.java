@@ -32,6 +32,7 @@ import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoStreamQualityLevel;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
+import im.zego.zegoexpress.entity.ZegoPlayStreamQuality;
 import im.zego.zegoexpress.entity.ZegoUser;
 
 public class PublishActivityUI extends BaseActivity {
@@ -92,6 +93,11 @@ public class PublishActivityUI extends BaseActivity {
                     AppLogger.getInstance().i("publish stream fail, streamID : %s, errorCode : %d", streamID, errorCode);
                     Toast.makeText(PublishActivityUI.this, getString(R.string.tx_publish_fail), Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void onPlayerQualityUpdate(String streamID, ZegoPlayStreamQuality quality) {
+
             }
 
             @Override

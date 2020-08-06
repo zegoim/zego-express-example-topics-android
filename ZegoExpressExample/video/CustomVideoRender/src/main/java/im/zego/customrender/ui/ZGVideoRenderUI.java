@@ -24,9 +24,11 @@ import im.zego.zegoexpress.callback.IZegoEventHandler;
 import im.zego.zegoexpress.constants.ZegoPlayerMediaEvent;
 import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
+import im.zego.zegoexpress.constants.ZegoVideoFrameFormatSeries;
 import im.zego.zegoexpress.constants.ZegoVideoMirrorMode;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
+import im.zego.zegoexpress.entity.ZegoCustomVideoRenderConfig;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
 import im.zego.zegoexpress.entity.ZegoUser;
 import im.zego.zegoexpress.entity.ZegoVideoConfig;
@@ -62,7 +64,7 @@ public class ZGVideoRenderUI extends BaseActivity {
         mErrorTxt = (TextView) findViewById(R.id.error_txt);
         mDealBtn = (Button) findViewById(R.id.publish_btn);
         mDealPlayBtn = (Button) findViewById(R.id.play_btn);
-
+        isSetDecodeCallback = getIntent().getBooleanExtra("IsUseNotDecode", false);
         // 获取已选的渲染类型
         // Get the selected rendering type
         chooseRenderType = getIntent().getIntExtra("RenderType", 0);
@@ -76,10 +78,11 @@ public class ZGVideoRenderUI extends BaseActivity {
 
         videoRenderer.init();
         AppLogger.getInstance().i(getString(R.string.create_zego_engine));
-        mSDKEngine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
+        mSDKEngine = ZegoExpressEngine.getEngine();
         mSDKEngine.setCustomVideoRenderHandler(videoRenderer);
-
+        ZegoCustomVideoRenderConfig zegoCustomVideoRenderConfig = new ZegoCustomVideoRenderConfig();
         mSDKEngine.setVideoMirrorMode(ZegoVideoMirrorMode.BOTH_MIRROR);
+
         mSDKEngine.setEventHandler(new IZegoEventHandler() {
 
 
@@ -179,15 +182,23 @@ public class ZGVideoRenderUI extends BaseActivity {
 
             // 外部渲染采用码流渲染类型时，推流时由 SDK 进行渲染。
             // When the external rendering adopts the code stream rendering type, the SDK performs rendering when pushing the stream.
+            if (!isSetDecodeCallback) {
+                // 添加外部渲染视图
+                videoRenderer.addView(mainPublishChannel, mPreView);
+                ZegoCanvas zegoCanvas = new ZegoCanvas(null);
+                zegoCanvas.viewMode = ZegoViewMode.SCALE_TO_FILL;
+                mSDKEngine.startPreview(zegoCanvas);
+            } else {
+                ZegoCanvas zegoCanvas = new ZegoCanvas(mPreView);
+                zegoCanvas.viewMode = ZegoViewMode.SCALE_TO_FILL;
+                mSDKEngine.startPreview(zegoCanvas);
+            }
 
-            // 添加外部渲染视图
-            videoRenderer.addView(mainPublishChannel, mPreView);
-            ZegoCanvas zegoCanvas = new ZegoCanvas(null);
-            zegoCanvas.viewMode = ZegoViewMode.SCALE_TO_FILL;
-            mSDKEngine.startPreview(zegoCanvas);
             mSDKEngine.startPublishingStream(mStreamID);
         }
     }
+
+    private boolean isSetDecodeCallback = false;
 
     // 处理拉流相关操作
     // Handle pull stream related operations
@@ -197,9 +208,13 @@ public class ZGVideoRenderUI extends BaseActivity {
         if (mDealPlayBtn.getText().toString().equals("StartPlay") && !mPlayStreamID.equals("")) {
             // 设置拉流视图
 
-            // 选择的外部渲染类型不是未解码型，根据拉流流名设置渲染视图
-            videoRenderer.addView(mPlayStreamID, mPlayView);
-
+            if (isSetDecodeCallback) {
+                // 若选择的外部渲染类型是未解码型，设置添加解码类渲染视图
+                videoRenderer.addDecodView(mPlayView);
+            } else {
+                // 选择的外部渲染类型不是未解码型，根据拉流流名设置渲染视图
+                videoRenderer.addView(mPlayStreamID, mPlayView);
+            }
             // 开始拉流，不为 SDK 设置渲染视图，使用自渲染的视图
             mSDKEngine.startPlayingStream(mPlayStreamID, new ZegoCanvas(null));
 

@@ -248,6 +248,10 @@ To achieve the effect of power saving and no heat. </string>
         
     <string name="txt_title_video_talk"> VideoTalk video call </string>
 
+    <string name="not_decode">Whether to throw undecoded video frames</string>
+
+    <string name="txt_title_sound_processing">Sound Processing</string>
+
     <string name="txt_title_mixing">Audio Mixing</string>
     <!-- CustomCdnPublish-->
     <string name="room_id"> Room ID: </string>
@@ -717,4 +721,5 @@ To achieve the effect of power saving and no heat. </string>
     <string name="fu_base_debug">Resolution:\n\t%dX%d\nFPS: %d\nRender time:\n\t%dms</string>
 
     <string name="recover"> Recover </string>
+    <string name="txt_record_data">Record audio or video</string>
 </resources>

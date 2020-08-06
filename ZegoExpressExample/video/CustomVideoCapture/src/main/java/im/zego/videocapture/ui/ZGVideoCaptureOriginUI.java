@@ -62,7 +62,7 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
 
         mCaptureTypeGroup = findViewById(R.id.CaptureTypeGroup);
         // 获取采集源button id
-        final int[] radioCaptureTypeBtns = {R.id.RadioImage, R.id.RadioCameraYUV, R.id.RadioScreenRecord};
+        final int[] radioCaptureTypeBtns = {R.id.RadioImage, R.id.RadioCameraYUV, R.id.RadioScreenRecord, R.id.RadioEncoderVideo};
 
         // 设置RadioGroup组件的事件监听
         mCaptureTypeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -78,7 +78,7 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
                     // The camera is used as the acquisition source, and the data transfer type used is YUV format (memory copy)
                     zegoEngineConfig.customVideoCaptureMainConfig.bufferType = ZegoVideoBufferType.RAW_DATA;
                     captureOrigin = CaptureOrigin.CaptureOrigin_Camera; //摄像头 码流数据
-                } else {
+                } else if(radioCaptureTypeBtns[2] == radioGroup.getCheckedRadioButtonId()){
                     zegoEngineConfig.customVideoCaptureMainConfig.bufferType = ZegoVideoBufferType.SURFACE_TEXTURE;
                     captureOrigin = CaptureOrigin.CaptureOrigin_Screen; //摄像头 码流数据
                     if (Build.VERSION.SDK_INT < 21) {
@@ -90,6 +90,9 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
                         mMediaProjectionManager = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
                         startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), REQUEST_CODE);
                     }
+                } else if (radioCaptureTypeBtns[3] == radioGroup.getCheckedRadioButtonId()) {
+                    zegoEngineConfig.customVideoCaptureMainConfig.bufferType = ZegoVideoBufferType.ENCODED_DATA;
+                    captureOrigin = CaptureOrigin.CaptureOrigin_CameraV3; //摄像头 码流数据
                 }
             }
         });

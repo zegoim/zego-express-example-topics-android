@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import im.zego.zegoexpress.entity.ZegoUser;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class MixerMainActivity extends AppCompatActivity {
     public static String roomID = "MixerRoom-1";
@@ -47,6 +50,12 @@ public class MixerMainActivity extends AppCompatActivity {
         engine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
         if (engine != null) {
             IZegoEventHandler handler = new IZegoEventHandler() {
+
+                @Override
+                public void onMixerSoundLevelUpdate(HashMap<Integer, Float> soundLevels) {
+                    Log.e("onMixerSoundLevelUpdate", "test");
+                }
+
                 @Override
                 public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
                     String streamID;

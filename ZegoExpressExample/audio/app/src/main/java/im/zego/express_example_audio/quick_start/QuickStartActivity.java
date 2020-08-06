@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-import im.zego.express_example_audio.GetAppIDConfig;
+import im.zego.common.GetAppIDConfig;
 import im.zego.express_example_audio.R;
 import im.zego.express_example_audio.databinding.ActivityQuickStartBinding;
 import im.zego.zegoexpress.ZegoExpressEngine;

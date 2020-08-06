@@ -17,8 +17,11 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.zego.sound.processing.ui.SoundProcessingMainUI;
+
 import im.zego.common.GetAppIDConfig;
 import im.zego.common.util.PreferenceUtil;
+import im.zego.datarecord.DataRecordActivity;
 import im.zego.express.mixing.ui.ZGMixingDemoUI;
 import im.zego.video.talk.ui.ZGVideoTalkUI;
 
@@ -116,6 +119,10 @@ public class MainActivity extends AppCompatActivity {
                     ZGVideoTalkUI.actionStart(MainActivity.this);
                 } else if (module.equals(getString(R.string.txt_title_mixing))) {
                     ZGMixingDemoUI.actionStart(MainActivity.this);
+                }else if (module.equals(getString(R.string.txt_title_sound_processing))) {
+                    SoundProcessingMainUI.actionStart(MainActivity.this);
+                }else if(module.equals(getString(R.string.txt_record_data))){
+                    DataRecordActivity.actionStart(MainActivity.this);
                 }
             }
         });
@@ -150,7 +157,8 @@ public class MainActivity extends AppCompatActivity {
                 .moduleName(getString(R.string.tx_module_custom_capture)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_title_aux)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_title_video_talk)));
-
+        mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_title_sound_processing)));
+        mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_record_data)));
     }
 
 

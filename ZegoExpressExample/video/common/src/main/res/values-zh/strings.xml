@@ -139,8 +139,10 @@
     <string name="tx_title_quickstart">快速开始</string>
     <string name="tx_title_advance">进阶功能</string>
     <string name="txt_title_aux">推多路流</string>
+    <string name="not_decode">是否抛未解码的视频帧</string>
     <string name="txt_title_video_talk">VideoTalk视频通话</string>
     <string name="txt_title_mixing">音频混音</string>
+    <string name="txt_title_sound_processing">声音处理</string>
     <!-- CustomCdnPublish-->
     <string name="room_id">房间ID: </string>
     <string name="user_id">用户ID: </string>
@@ -410,5 +412,5 @@
 
 
     <string name="recover">恢复</string>
-
+    <string name="txt_record_data">录制音视频</string>
 </resources>

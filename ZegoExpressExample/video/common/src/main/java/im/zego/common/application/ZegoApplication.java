@@ -2,6 +2,8 @@ package im.zego.common.application;
 
 import android.app.Application;
 
+import androidx.multidex.MultiDexApplication;
+
 import com.tencent.bugly.crashreport.CrashReport;
 
 import im.zego.common.widgets.log.FloatingView;
@@ -10,7 +12,7 @@ import im.zego.common.widgets.log.FloatingView;
  * Created by zego on 2018/10/16.
  */
 
-public class ZegoApplication extends Application {
+public class ZegoApplication extends MultiDexApplication {
 
     public static ZegoApplication zegoApplication;
 

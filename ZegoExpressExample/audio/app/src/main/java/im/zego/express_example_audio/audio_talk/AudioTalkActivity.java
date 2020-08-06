@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import im.zego.express_example_audio.GetAppIDConfig;
+import im.zego.common.GetAppIDConfig;
 import im.zego.express_example_audio.R;
 import im.zego.express_example_audio.audio_talk.widget.AudioTalkLayoutItem;
 import im.zego.express_example_audio.databinding.ActivityAudioTalkBinding;

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <TextView
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/render_state"
+        android:textColor="@android:color/holo_red_dark"
+        android:text="Current status: Audio custom rendering has been disabled"
+        android:gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"></TextView>
+    <LinearLayout
+        android:layout_marginBottom="20dp"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="streamId:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+        <EditText
+            android:maxLines="1"
+            android:hint="please input streamId"
+            android:id="@+id/render_stream_id"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"></EditText>
+    </LinearLayout>
+    <TextView
+        android:textColor="@android:color/holo_red_dark"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:id="@+id/play_state"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TextView>
+    <Button
+        android:id="@+id/start_render_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="startRender"></Button>
+
+
+    <Button
+        android:id="@+id/stop_render_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stopRender"></Button>
+</LinearLayout>

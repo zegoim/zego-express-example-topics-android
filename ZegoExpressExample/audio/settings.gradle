@@ -1,2 +1,4 @@
 rootProject.name='ZegoExpressExampleAudio'
 include ':app'
+include ':customaudioio'
+include ':common'

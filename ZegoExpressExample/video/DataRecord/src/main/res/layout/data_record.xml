@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <TextView
+        android:textColor="@color/red"
+        android:text="The audio and video recording function is currently only allowed to be stored as .mp4 or .flv files; selecting Record Type is only valid before starting recording. If recording has started, you need to stop recording, then select Record Type and start recording again."
+        android:padding="20dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TextView>
+ <LinearLayout
+
+     android:gravity="center"
+     android:orientation="horizontal"
+     android:layout_width="350dp"
+     android:layout_height="wrap_content"  >
+     <TextView
+         android:textColor="@color/red"
+         android:textSize="20dp"
+         android:text="path:"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"></TextView>
+<EditText
+    android:id="@+id/path"
+    android:hint="Please input the path for saving files"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="wrap_content"></EditText>
+ </LinearLayout>
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:layout_width="230dp"
+        android:layout_height="250dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <TextureView
+        android:id="@+id/preview"
+        android:layout_width="230dp"
+        android:layout_height="250dp"
+         />
+        <TextView
+            android:singleLine="false"
+            android:layout_marginTop="10dp"
+            android:id="@+id/record_state"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/red"
+            android:text="NO_RECORD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:singleLine="false"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/record_state"
+            android:layout_alignLeft="@+id/record_state"
+            android:id="@+id/duration"
+            android:textStyle="bold"
+            android:textColor="@color/red"
+            android:text="RecordDuration: 0ms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:singleLine="false"
+            android:layout_below="@+id/duration"
+            android:layout_alignLeft="@+id/duration"
+            android:id="@+id/currentFileSize"
+            android:textStyle="bold"
+            android:textColor="@color/red"
+            android:text="currentFileSize:0 byte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+
+    </RelativeLayout>
+    </LinearLayout>
+    <TextView
+        android:textStyle="bold"
+        android:textColor="@color/red"
+        android:text="RecordType:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <RadioGroup
+        android:orientation="horizontal"
+        android:id="@+id/record_type"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp">
+        <RadioButton
+            android:textSize="10dp"
+            android:id="@+id/only_audio"
+        android:text="ONLY_AUDIO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </RadioButton>
+        <RadioButton
+            android:textSize="10dp"
+            android:id="@+id/only_video"
+            android:text="ONLY_VIDEO"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </RadioButton>
+        <RadioButton
+            android:textSize="10dp"
+            android:checked="true"
+            android:id="@+id/both"
+            android:text="AUDIO_AND_VIDEO"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </RadioButton>
+    </RadioGroup>
+    </LinearLayout>
+    <Button
+        android:text="startRecord"
+        android:id="@+id/start_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></Button>
+    <Button
+        android:text="stopRecord"
+        android:id="@+id/stop_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></Button>
+
+    </LinearLayout>

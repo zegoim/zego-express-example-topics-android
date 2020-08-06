@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import im.zego.customaudioio.AudioCustomActivity;
 import im.zego.express_example_audio.audio_talk.AudioTalkActivity;
 import im.zego.express_example_audio.quick_start.QuickStartActivity;
 
@@ -19,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] topics = {
             "QuickStart",
-            "AudioTalk"
+            "AudioTalk",
+            "CustomAudioIO"
     };
 
     @Override
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         intent = new Intent(MainActivity.this, AudioTalkActivity.class);
                         break;
+                    case 2:
+                        intent =new Intent(MainActivity.this, AudioCustomActivity.class);
                     default:
                         break;
                 }
