@@ -80,11 +80,12 @@ public class ZGVideoRenderTypeUI extends BaseActivity {
                     // 外部渲染时抛出rgb格式的视频数据
                     // Rgb format video data is thrown during external rendering
                     zegoCustomVideoRenderConfig.frameFormatSeries = ZegoVideoFrameFormatSeries.RGB;
-
+                    zegoCustomVideoRenderConfig.bufferType=ZegoVideoBufferType.RAW_DATA;
                 } else if (radioRenderTypeBtns[1] == radioGroup.getCheckedRadioButtonId()) {
                     // 外部渲染时抛出I420格式的视频数据
                     // Throws I420 format video data during external rendering
                     zegoCustomVideoRenderConfig.frameFormatSeries = ZegoVideoFrameFormatSeries.YUV;
+                    zegoCustomVideoRenderConfig.bufferType=ZegoVideoBufferType.RAW_DATA;
                 }
                 // 推流处开启外部采集功能
                 // Turn on the external acquisition function

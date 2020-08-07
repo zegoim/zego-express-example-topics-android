@@ -1,5 +1,5 @@
 <resources >
-    <string name="app_name">ZegoExpressSample</string>
+    <string name="app_name">ZegoExpressSampleVideo</string>
     <string name="tx_log">LOG</string>
     <string name="tx_web_refresh_hint">正在刷新当前页面</string>
     <string name="menu">菜单</string>

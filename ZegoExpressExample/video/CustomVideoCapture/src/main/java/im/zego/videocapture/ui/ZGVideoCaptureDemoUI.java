@@ -26,10 +26,13 @@ import im.zego.videocapture.enums.CaptureOrigin;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
 import im.zego.zegoexpress.constants.ZegoPlayerMediaEvent;
+import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
+import im.zego.zegoexpress.constants.ZegoVideoBufferType;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
+import im.zego.zegoexpress.entity.ZegoCustomVideoCaptureConfig;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
 import im.zego.zegoexpress.entity.ZegoUser;
 import im.zego.zegoexpress.entity.ZegoVideoConfig;
@@ -68,6 +71,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
     private static final int DEFAULT_VIDEO_WIDTH = 360;
 
     private static final int DEFAULT_VIDEO_HEIGHT = 640;
+    private ZegoVideoBufferType videoBufferType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         String deviceID = DeviceInfoManager.generateDeviceId(this);
         mRoomID += deviceID;
         mPlayStreamID = mRoomID;
+        videoBufferType= ZegoVideoBufferType.getZegoVideoBufferType(getIntent().getIntExtra("ZegoVideoBufferType", 0));
         // 采集源是否是录屏
         // Whether the collection source is screen recording
         captureOrigin = getIntent().getIntExtra("captureOrigin", 0);
@@ -107,6 +112,9 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         // 创建sdk
         AppLogger.getInstance().i(getString(R.string.create_zego_engine));
         mSDKEngine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
+        ZegoCustomVideoCaptureConfig videoCaptureConfig=new ZegoCustomVideoCaptureConfig();
+        videoCaptureConfig.bufferType=videoBufferType;
+        mSDKEngine.enableCustomVideoCapture(true,videoCaptureConfig, ZegoPublishChannel.MAIN);
         mSDKEngine.setEventHandler(zegoEventHandler);
         if (captureOrigin == CaptureOrigin.CaptureOrigin_Camera.getCode()) {
             videoCapture = new VideoCaptureFromCamera(mSDKEngine);
@@ -178,7 +186,6 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ZegoExpressEngine.setEngineConfig(null);
         // 登出房间并释放ZEGO SDK
         // Log out of the room and release the ZEGO SDK
         logoutLiveRoom();
@@ -206,7 +213,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
     // Log out of the room, remove the push-pull flow callback monitoring and release the ZEGO SDK
     public void logoutLiveRoom() {
         mSDKEngine.logoutRoom(mRoomID);
-        ZegoExpressEngine.destroyEngine(null);
+        mSDKEngine.setEventHandler(null);
     }
 
     // 处理推流操作

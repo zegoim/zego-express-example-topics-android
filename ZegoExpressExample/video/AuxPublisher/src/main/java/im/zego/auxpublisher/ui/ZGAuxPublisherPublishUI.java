@@ -39,7 +39,6 @@ import static im.zego.zegoexpress.constants.ZegoVideoConfigPreset.PRESET_1080P;
 
 public class ZGAuxPublisherPublishUI extends Activity {
     private AuxPublishBinding binding;
-    private ZegoCustomVideoCaptureConfig captureConfig;
     private ZegoExpressEngine mSDKEngine;
     private boolean loginRoomFlag = false;
     private boolean startMainPublishFlag = false;
@@ -49,7 +48,7 @@ public class ZGAuxPublisherPublishUI extends Activity {
     private String mainStreamId = String.valueOf(new Date().getTime() % (new Date().getTime() / 1000));
     private String auxStreamId = String.valueOf(new Date().getTime() % (new Date().getTime() / 1000)) + "123";
     public static final String mRoomID = "AuxPublisherRoom-1";
-
+    ZegoCustomVideoCaptureConfig customVideoCaptureConfig=new ZegoCustomVideoCaptureConfig();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,15 +148,10 @@ public class ZGAuxPublisherPublishUI extends Activity {
     };
 
     private void createEngine() {
-        captureConfig = new ZegoCustomVideoCaptureConfig();
-        captureConfig.bufferType = ZegoVideoBufferType.GL_TEXTURE_2D;
-        ZegoEngineConfig engineConfig = new ZegoEngineConfig();
-        /** 辅流自定义视频采集配置，不设则默认辅流不开启自定义视频采集 */
-        //Custom video capture configuration for auxiliary stream, if not set, the default auxiliary stream will not enable custom video capture
-        engineConfig.customVideoCaptureAuxConfig = captureConfig;
-        ZegoExpressEngine.setEngineConfig(engineConfig);
         mSDKEngine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
         AppLogger.getInstance().i(getString(R.string.create_zego_engine));
+        customVideoCaptureConfig.bufferType=ZegoVideoBufferType.GL_TEXTURE_2D;
+        mSDKEngine.enableCustomVideoCapture(true,customVideoCaptureConfig,ZegoPublishChannel.AUX);
         mSDKEngine.setEventHandler(zegoEventHandler);
         ZegoVideoCaptureCallback videoCapture = null;
         videoCapture = new VideoCaptureFromImage2(this.getApplicationContext(), mSDKEngine);
@@ -232,8 +226,7 @@ public class ZGAuxPublisherPublishUI extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ZegoExpressEngine.setEngineConfig(null);
-        // 登出房间并释放ZEGO SDK
+         // 登出房间并释放ZEGO SDK
         //Log out of the room and release the ZEGO SDK
         logoutLiveRoom();
     }
@@ -242,7 +235,7 @@ public class ZGAuxPublisherPublishUI extends Activity {
     //Log out of the room, remove the push-pull stream callback listener and release the ZEGO SDK
     public void logoutLiveRoom() {
         mSDKEngine.logoutRoom(mRoomID);
-        ZegoExpressEngine.destroyEngine(null);
+        mSDKEngine.setEventHandler(null);
     }
 
     @Override
