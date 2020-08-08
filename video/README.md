@@ -8,7 +8,7 @@ Zego Express Example Topics Video Android Demo (Java)
 
 The SDK `libZegoExpressEngine.so` and `ZegoExpressEngine.jar` required to run the Demo project is missing from this Repository, and needs to be downloaded and placed in the Libs folder of the Demo project.
 
-**[https://storage.zego.im/express/video/android/en/zego-express-video-android-en.zip](https://storage.zego.im/express/video/android/en/zego-express-video-android-en.zip)**
+**[https://storage.zego.im/express/video/android/zego-express-video-android.zip](https://storage.zego.im/express/video/android/zego-express-video-android.zip)**
 
 finally, the structure under the `ZegoExpressExample/main/libs` directory should be as follows:
 
