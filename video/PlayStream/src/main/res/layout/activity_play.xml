@@ -102,7 +102,12 @@
                     android:layout_below="@+id/tx_bitrate"
                     android:text="@{quality.fps}"
                     android:textColor="@color/white_color" />
-
+                <TextView
+                    android:layout_below="@+id/tx_fps"
+                    android:textColor="@color/red"
+                    android:id="@+id/tx_room_extra_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
 
 
 

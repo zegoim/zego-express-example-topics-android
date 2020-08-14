@@ -23,6 +23,7 @@ import im.zego.common.GetAppIDConfig;
 import im.zego.common.util.PreferenceUtil;
 import im.zego.datarecord.DataRecordActivity;
 import im.zego.express.mixing.ui.ZGMixingDemoUI;
+import im.zego.loginmultiroom.LoginMultiRoomActivity;
 import im.zego.video.talk.ui.ZGVideoTalkUI;
 
 import im.zego.auxpublisher.ui.ZGAuxPublisherLoginUI;
@@ -123,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
                     SoundProcessingMainUI.actionStart(MainActivity.this);
                 }else if(module.equals(getString(R.string.txt_record_data))){
                     DataRecordActivity.actionStart(MainActivity.this);
+                }else if(module.equals(getString(R.string.txt_login_multi_room))){
+                    LoginMultiRoomActivity.actionStart(MainActivity.this);
                 }
             }
         });
@@ -159,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_title_video_talk)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_title_sound_processing)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_record_data)));
+        mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_login_multi_room)));
     }
 
 

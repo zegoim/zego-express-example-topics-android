@@ -16,8 +16,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:keepScreenOn="true"
         android:background="#ebeef5"
+        android:keepScreenOn="true"
         android:orientation="vertical">
 
         <im.zego.common.widgets.TitleLayout
@@ -28,13 +28,13 @@
 
             <Button
                 android:layout_width="100dp"
-                android:textSize="10dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="right"
                 android:layout_marginRight="2dp"
                 android:onClick="goSetting"
-                android:text="@string/tx_common" />
+                android:text="@string/tx_common"
+                android:textSize="10dp" />
 
         </im.zego.common.widgets.TitleLayout>
 
@@ -118,9 +118,6 @@
                     android:text="@{quality.hardwareEncode}"
                     android:textColor="@color/white_color" />
 
-
-
-
                 <Switch
                     android:id="@+id/sw_mic"
                     android:layout_width="wrap_content"
@@ -129,7 +126,6 @@
                     android:checked="@{config.enableMic}"
                     android:text="@string/tx_mic_state"
                     android:textColor="@color/white_color" />
-
 
 
                 <Switch
@@ -152,8 +148,37 @@
                     android:textColor="@color/white_color" />
 
             </RelativeLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/room_extra_info_layout"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="100dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <im.zego.common.widgets.CustomEditText
+                android:id="@+id/ed_extra_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white_color"
+                android:hint="please input info"
+                android:padding="8dp"
+                android:textSize="14sp"
+                app:key="extra_info" />
+            <Button
+                android:text="@string/send_room_extra_info"
+                android:id="@+id/set_extra_room_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></Button>
 
+            </LinearLayout>
         </RelativeLayout>
+
 
     </LinearLayout>
 

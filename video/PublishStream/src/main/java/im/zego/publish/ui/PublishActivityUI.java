@@ -26,6 +26,7 @@ import im.zego.common.ui.BaseActivity;
 import im.zego.common.util.AppLogger;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
+import im.zego.zegoexpress.callback.IZegoRoomSetRoomExtraInfoCallback;
 import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
@@ -133,6 +134,9 @@ public class PublishActivityUI extends BaseActivity {
                 if (errorCode != 0) {
                     Toast.makeText(PublishActivityUI.this, String.format("login room fail, errorCode: %d", errorCode), Toast.LENGTH_LONG).show();
                 }
+                if(state==ZegoRoomState.CONNECTED){
+                    binding.roomExtraInfoLayout.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -165,6 +169,23 @@ public class PublishActivityUI extends BaseActivity {
                     sdkConfigInfo.setEnableFrontCamera(isChecked);
                     engine.useFrontCamera(isChecked);
                 }
+            }
+        });
+        binding.setExtraRoomInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String extraInfo=binding.edExtraInfo.getText().toString().trim();
+                if(extraInfo==null||extraInfo.equals("")){
+                    Toast.makeText(PublishActivityUI.this,"extra info should not be empty",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                engine.setRoomExtraInfo(roomID,"zego",extraInfo, new IZegoRoomSetRoomExtraInfoCallback() {
+                    @Override
+                    public void onRoomSetRoomExtraInfoResult(int i) {
+                        AppLogger.getInstance().i("setRoomExtraInfo : %s, errorCode : %d", roomID, i);
+
+                    }
+                });
             }
         });
 
@@ -245,6 +266,7 @@ public class PublishActivityUI extends BaseActivity {
         streamID = layoutBinding.edStreamId.getText().toString();
         // 隐藏输入StreamID布局
         hideInputStreamIDLayout();
+
 
         streamQuality.setStreamID(String.format("StreamID : %s", streamID));
         // 开始推流

@@ -3,6 +3,7 @@ package im.zego.play.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
+import im.zego.zegoexpress.entity.ZegoRoomExtraInfo;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
 
@@ -133,6 +135,15 @@ public class PlayActivityUI extends BaseActivity {
 
             @Override
             public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
+
+            }
+
+            @Override
+            public void onRoomExtraInfoUpdate(String roomID, ArrayList<ZegoRoomExtraInfo> roomExtraInfoList) {
+                for(int i=0;i<roomExtraInfoList.size();i++) {
+                    AppLogger.getInstance().i( "onRoomExtraInfoUpdate roomID:" + roomID + "  key:" + roomExtraInfoList.get(i).key+"  value:"+roomExtraInfoList.get(i).value+"  updateTime:"+roomExtraInfoList.get(i).updateTime+"  userID:"+roomExtraInfoList.get(i).updateUser.userID+"  "+roomExtraInfoList.get(i).updateUser.userName);
+                    binding.txRoomExtraInfo.setText("roomExtraInfo:"+roomExtraInfoList.get(i).value);
+                }
 
             }
         });

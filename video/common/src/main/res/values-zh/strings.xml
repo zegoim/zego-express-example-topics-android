@@ -413,4 +413,6 @@
 
     <string name="recover">恢复</string>
     <string name="txt_record_data">录制音视频</string>
+    <string name="send_room_extra_info" >发送房间附加消息</string>
+    <string name="txt_login_multi_room" >登录多房间</string>>
 </resources>

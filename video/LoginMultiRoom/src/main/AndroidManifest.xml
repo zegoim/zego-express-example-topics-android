@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="im.zego.loginmultiroom" >
+    <application>
+        <activity android:name="im.zego.loginmultiroom.LoginMultiRoomActivity"></activity>
+    </application>
+</manifest>

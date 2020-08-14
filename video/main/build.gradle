@@ -73,6 +73,7 @@ dependencies {
     implementation project(path: ':Videotalk')
     implementation project(path: ':SoundProcessing')
     implementation project(path: ':DataRecord')
+    implementation project(path:':LoginMultiRoom')
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.code.gson:gson:2.8.5'
