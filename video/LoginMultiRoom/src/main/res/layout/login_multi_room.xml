@@ -2,266 +2,374 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:textColor="@android:color/holo_red_dark"
-                android:gravity="center"
-                android:id="@+id/multi_room_id"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"></TextView>
-
-            <TextView
-                android:gravity="center"
-                android:id="@+id/user_id"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"></TextView>
-
-
-        </LinearLayout>
-        <TextureView
-            android:id="@+id/display"
-            android:layout_margin="10dp"
-            android:layout_width="150dp"
-            android:layout_height="200dp"></TextureView>
-        <LinearLayout
+            android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            >
-        <Button
-            android:id="@+id/login"
-            android:text="LoginMultiRoom"
-            android:onClick="LoginMultiRoom"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content">
+            android:padding="20dp">
 
-        </Button>
-        <Button
-            android:id="@+id/logout"
-            android:text="LogOutMultiRoom"
-            android:onClick="LogOutMultiRoom"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content">
-
-        </Button>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="300dp">
-            <TextView
-                android:textStyle="bold"
-                android:text="Publish and Play Stream"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></TextView>
-        <im.zego.common.widgets.CustomEditText
-            android:id="@+id/ed_multi_stream_id"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white_color"
-            android:hint="please input streamId"
-            app:key="multi_stream_Id"
-            android:padding="8dp"
-            android:textSize="14sp" />
-            <Button
-                android:text="startPublish"
-                android:onClick="startPublish"
-                android:layout_margin="5dp"
-                android:id="@+id/start_publish_stream"
-                android:layout_gravity="center"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content">
-
-            </Button>
-            <Button
-                android:text="stopPublish"
-                android:onClick="stopPublish"
-                android:layout_margin="5dp"
-                android:id="@+id/stop_publish_stream"
-                android:layout_gravity="center"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content">
-
-            </Button>
-            <Button
-                android:text="startPlay"
-                android:onClick="startPlay"
-                android:layout_margin="5dp"
-                android:id="@+id/start_play_stream"
-                android:layout_gravity="center"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content">
-
-            </Button>
-            <Button
-                android:text="stopPlay"
-                android:onClick="stopPlay"
-                android:layout_margin="5dp"
-                android:id="@+id/stop_play_stream"
-                android:layout_gravity="center"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content">
-
-            </Button>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="220dp">
-            <TextView
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:text="Set Room Extra Info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></TextView>
-           <LinearLayout
-               android:orientation="horizontal"
-               android:gravity="center"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-               <TextView
-                   android:layout_marginRight="5dp"
-                   android:text="roomId:"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"></TextView>
-
-               <RadioGroup
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:id="@+id/extra_room_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <RadioButton
-                    android:id="@+id/extra_multi_main"
-                    android:checked="true"
-                    android:text="multi_main"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></RadioButton>
-                <RadioButton
-                    android:id="@+id/extra_multi_aux"
-                    android:text="multi_aux"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></RadioButton>
-
-            </RadioGroup>
-
-           </LinearLayout>
-            <im.zego.common.widgets.CustomEditText
-                android:id="@+id/ed_multi_extra_info"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/white_color"
-                android:hint="please input extra info"
-                app:key="multi_extra_info"
-                android:padding="8dp"
-                android:textSize="14sp" />
-            <Button
-                android:layout_gravity="center"
-                android:id="@+id/multi_send_extra_info"
-                android:text="Send Extra Info"
-                android:onClick="sendExtraInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal">
 
-            </Button>
-            <TextView
-                android:textColor="@color/red"
-                android:id="@+id/recv_extra"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></TextView>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="220dp">
-            <TextView
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:text="BroadCastMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></TextView>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
                 <TextView
-                    android:layout_marginRight="5dp"
-                    android:text="roomId:"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></TextView>
-                <RadioGroup
-                    android:orientation="horizontal"
+                    android:id="@+id/multi_room_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:id="@+id/broad_room_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <RadioButton
-                        android:id="@+id/broad_main"
-                        android:checked="true"
-                        android:text="multi_main"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"></RadioButton>
-                    <RadioButton
-                        android:id="@+id/broad_aux"
-                        android:text="multi_aux"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"></RadioButton>
+                    android:textColor="@android:color/holo_red_dark"></TextView>
 
-                </RadioGroup>
+                <TextView
+                    android:id="@+id/user_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"></TextView>
+
 
             </LinearLayout>
-            <im.zego.common.widgets.CustomEditText
-                android:id="@+id/ed_multi_broad_info"
+
+            <TextureView
+                android:id="@+id/display"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"></TextureView>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/white_color"
-                android:hint="please input broadcast message"
-                app:key="multi_broad_info"
-                android:padding="8dp"
-                android:textSize="14sp" />
-            <Button
-                android:layout_gravity="center"
-                android:id="@+id/multi_send_broad_info"
-                android:text="SendMessages"
-                android:onClick="sendBroadCastMessage"
-                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/login"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="LoginMultiRoom"
+                    android:text="LoginMultiRoom">
+
+                </Button>
+
+                <Button
+                    android:id="@+id/logout"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="LogOutMultiRoom"
+                    android:text="LogOutMultiRoom">
+
+                </Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Publish and Play Stream"
+                    android:textStyle="bold"></TextView>
+
+                <im.zego.common.widgets.CustomEditText
+                    android:id="@+id/ed_multi_stream_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@color/white_color"
+                    android:hint="please input streamId"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    app:key="multi_stream_Id" />
+
+                <Button
+                    android:id="@+id/start_publish_stream"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:onClick="startPublish"
+                    android:text="startPublish">
+
+                </Button>
+
+                <Button
+                    android:id="@+id/stop_publish_stream"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:onClick="stopPublish"
+                    android:text="stopPublish">
+
+                </Button>
+
+                <Button
+                    android:id="@+id/start_play_stream"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:onClick="startPlay"
+                    android:text="startPlay">
+
+                </Button>
+
+                <Button
+                    android:id="@+id/stop_play_stream"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:onClick="stopPlay"
+                    android:text="stopPlay">
+
+                </Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Set Room Extra Info"
+                    android:textStyle="bold"></TextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="roomId:"></TextView>
+
+                    <RadioGroup
+                        android:id="@+id/extra_room_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/extra_multi_main"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="multi_main"></RadioButton>
+
+                        <RadioButton
+                            android:id="@+id/extra_multi_aux"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="multi_aux"></RadioButton>
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <im.zego.common.widgets.CustomEditText
+                    android:id="@+id/ed_multi_extra_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@color/white_color"
+                    android:hint="please input extra info"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    app:key="multi_extra_info" />
+
+                <Button
+                    android:id="@+id/multi_send_extra_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:onClick="sendExtraInfo"
+                    android:text="Send Extra Info">
+
+                </Button>
+
+                <TextView
+                    android:id="@+id/recv_extra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"></TextView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            </Button>
-            <TextView
-                android:textColor="@color/red"
-                android:id="@+id/recv_broad"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></TextView>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Switch Room"
+                        android:textStyle="bold"></TextView>
+
+                    <Button
+                        android:id="@+id/switchRoom"
+                        android:layout_width="100dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:onClick="switchRoom"
+                        android:text="switch Room" />
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="fromRoomID:" />
+
+                    <im.zego.common.widgets.CustomEditText
+                        android:id="@+id/fromRoomID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="40dp"
+                        android:background="@color/white_color"
+                        android:hint="please input roomID"
+                        android:padding="8dp"
+                        android:textSize="14sp"
+                        app:key="from_room_id" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="toRoomID:" />
+
+                    <im.zego.common.widgets.CustomEditText
+                        android:id="@+id/toRoomID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="40dp"
+                        android:background="@color/white_color"
+                        android:hint="please input roomID"
+                        android:padding="8dp"
+                        android:textSize="14sp"
+                        app:key="to_room_id" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="BroadCastMessage"
+                    android:textStyle="bold"></TextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="roomId:"></TextView>
+
+                    <RadioGroup
+                        android:id="@+id/broad_room_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/broad_main"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="multi_main"></RadioButton>
+
+                        <RadioButton
+                            android:id="@+id/broad_aux"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="multi_aux"></RadioButton>
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <im.zego.common.widgets.CustomEditText
+                    android:id="@+id/ed_multi_broad_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@color/white_color"
+                    android:hint="please input broadcast message"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    app:key="multi_broad_info" />
+
+                <Button
+                    android:id="@+id/multi_send_broad_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:onClick="sendBroadCastMessage"
+                    android:text="SendMessages">
+
+                </Button>
+
+                <TextView
+                    android:id="@+id/recv_broad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"></TextView>
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
 </layout>

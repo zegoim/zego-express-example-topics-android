@@ -35,7 +35,7 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
 
     private ZegoVideoCaptureCallback captureCallback;
 
-    private CaptureOrigin captureOrigin;
+    private CaptureOrigin captureOrigin = CaptureOrigin.CaptureOrigin_Camera; ;
 
     private ZegoVideoBufferType bufferType;
 
@@ -71,15 +71,15 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
                     // 图片作为采集源，采用的数据传递类型是Surface_Texture
                     // The picture is used as the collection source, and the data transfer type used is Surface_Texture
                     bufferType = ZegoVideoBufferType.GL_TEXTURE_2D;
-                    captureOrigin = CaptureOrigin.CaptureOrigin_Image; //摄像头 码流数据
+                    captureOrigin = CaptureOrigin.CaptureOrigin_Image;
                 } else if (radioCaptureTypeBtns[1] == radioGroup.getCheckedRadioButtonId()) {
                     // camera作为采集源，采用的数据传递类型是YUV格式（内存拷贝）
                     // The camera is used as the acquisition source, and the data transfer type used is YUV format (memory copy)
                     bufferType = ZegoVideoBufferType.RAW_DATA;
-                    captureOrigin = CaptureOrigin.CaptureOrigin_Camera; //摄像头 码流数据
+                    captureOrigin = CaptureOrigin.CaptureOrigin_Camera;
                 } else if(radioCaptureTypeBtns[2] == radioGroup.getCheckedRadioButtonId()){
                     bufferType = ZegoVideoBufferType.SURFACE_TEXTURE;
-                    captureOrigin = CaptureOrigin.CaptureOrigin_Screen; //摄像头 码流数据
+                    captureOrigin = CaptureOrigin.CaptureOrigin_Screen;
                     if (Build.VERSION.SDK_INT < 21) {
                         Toast.makeText(ZGVideoCaptureOriginUI.this, getString(R.string.record_request), Toast.LENGTH_SHORT).show();
                         finish();

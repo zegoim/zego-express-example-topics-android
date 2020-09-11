@@ -75,8 +75,8 @@
 
     <string name="tx_start_play">开始拉流</string>
 
-
-    <string name="play_volume">拉流音量</string>
+    <string name="publish_volume">推流音量:</string>
+    <string name="play_volume">播放音量:</string>
     <string name="tx_capture_device">修改摄像头采集设备</string>
     <string name="hardware_encode">硬编开关(推流前设置生效)</string>
     <string name="front_facing_camera">前置摄像头</string>
@@ -120,6 +120,7 @@
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="save_success">保存成功！！</string>
+    <string name="save_failed">保存失败, 请输入正确的appid与appkey</string>
     <string name="save_cancel">取消保存</string>
     <string name="reset_alert">是否重置当前内容</string>
     <string name="reset_success">重置成功！！</string>
@@ -143,6 +144,7 @@
     <string name="txt_title_video_talk">VideoTalk视频通话</string>
     <string name="txt_title_mixing">音频混音</string>
     <string name="txt_title_sound_processing">声音处理</string>
+    <string name="no_supported_decodetx">该设备安卓版本太低，demo目前不支持渲染未解码数据</string>
     <!-- CustomCdnPublish-->
     <string name="room_id">房间ID: </string>
     <string name="user_id">用户ID: </string>
@@ -267,6 +269,7 @@
     <string name="player_2">是否抛出视频数据：</string>
     <string name="player_3">是否抛出音频数据：</string>
     <string name="player_progress">进度:</string>
+    <string name="player_volume"> 播放音量: </string>
     <string name="render_type">"渲染类型: "</string>
     <string name="collect_source">"采集来源: "</string>
     <string name="tx_filter_type">请选择前处理传递数据类型: </string>

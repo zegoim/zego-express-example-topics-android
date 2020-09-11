@@ -2,11 +2,15 @@ package im.zego.customrender.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.cc.customrender.R;
 
@@ -80,19 +84,20 @@ public class ZGVideoRenderTypeUI extends BaseActivity {
                     // 外部渲染时抛出rgb格式的视频数据
                     // Rgb format video data is thrown during external rendering
                     zegoCustomVideoRenderConfig.frameFormatSeries = ZegoVideoFrameFormatSeries.RGB;
-                    zegoCustomVideoRenderConfig.bufferType=ZegoVideoBufferType.RAW_DATA;
+                    zegoCustomVideoRenderConfig.bufferType = ZegoVideoBufferType.RAW_DATA;
                 } else if (radioRenderTypeBtns[1] == radioGroup.getCheckedRadioButtonId()) {
                     // 外部渲染时抛出I420格式的视频数据
                     // Throws I420 format video data during external rendering
                     zegoCustomVideoRenderConfig.frameFormatSeries = ZegoVideoFrameFormatSeries.YUV;
-                    zegoCustomVideoRenderConfig.bufferType=ZegoVideoBufferType.RAW_DATA;
+                    zegoCustomVideoRenderConfig.bufferType = ZegoVideoBufferType.RAW_DATA;
                 }
                 // 推流处开启外部采集功能
                 // Turn on the external acquisition function
             }
         });
 
-
+        RadioButton radioButton = (RadioButton) findViewById(R.id.RadioDecodeRGB);
+        radioButton.setChecked(true);
     }
 
     @Override
@@ -111,14 +116,19 @@ public class ZGVideoRenderTypeUI extends BaseActivity {
 
     public void JumpPublish(View view) {
         if (isGivenDecodeCallback) {
-            zegoCustomVideoRenderConfig.bufferType = ZegoVideoBufferType.ENCODED_DATA;
-            zegoCustomVideoRenderConfig.enableEngineRender = true;
+            if (Build.VERSION.SDK_INT > 19) {
+                zegoCustomVideoRenderConfig.bufferType = ZegoVideoBufferType.ENCODED_DATA;
+                zegoCustomVideoRenderConfig.enableEngineRender = true;
+            } else {
+                Toast.makeText(this, R.string.no_supported_decodetx, Toast.LENGTH_LONG).show();
+                return;
+            }
         }
 
         // 开启外部渲染功能
         // Turn on external rendering
         isEnableExternalRender = true;
-
+        ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
         ZegoExpressEngine.getEngine().enableCustomVideoRender(true, zegoCustomVideoRenderConfig);
         Intent intent = new Intent(ZGVideoRenderTypeUI.this, ZGVideoRenderUI.class);
         intent.putExtra("IsUseNotDecode", isGivenDecodeCallback);

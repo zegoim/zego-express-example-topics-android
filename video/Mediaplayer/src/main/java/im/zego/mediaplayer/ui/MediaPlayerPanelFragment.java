@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -98,6 +99,41 @@ public class MediaPlayerPanelFragment extends Fragment {
             aSwitchMediaplayerAudioData = mPanel.findViewById(R.id.sw_mediaplayer_audio_data);
             aButtonLoadResource = mPanel.findViewById(R.id.btn_load_video_resource);
             aProgressBar = mPanel.findViewById(R.id.pb_cur_res_progress);
+            SeekBar seekBar = mPanel.findViewById(R.id.play_volume);
+            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    mMediaplayer.setPlayVolume(seekBar.getProgress());
+                }
+            });
+
+            SeekBar publishVolume = mPanel.findViewById(R.id.publish_volume);
+            publishVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    mMediaplayer.setPublishVolume(seekBar.getProgress());
+                }
+            });
         }
 
         aSwitchMediaplayerCreate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

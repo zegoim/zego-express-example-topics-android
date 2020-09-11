@@ -47,6 +47,8 @@ public class LoginMultiRoomActivity extends Activity {
     private String auxRoomId="multi_aux";
     private String extraRoomId=mainRoomId;
     private String broadRoomId=mainRoomId;
+    private String fromRoomID;
+    private String toRoomID;
     public static void actionStart(Activity activity) {
 
         Intent intent = new Intent(activity, LoginMultiRoomActivity.class);
@@ -125,13 +127,21 @@ public class LoginMultiRoomActivity extends Activity {
                     Toast.makeText(LoginMultiRoomActivity.this, String.format("login room fail, errorCode: %d", errorCode), Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(state==ZegoRoomState.CONNECTED&&roomID.equals(mainRoomId)){
-                    //Log in to the auxiliary room after logging in to the main room
-                    engine.loginMultiRoom(auxRoomId,null);
+                if(state==ZegoRoomState.CONNECTED){
+                    if(mainRoomId.equals(fromRoomID)){
+                        mainRoomId= toRoomID;
+                        binding.extraMultiMain.setText(mainRoomId);
+                        binding.broadMain.setText(mainRoomId);
+                    }
+                    else if(auxRoomId.equals(fromRoomID)){
+                        auxRoomId=toRoomID;
+                        binding.extraMultiAux.setText(auxRoomId);
+                        binding.broadAux.setText(auxRoomId);
+                    }
+                    binding.multiRoomId.setText("MainRoomId: "+mainRoomId+"\n  AuxRoomId:"+auxRoomId);
                 }
                 if(state==ZegoRoomState.DISCONNECTED&&roomID.equals(auxRoomId)){
-                   // Log out of the main room after logging out of the auxiliary room
-                    engine.logoutRoom(mainRoomId);
+
                 }
             }
 
@@ -221,15 +231,16 @@ public class LoginMultiRoomActivity extends Activity {
              ZegoUser user=new ZegoUser(userId);
             //You must log in to the main room before logging in to the auxiliary room
             engine.loginRoom(mainRoomId,user);
-            //loginMultiRoom method is called in onRoomStateUpdate callback
-        }
+            //Log in to the auxiliary room after logging in to the main room
+            engine.loginMultiRoom(auxRoomId,null); }
     }
 
     public void LogOutMultiRoom(View view) {
         if(engine!=null){
             //must call logout aux room firstly
             engine.logoutRoom(auxRoomId);
-            //log out  main room is called in onRoomStateUpdate callback
+            // Log out of the main room after logging out of the auxiliary room
+            engine.logoutRoom(mainRoomId);
         }
     }
 
@@ -280,6 +291,20 @@ public class LoginMultiRoomActivity extends Activity {
                 AppLogger.getInstance().i("onRoomSetRoomExtraInfoResult:  errorCode = " + i);
             }
         });
+    }
+
+    public void switchRoom(View view){
+        fromRoomID = binding.fromRoomID.getText().toString().trim();
+        toRoomID = binding.toRoomID.getText().toString().trim();
+        if(checkIsEmpty(fromRoomID)){
+            Toast.makeText(LoginMultiRoomActivity.this,"switchRoom fromRoomID should not be empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(checkIsEmpty(toRoomID)){
+            Toast.makeText(LoginMultiRoomActivity.this,"switchRoom toRoomID should not be empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        engine.switchRoom(fromRoomID, toRoomID);
     }
 
     public void sendBroadCastMessage(View view) {

@@ -114,7 +114,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         mSDKEngine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
         ZegoCustomVideoCaptureConfig videoCaptureConfig=new ZegoCustomVideoCaptureConfig();
         videoCaptureConfig.bufferType=videoBufferType;
-        mSDKEngine.enableCustomVideoCapture(true,videoCaptureConfig, ZegoPublishChannel.MAIN);
+        mSDKEngine.enableCustomVideoCapture(true, videoCaptureConfig, ZegoPublishChannel.MAIN);
         mSDKEngine.setEventHandler(zegoEventHandler);
         if (captureOrigin == CaptureOrigin.CaptureOrigin_Camera.getCode()) {
             videoCapture = new VideoCaptureFromCamera(mSDKEngine);
@@ -123,7 +123,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         } else if (captureOrigin == CaptureOrigin.CaptureOrigin_Screen.getCode()) {
             videoCapture = new VideoCaptureScreen(ZGVideoCaptureOriginUI.mMediaProjection, DEFAULT_VIDEO_WIDTH, DEFAULT_VIDEO_HEIGHT, mSDKEngine);
         } else if (captureOrigin == CaptureOrigin.CaptureOrigin_CameraV3.getCode()) {
-            videoCapture = new VideoCaptureFromCamera3();
+            videoCapture = new VideoCaptureFromCamera3(ZGVideoCaptureDemoUI.this);
         }
         videoCapture.setView(mPreView);
         mSDKEngine.setCustomVideoCaptureHandler(videoCapture);

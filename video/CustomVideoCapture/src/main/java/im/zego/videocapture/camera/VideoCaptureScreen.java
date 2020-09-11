@@ -54,9 +54,6 @@ class VideoCaptureScreen extends ZegoVideoCaptureCallback {
         this.mZegoEngine = mZegoEngine;
     }
 
-
-
-
     @Override
     public void onStart(ZegoPublishChannel channel) {
         AppLogger.getInstance().i(" VideoCaptureScreen onStart callBack,channel:"+channel);

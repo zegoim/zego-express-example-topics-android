@@ -170,6 +170,7 @@ public class PlayActivityUI extends BaseActivity {
         super.onResume();
         if (mStreamID != null) {
             ZegoCanvas zegoCanvas = new ZegoCanvas(binding.playView);
+            zegoCanvas.viewMode = viewMode;
             ZegoExpressEngine.getEngine().startPlayingStream(mStreamID, zegoCanvas);
         }
     }
@@ -194,10 +195,6 @@ public class PlayActivityUI extends BaseActivity {
         ZegoCanvas zegoCanvas = new ZegoCanvas(binding.playView);
         engine.startPlayingStream(mStreamID, zegoCanvas);
 
-        AppLogger.getInstance().i("play stream fail, streamID : %s", mStreamID);
-        Toast.makeText(PlayActivityUI.this, getString(R.string.tx_play_fail), Toast.LENGTH_SHORT).show();
-        // 修改标题状态拉流失败状态
-        binding.title.setTitleName(getString(R.string.tx_play_fail));
 
     }
 

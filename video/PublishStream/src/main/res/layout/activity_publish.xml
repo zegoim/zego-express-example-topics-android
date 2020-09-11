@@ -147,6 +147,14 @@
                     android:text="@string/front_facing_camera"
                     android:textColor="@color/white_color" />
 
+                <ProgressBar
+                    android:visibility="gone"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
             </RelativeLayout>
             <LinearLayout
                 android:visibility="gone"

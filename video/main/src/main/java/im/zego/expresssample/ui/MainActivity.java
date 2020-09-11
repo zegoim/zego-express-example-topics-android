@@ -171,11 +171,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void jumpQuickStart(View view) {
-        WebActivity.actionStart(this, "https://doc-zh.zego.im/zh/727.html", ((TextView) view).getText().toString());
+        WebActivity.actionStart(this, "https://doc-zh.zego.im/zh/195.html", ((TextView) view).getText().toString());
     }
 
     public void jumpDoc(View view) {
-        WebActivity.actionStart(this, "https://doc-zh.zego.im/zh/303.html", ((TextView) view).getText().toString());
+        WebActivity.actionStart(this, "https://doc-zh.zego.im/zh/693.html", ((TextView) view).getText().toString());
     }
 
     // 需要申请 麦克风权限-读写sd卡权限-摄像头权限

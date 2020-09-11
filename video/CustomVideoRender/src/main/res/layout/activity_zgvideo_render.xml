@@ -18,14 +18,16 @@
                 android:id="@+id/pre_view"
                 android:layout_marginTop="60dp"
                 android:layout_marginLeft="5dp"
-                android:layout_width="180dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="240dp"/>
 
             <TextureView
                 android:id="@+id/play_view"
                 android:layout_marginTop="60dp"
                 android:layout_marginLeft="10dp"
-                android:layout_width="180dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="240dp"/>
 
         </LinearLayout>

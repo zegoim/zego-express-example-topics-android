@@ -9,7 +9,10 @@ import static im.zego.common.util.PreferenceUtil.KEY_TEST_ENVIRONMENT;
 
 public class SettingDataUtil {
     private volatile static SettingDataUtil singleton;
-    private SettingDataUtil (){}
+
+    private SettingDataUtil() {
+    }
+
     public static SettingDataUtil getSingleton() {
         if (singleton == null) {
             synchronized (SettingDataUtil.class) {
@@ -20,27 +23,37 @@ public class SettingDataUtil {
         }
         return singleton;
     }
-    public static Long getAppId(){
-        return Long.parseLong(PreferenceUtil.getInstance().getStringValue(KEY_APP_ID, "0"));
+
+    public static Long getAppId() {
+        try {
+            String appidStr = PreferenceUtil.getInstance().getStringValue(KEY_APP_ID, "1");
+            return Long.parseLong(appidStr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 1L;
     }
-    public static String getAppKey(){
+
+    public static String getAppKey() {
         return PreferenceUtil.getInstance().getStringValue(KEY_APP_SIGN, "");
     }
-    public static Boolean  getEnv(){
+
+    public static Boolean getEnv() {
         return PreferenceUtil.getInstance().getBooleanValue(KEY_TEST_ENVIRONMENT, true);
     }
-    public static ZegoScenario getScenario(){
-        ZegoScenario scenario=ZegoScenario.GENERAL;
-        int a=PreferenceUtil.getInstance().getIntValue(KEY_SCENARIO,0);
-        switch (a){
+
+    public static ZegoScenario getScenario() {
+        ZegoScenario scenario = ZegoScenario.GENERAL;
+        int a = PreferenceUtil.getInstance().getIntValue(KEY_SCENARIO, 0);
+        switch (a) {
             case 0:
-                scenario=ZegoScenario.GENERAL;
+                scenario = ZegoScenario.GENERAL;
                 break;
             case 1:
-                scenario=ZegoScenario.COMMUNICATION;
+                scenario = ZegoScenario.COMMUNICATION;
                 break;
             case 2:
-                scenario=ZegoScenario.LIVE;
+                scenario = ZegoScenario.LIVE;
                 break;
             default:
                 break;

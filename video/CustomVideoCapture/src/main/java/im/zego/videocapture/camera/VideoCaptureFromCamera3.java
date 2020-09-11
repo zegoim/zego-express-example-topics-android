@@ -1,6 +1,9 @@
 package im.zego.videocapture.camera;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Build;
@@ -10,6 +13,7 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.Toast;
 
 
 import java.io.IOException;
@@ -25,6 +29,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import im.zego.common.util.AppLogger;
 import im.zego.videocapture.aveencoder.AVCEncoder;
+import im.zego.videocapture.ui.ZGVideoCaptureDemoUI;
+import im.zego.videocapture.ve_gl.EglBase;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoVideoEncodedFrameFormat;
@@ -47,11 +53,11 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
     // 默认为后置摄像头
     int mFront = 0;
     // 预设分辨率宽
-    int mWidth = 640;
+    int mWidth = 360;
     // 预设分辨率高
-    int mHeight = 480;
+    int mHeight = 640;
     // 预设采集帧率
-    int mFrameRate = 15;
+    int mFrameRate = 10;
     // 默认不旋转
     int mRotation = 0;
 
@@ -75,6 +81,11 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
 
     private ByteBuffer mEncodedBuffer;
     private AVCEncoder mAVCEncoder = null;
+    private Context context;
+    public VideoCaptureFromCamera3(Activity context) {
+        super();
+        this.context=context;
+    }
 
 
     /**
@@ -92,7 +103,7 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
         cameraThreadHandler = new Handler(mThread.getLooper());
 
         cameraThreadHandler.post(() -> {
-            setFrameRate(15);
+            setFrameRate(10);
             setResolution(360, 640);
         });
 
@@ -360,9 +371,8 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
 
         boolean bSizeSet = false;
         Camera.Parameters parms = mCam.getParameters();
-
         // hardcode
-        Camera.Size psz = mCam.new Size(640, 480);
+        Camera.Size psz = mCam.new Size(360, 640);
 
         // 设置camera的采集视图size
         parms.setPreviewSize(psz.width, psz.height);
@@ -390,7 +400,6 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
 
         // 不启用提高MediaRecorder录制摄像头视频性能的功能，可能会导致在某些手机上预览界面变形的问题
         parms.setRecordingHint(false);
-
         // 设置camera的对焦模式
         boolean bFocusModeSet = false;
         for (String mode : parms.getSupportedFocusModes()) {
@@ -405,6 +414,7 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
                 }
             }
         }
+
         if (!bFocusModeSet) {
             Log.i(TAG, "[WARNING] vcap: focus mode left unset !!\n");
         }
@@ -418,6 +428,7 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
         }
 
         Camera.Parameters actualParm = mCam.getParameters();
+
         mWidth = actualParm.getPreviewSize().width;
         mHeight = actualParm.getPreviewSize().height;
         Log.i(TAG, "[WARNING] vcap: focus mode " + actualParm.getFocusMode());
@@ -580,13 +591,14 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
                 mAVCEncoder.startEncoder();
             } else {
                 Log.e("Zego", "This demo don't support color formats other than I420.");
+                Toast.makeText(context,"The current device does not support encoding I420 data, please try another device",Toast.LENGTH_SHORT).show();
             }
         }
 
         if (mAVCEncoder != null) {
             // 编码器相关信息
-            ZegoVideoEncodedFrameParam zegoVideoEncodedFrameParam = new  ZegoVideoEncodedFrameParam();
-            ZegoVideoEncodedFrameFormat frameFormat = ZegoVideoEncodedFrameFormat.AVCC;
+            ZegoVideoEncodedFrameParam zegoVideoEncodedFrameParam = new ZegoVideoEncodedFrameParam();
+            ZegoVideoEncodedFrameFormat frameFormat = ZegoVideoEncodedFrameFormat.AnnexB;
             zegoVideoEncodedFrameParam.format = frameFormat;
             // Android端的编码类型必须选用 ZegoVideoCodecTypeAVCANNEXB
             zegoVideoEncodedFrameParam.width = mWidth;
@@ -600,10 +612,13 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
                 now = TimeUnit.MILLISECONDS.toNanos(SystemClock.elapsedRealtime());
             }
 
+            byte[] nv12 = new byte[data.length];
+
+            NV21ToNV12(data, nv12, mWidth, mHeight);
             // 将NV21格式的视频数据转为I420格式的
-            byte[] i420bytes = NV21ToI420(data, mWidth, mHeight);
+            // byte[] i420bytes = NV21ToI420(data, mWidth, mHeight);
             // 为编码器提供视频帧数据和时间戳
-            mAVCEncoder.inputFrameToEncoder(i420bytes, now);
+            mAVCEncoder.inputFrameToEncoder(nv12, now);
 
             // 取编码后的视频数据，编码未完成时返回null
             AVCEncoder.TransferInfo transferInfo = mAVCEncoder.pollFrameFromEncoder();
@@ -613,11 +628,10 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
                 if (mEncodedBuffer != null && transferInfo.inOutData.length > mEncodedBuffer.capacity()) {
                     mEncodedBuffer = ByteBuffer.allocateDirect(transferInfo.inOutData.length);
                 }
-
                 mEncodedBuffer.clear();
                 // 将编码后的数据存入ByteBuffer中
-                mEncodedBuffer.put(transferInfo.inOutData, 0, transferInfo.inOutData.length);
-
+                mEncodedBuffer.put(transferInfo.inOutData);
+                mEncodedBuffer.flip();
                 // 将编码后的视频数据传给ZEGO SDK，需要告知SDK当前传递帧是否为视频关键帧，以及当前视频帧的时间戳
                 final ZegoExpressEngine zegoExpressEngine = ZegoExpressEngine.getEngine();
                 if (zegoExpressEngine != null) {
@@ -669,17 +683,46 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
 
     }
 
+    static ByteBuffer bufferY;
+    static ByteBuffer bufferV;
+    static ByteBuffer bufferU;
+    static int total = 0;
+
+
+    public static void NV21ToNV12(byte[] nv21, byte[] nv12, int width, int height) {
+        if (nv21 == null || nv12 == null) return;
+        int framesize = width * height;
+        int i = 0, j = 0;
+        System.arraycopy(nv21, 0, nv12, 0, framesize);
+        for (i = 0; i < framesize; i++) {
+            nv12[i] = nv21[i];
+        }
+        for (j = 0; j < framesize / 2; j += 2) {
+            nv12[framesize + j - 1] = nv21[j + framesize];
+        }
+        for (j = 0; j < framesize / 2; j += 2) {
+            nv12[framesize + j] = nv21[j + framesize - 1];
+        }
+    }
+
     // camera采集的是NV21格式的数据，编码器需要I420格式的数据，此处进行一个格式转换
     public static byte[] NV21ToI420(byte[] data, int width, int height) {
         byte[] ret = new byte[width * height * 3 / 2];
-        int total = width * height;
-
-        ByteBuffer bufferY = ByteBuffer.wrap(ret, 0, total);
-        ByteBuffer bufferV = ByteBuffer.wrap(ret, total, total / 4);
-        ByteBuffer bufferU = ByteBuffer.wrap(ret, total + total / 4, total / 4);
-
+        int mTotal = width * height;
+        if (mTotal != total) {
+            total = mTotal;
+            bufferY = ByteBuffer.wrap(ret, 0, total);
+            bufferV = ByteBuffer.wrap(ret, total, total / 4);
+            bufferU = ByteBuffer.wrap(ret, total + total / 4, total / 4);
+        } else {
+            bufferU.clear();
+            bufferY.clear();
+            bufferV.clear();
+        }
         bufferY.put(data, 7, total);
+
         for (int i = total + 7; i < data.length; i += 2) {
+
             bufferV.put(data[i]);
             bufferU.put(data[i + 1]);
         }

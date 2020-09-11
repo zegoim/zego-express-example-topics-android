@@ -75,8 +75,8 @@ public class PublishActivityUI extends BaseActivity {
         userID = "userid-" + randomSuffix;
         userName = "username-" + randomSuffix;
         zegoCanvas = new ZegoCanvas(binding.preview);
-        // 调用sdk 开始预览接口 设置view 启用预览
-        engine.startPreview(zegoCanvas);
+
+
         engine.setEventHandler(new IZegoEventHandler() {
 
             @Override
@@ -92,7 +92,7 @@ public class PublishActivityUI extends BaseActivity {
                 } else {
                     binding.title.setTitleName(getString(R.string.tx_publish_fail));
                     AppLogger.getInstance().i("publish stream fail, streamID : %s, errorCode : %d", streamID, errorCode);
-                    Toast.makeText(PublishActivityUI.this, getString(R.string.tx_publish_fail), Toast.LENGTH_SHORT).show();
+
                 }
             }
 
@@ -131,14 +131,19 @@ public class PublishActivityUI extends BaseActivity {
                  * (such as room disconnection, login authentication failure, etc.), the SDK will notify through the callback
                  */
                 AppLogger.getInstance().i("onRoomStateUpdate: roomID = " + roomID + ", state = " + state + ", errorCode = " + errorCode);
-                if (errorCode != 0) {
-                    Toast.makeText(PublishActivityUI.this, String.format("login room fail, errorCode: %d", errorCode), Toast.LENGTH_LONG).show();
-                }
+
                 if(state==ZegoRoomState.CONNECTED){
+                    binding.progressBar.setVisibility(View.GONE);
+                    // 开始推流
+                    engine.startPublishingStream(streamID);
+                    // 调用sdk 开始预览接口 设置view 启用预览
+                    engine.startPreview(zegoCanvas);
                     binding.roomExtraInfoLayout.setVisibility(View.VISIBLE);
                 }
             }
         });
+
+
 
         // 监听摄像头与麦克风开关
         // Monitor camera and microphone switch
@@ -228,10 +233,7 @@ public class PublishActivityUI extends BaseActivity {
             engine.enableAudioCaptureDevice(true);
         }
 
-        if (engine != null) {
-            zegoCanvas.viewMode = viewMode;
-            engine.startPreview(zegoCanvas);
-        }
+
 
         super.onResume();
     }
@@ -262,15 +264,14 @@ public class PublishActivityUI extends BaseActivity {
         streamQuality.setRoomID(String.format("RoomID : %s", roomID));
         ZegoUser user = new ZegoUser(userID, userName);
         engine.loginRoom(roomID, user, null);
-
+        binding.progressBar.setVisibility(View.VISIBLE);
         streamID = layoutBinding.edStreamId.getText().toString();
         // 隐藏输入StreamID布局
         hideInputStreamIDLayout();
 
 
         streamQuality.setStreamID(String.format("StreamID : %s", streamID));
-        // 开始推流
-        engine.startPublishingStream(streamID);
+
 
     }
 

@@ -109,8 +109,6 @@ public class ZGVideoRenderUI extends BaseActivity {
                     zegoVideoConfig.setEncodeResolution(360, 640);
 
                     mSDKEngine.setVideoConfig(zegoVideoConfig);
-                    mSDKEngine.startPreview(zegoCanvas);
-                    mSDKEngine.startPublishingStream(mRoomID);
                 } else if (state == ZegoRoomState.DISCONNECTED) {
                     mErrorTxt.setText("login room fail, err:" + errorCode);
                 }
