@@ -27,11 +27,14 @@ import im.zego.common.util.AppLogger;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
 import im.zego.zegoexpress.callback.IZegoRoomSetRoomExtraInfoCallback;
+import im.zego.zegoexpress.constants.ZegoAudioCaptureStereoMode;
+import im.zego.zegoexpress.constants.ZegoAudioConfigPreset;
 import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoStreamQualityLevel;
 import im.zego.zegoexpress.constants.ZegoViewMode;
+import im.zego.zegoexpress.entity.ZegoAudioConfig;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoPlayStreamQuality;
 import im.zego.zegoexpress.entity.ZegoUser;
@@ -193,7 +196,20 @@ public class PublishActivityUI extends BaseActivity {
                 });
             }
         });
-
+        layoutBinding.openStereo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    engine.setAudioCaptureStereoMode(ZegoAudioCaptureStereoMode.ALWAYS);
+                    ZegoAudioConfig audioConfig =new ZegoAudioConfig(ZegoAudioConfigPreset.STANDARD_QUALITY_STEREO);
+                    engine.setAudioConfig(audioConfig);
+                }else{
+                    engine.setAudioCaptureStereoMode(ZegoAudioCaptureStereoMode.NONE);
+                    ZegoAudioConfig audioConfig =new ZegoAudioConfig(ZegoAudioConfigPreset.STANDARD_QUALITY);
+                    engine.setAudioConfig(audioConfig);
+                }
+            }
+        });
 
     }
 

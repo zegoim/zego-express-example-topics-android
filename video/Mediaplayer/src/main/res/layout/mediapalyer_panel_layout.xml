@@ -68,6 +68,7 @@
                 android:text="@string/player_network" />
 
             <EditText
+                android:id="@+id/media_player_network_url"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="eg: https://.../xxx.mp4"

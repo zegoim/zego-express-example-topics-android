@@ -6,6 +6,8 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.media.MediaCodecInfo;
+import android.media.MediaFormat;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -34,6 +36,7 @@ import im.zego.videocapture.ve_gl.EglBase;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoVideoEncodedFrameFormat;
+import im.zego.zegoexpress.entity.ZegoTrafficControlInfo;
 import im.zego.zegoexpress.entity.ZegoVideoConfig;
 import im.zego.zegoexpress.entity.ZegoVideoEncodedFrameParam;
 
@@ -108,6 +111,18 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
         });
 
         startCapture();
+    }
+
+    @Override
+    public void onEncodedDataTrafficControl(ZegoTrafficControlInfo trafficControlInfo, ZegoPublishChannel channel) {
+        if (mAVCEncoder != null) {
+            MediaFormat  mMediaFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, trafficControlInfo.width, trafficControlInfo.height);
+            mMediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible); //COLOR_FormatYUV420PackedSemiPlanar
+            mMediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, trafficControlInfo.bitrate);
+            mMediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, trafficControlInfo.fps);
+            mMediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 2);
+            mAVCEncoder.setMediaFormat(mMediaFormat);
+        }
     }
 
     // 停止推流时，ZEGO SDK 调用 stopCapture 通知外部采集设备停止采集，必须实现
@@ -604,6 +619,8 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
             zegoVideoEncodedFrameParam.width = mWidth;
             zegoVideoEncodedFrameParam.height = mHeight;
 
+            zegoVideoEncodedFrameParam.rotation = 270;
+
             // 计算当前的纳秒时间
             long now = 0;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -636,7 +653,6 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
                 final ZegoExpressEngine zegoExpressEngine = ZegoExpressEngine.getEngine();
                 if (zegoExpressEngine != null) {
                     zegoVideoEncodedFrameParam.isKeyFrame = transferInfo.isKeyFrame;
-
                     zegoExpressEngine.sendCustomVideoCaptureEncodedData(mEncodedBuffer, transferInfo.inOutData.length, zegoVideoEncodedFrameParam, transferInfo.timeStmp);
                 }
 

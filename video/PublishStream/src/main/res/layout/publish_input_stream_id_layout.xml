@@ -8,12 +8,27 @@
         android:background="#8C000000"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <Switch
+                android:id="@+id/open_stereo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:layout_alignParentBottom="true"
+                android:text="@string/open_stereo"
+                android:textColor="@color/red" />
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -32,8 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="40dp"
             android:background="@color/white_color"
             android:hint="请输入roomID"
             android:padding="8dp"
@@ -44,8 +59,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
             android:layout_marginTop="60dp"
+            android:layout_marginRight="40dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -64,8 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="40dp"
             android:background="@color/white_color"
             android:hint="请输入streamID"
             android:padding="8dp"

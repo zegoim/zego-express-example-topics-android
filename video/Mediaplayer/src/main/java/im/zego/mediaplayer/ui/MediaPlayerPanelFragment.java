@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
@@ -51,7 +52,7 @@ public class MediaPlayerPanelFragment extends Fragment {
     private Switch aSwitchMediaplayerAudioData;
     private Button aButtonLoadResource;
     private ProgressBar aProgressBar;
-
+    private EditText mediaPlayerNetUrl;
     static int index = 0;
 
     private static final String TAG = "MediaPlayerPanelFragmen";
@@ -99,6 +100,7 @@ public class MediaPlayerPanelFragment extends Fragment {
             aSwitchMediaplayerAudioData = mPanel.findViewById(R.id.sw_mediaplayer_audio_data);
             aButtonLoadResource = mPanel.findViewById(R.id.btn_load_video_resource);
             aProgressBar = mPanel.findViewById(R.id.pb_cur_res_progress);
+            mediaPlayerNetUrl =mPanel.findViewById(R.id.media_player_network_url);
             SeekBar seekBar = mPanel.findViewById(R.id.play_volume);
             seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
@@ -291,7 +293,11 @@ public class MediaPlayerPanelFragment extends Fragment {
                             }
                         });
                     }else if(((RadioButton)mPanel.findViewById(R.id.rb_mediapalyer_net_resource)).isChecked()){
-                        mMediaplayer.loadResource("https://storage.zego.im/demo/201808270915.mp4", new IZegoMediaPlayerLoadResourceCallback() {
+                        String url = "https://storage.zego.im/demo/201808270915.mp4";
+                        if(mediaPlayerNetUrl.getText().toString()!=null&&!mediaPlayerNetUrl.getText().toString().trim().equals("")){
+                            url =mediaPlayerNetUrl.getText().toString().trim();
+                        }
+                        mMediaplayer.loadResource(url, new IZegoMediaPlayerLoadResourceCallback() {
                             @Override
                             public void onLoadResourceCallback(int i) {
                                 // 只有在加载成功之后 getTotalDuration 才会返回正常的数值

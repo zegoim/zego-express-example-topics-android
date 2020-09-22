@@ -431,7 +431,6 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
         // 设置预览图像的转方向
         // Set the rotation direction of the preview image
         mCam.setDisplayOrientation(result);
-
         return 0;
     }
 

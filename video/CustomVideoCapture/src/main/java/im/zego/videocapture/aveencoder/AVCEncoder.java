@@ -39,6 +39,10 @@ public class AVCEncoder {
 
     private ByteBuffer configData = ByteBuffer.allocateDirect(1);
 
+    public void setMediaFormat(MediaFormat mMediaFormat) {
+        mMediaCodec.configure(mMediaFormat, null, null, CONFIGURE_FLAG_ENCODE);
+    }
+
     /**
      * 视频数据信息结构体
      * 包含时间戳，视频数据，关键帧标记
