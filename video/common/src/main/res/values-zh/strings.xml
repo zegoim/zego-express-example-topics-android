@@ -419,4 +419,5 @@
     <string name="send_room_extra_info" >发送房间附加消息</string>
     <string name="txt_login_multi_room" >登录多房间</string>>
     <string name="open_stereo">开启双声道采集模式</string>>
+    <string name="txt_audio_effect_player" >音效播放器</string>
 </resources>

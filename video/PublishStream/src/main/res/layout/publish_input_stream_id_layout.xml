@@ -8,21 +8,6 @@
         android:background="#8C000000"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <Switch
-                android:id="@+id/open_stereo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:layout_alignParentBottom="true"
-                android:text="@string/open_stereo"
-                android:textColor="@color/red" />
-        </RelativeLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

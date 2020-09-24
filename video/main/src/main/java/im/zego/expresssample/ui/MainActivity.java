@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.zego.sound.processing.ui.SoundProcessingMainUI;
 
+import im.zego.audioeffectplayer.AudioEffectPlayerUI;
 import im.zego.common.GetAppIDConfig;
 import im.zego.common.util.PreferenceUtil;
 import im.zego.datarecord.DataRecordActivity;
@@ -126,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
                     DataRecordActivity.actionStart(MainActivity.this);
                 }else if(module.equals(getString(R.string.txt_login_multi_room))){
                     LoginMultiRoomActivity.actionStart(MainActivity.this);
+                }else if(module.equals(getString(R.string.txt_audio_effect_player))){
+                    AudioEffectPlayerUI.actionStart(MainActivity.this);
                 }
             }
         });
@@ -163,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_title_sound_processing)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_record_data)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_login_multi_room)));
+        mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_audio_effect_player)));
     }
 
 
@@ -181,7 +185,8 @@ public class MainActivity extends AppCompatActivity {
     // 需要申请 麦克风权限-读写sd卡权限-摄像头权限
     private static String[] PERMISSIONS_STORAGE = {
             "android.permission.CAMERA",
-            "android.permission.RECORD_AUDIO"};
+            "android.permission.RECORD_AUDIO",
+        "android.permission.WRITE_EXTERNAL_STORAGE"};
 
     /**
      * 校验并请求权限

@@ -583,7 +583,7 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
         param.strides[0] = mWidth;
         param.strides[1] = mWidth;
         param.format = ZegoVideoFrameFormat.NV21;
-        param.rotation = mCamInfo.orientation;
+        param.rotation = 90;
 
         long now;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {

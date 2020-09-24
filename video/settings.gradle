@@ -15,4 +15,5 @@ include ':main',
         ':AuxPublisher',
         ':Videotalk',
         ':DataRecord',
-        ':LoginMultiRoom'
+        ':LoginMultiRoom',
+        ':AudioEffectPlayer'

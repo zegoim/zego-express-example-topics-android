@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="im.zego.audioeffectplayer" >
+    <application>
+        <activity android:name=".AudioEffectPlayerUI"></activity>
+    </application>
+</manifest>

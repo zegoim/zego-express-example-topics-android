@@ -729,5 +729,6 @@ To achieve the effect of power saving and no heat. </string>
     <string name="txt_record_data">Record audio or video</string>
     <string name="send_room_extra_info">Set Room Extra Info</string>
     <string name="txt_login_multi_room">Login Multi Room</string>
-    <string name="open_stereo">Turn on audio stereo mode</string>>
+    <string name="open_stereo">Turn on audio stereo mode</string>
+    <string name="txt_audio_effect_player" >Audio Effect Player</string>
 </resources>
