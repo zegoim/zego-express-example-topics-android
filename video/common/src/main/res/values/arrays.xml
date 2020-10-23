@@ -96,6 +96,11 @@
         <item>29</item>
         <item>30</item>
     </string-array>
+    <string-array name="reverb_echo_mode">
+        <item>No echo</item>
+        <item>Ethereal</item>
+        <item>Robot</item>
+    </string-array>
 
     <array name="arc_colors_default">
         <item>#1a2a6c</item>

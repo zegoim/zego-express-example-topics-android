@@ -1,5 +1,6 @@
 package im.zego.customaudioio;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -9,7 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,31 +30,38 @@ import im.zego.common.GetAppIDConfig;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
 import im.zego.zegoexpress.constants.ZegoAudioSourceType;
+import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
 import im.zego.zegoexpress.entity.ZegoAudioFrameParam;
+import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoCustomAudioConfig;
+import im.zego.zegoexpress.entity.ZegoEngineConfig;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
 
 import static im.zego.zegoexpress.constants.ZegoAudioSampleRate.ZEGO_AUDIO_SAMPLE_RATE_44K;
 
 public class AudioCustomCaptureActivity extends Activity {
-    private Button start, stop;
+    private Button start, stop,playStream,loginRoom;
     private ZegoExpressEngine engine;
+    private Switch openInternalRender;
+    private LinearLayout internalRenderLayout;
     private String roomId="QuickStartRoom-1";
     private String userId;
     private Integer mRecordBufferSize;
      private int captureSampleRate =44100;
     private int captureChannel = AudioFormat.CHANNEL_IN_MONO;
-    private TextView tv;
-    private EditText editText;
+    private TextView tv,capturePlayStateTv;
+    private EditText publishStreamIdEditText;
+    private EditText playStreamIdEditText;
     ByteBuffer mPcmBuffer;
     private AudioRecord mAudioRecord;
     private TextView publishState;
     private ZegoAudioFrameParam audioFrameParam=new ZegoAudioFrameParam();
+    private ZegoEngineConfig engineConfig=new ZegoEngineConfig();;
     private enum Status {
         STATUS_NO_READY,
         STATUS_READY,
@@ -85,9 +96,15 @@ public class AudioCustomCaptureActivity extends Activity {
     private void initView() {
         start = findViewById(R.id.start_record);
         stop = findViewById(R.id.stop_record);
+        loginRoom =findViewById(R.id.login_room);
+        playStream =findViewById(R.id.play_stream);
+        capturePlayStateTv =findViewById(R.id.capture_play_state);
         tv=findViewById(R.id.capture_state);
-        editText=findViewById(R.id.capture_stream_id);
+        publishStreamIdEditText =findViewById(R.id.capture_stream_id);
+        playStreamIdEditText = findViewById(R.id.play_stream_id);
         publishState=findViewById(R.id.publish_state);
+        openInternalRender =findViewById(R.id.open_internal_render);
+        internalRenderLayout =findViewById(R.id.render_internal);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,17 +113,16 @@ public class AudioCustomCaptureActivity extends Activity {
                     Log.i("[ZEGO]","custom Capture has been enabled, please do not click repeatedly");
                     return;
                 }
-                if (editText.getText().toString() == null || editText.getText().toString().trim().equals("")) {
+                if (publishStreamIdEditText.getText().toString() == null || publishStreamIdEditText.getText().toString().trim().equals("")) {
                     Toast.makeText(AudioCustomCaptureActivity.this,"streamId should not be empty when start custom capture",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                userId = String.valueOf(new Date().getTime()%(new Date().getTime()/1000));
-                engine.loginRoom(roomId,new ZegoUser(userId));
+                playStreamIdEditText.setText(publishStreamIdEditText.getText().toString().trim());
                 ZegoCustomAudioConfig config=new ZegoCustomAudioConfig();
                 config.sourceType= ZegoAudioSourceType.CUSTOM;
                 //enable custom capture
                 engine.enableCustomAudioIO(true,config);
-                engine.startPublishingStream(editText.getText().toString().trim());
+                engine.startPublishingStream(publishStreamIdEditText.getText().toString().trim());
                 //start AudioRecord
                 startRecord();
                 tv.setText("Current status:  custom audio capture has been enabled");
@@ -118,6 +134,44 @@ public class AudioCustomCaptureActivity extends Activity {
                 stopRecord();
             }
         });
+        playStream.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (playStreamIdEditText.getText().toString() == null || playStreamIdEditText.getText().toString().trim().equals("")) {
+                    Toast.makeText(AudioCustomCaptureActivity.this,"streamId should not be empty when play stream",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                engine.startPlayingStream(playStreamIdEditText.getText().toString().trim());
+            }
+        });
+        openInternalRender.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                reset();
+                if(isChecked){
+                    internalRenderLayout.setVisibility(View.VISIBLE);
+                    engineConfig.advancedConfig.put("ext_capture_and_inner_render","true");
+                    ZegoExpressEngine.setEngineConfig(engineConfig);
+                }else{
+                    engineConfig.advancedConfig.put("ext_capture_and_inner_render","false");
+                    ZegoExpressEngine.setEngineConfig(engineConfig);
+                }
+            }
+        });
+        loginRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userId = String.valueOf(new Date().getTime()%(new Date().getTime()/1000));
+                engine.loginRoom(roomId,new ZegoUser(userId));
+            }
+        });
+    }
+    public void reset(){
+        internalRenderLayout.setVisibility(View.GONE);
+        destroy();
+        createZegoExpressEngine();
+        initAudioRecord();
+        tv.setText("Current status:  custom audio capture has been disabled");
     }
 
     private void createZegoExpressEngine() {
@@ -139,6 +193,12 @@ public class AudioCustomCaptureActivity extends Activity {
             public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode, JSONObject extendedData) {
                 Log.i("[ZEGO]", "onPublisherStateUpdate streamID:"+streamID+" state:"+state);
                 publishState.setText("publish state:" +state+"   streamId:"+streamID);
+            }
+
+            @Override
+            public void onPlayerStateUpdate(String streamID, ZegoPlayerState state, int errorCode, JSONObject extendedData) {
+                capturePlayStateTv.setText("play state:" +state+"   streamId:"+streamID);
+
             }
         });
 
@@ -210,11 +270,15 @@ public class AudioCustomCaptureActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        destroy();
+    }
+    public void destroy(){
         if(mAudioRecord!=null) {
             mAudioRecord.release();
         }
         ZegoExpressEngine.destroyEngine(null);
         mStatus=Status.STATUS_NO_READY;
         publishState.setText("");
-    }
+        capturePlayStateTv.setText("");
+    };
 }

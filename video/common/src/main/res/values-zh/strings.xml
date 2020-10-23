@@ -420,4 +420,9 @@
     <string name="txt_login_multi_room" >登录多房间</string>>
     <string name="open_stereo">开启双声道采集模式</string>>
     <string name="txt_audio_effect_player" >音效播放器</string>
+    <string name="mixed_voice_echo" >混响回声</string>
+    <string name="publish_snapshot">推流截图</string>
+    <string name="play_snapshot">拉流截图</string>
+    <string name="voice_change">变声</string>
+    <string name="set_audio_track">切换音轨</string>
 </resources>

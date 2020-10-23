@@ -309,4 +309,76 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/voice_change"
+            ></TextView>
+
+        <RadioGroup
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/audio_channel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/channel_left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Left"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/channel_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Right"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/channel_all"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="All"></RadioButton>
+        </RadioGroup>
+
+    </LinearLayout>
+    <SeekBar
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:max="16"
+        android:id="@+id/seek_voice_change_params"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></SeekBar>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/audio_track_lv"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/audio_track_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"></RadioGroup>
+
+        <Button
+            android:id="@+id/set_audio_track_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_audio_track"></Button>
+    </LinearLayout>
 </LinearLayout>

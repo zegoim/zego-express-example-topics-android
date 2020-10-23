@@ -3,6 +3,7 @@ package im.zego.publish.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -14,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import org.json.JSONObject;
 
 import im.zego.common.util.SettingDataUtil;
+import im.zego.common.widgets.SnapshotDialog;
 import im.zego.publish.R;
 import im.zego.publish.databinding.ActivityPublishBinding;
 import im.zego.publish.databinding.PublishInputStreamIdLayoutBinding;
@@ -26,12 +28,17 @@ import im.zego.common.ui.BaseActivity;
 import im.zego.common.util.AppLogger;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
+import im.zego.zegoexpress.callback.IZegoPublisherTakeSnapshotCallback;
 import im.zego.zegoexpress.callback.IZegoRoomSetRoomExtraInfoCallback;
+import im.zego.zegoexpress.constants.ZegoAudioCaptureStereoMode;
+import im.zego.zegoexpress.constants.ZegoAudioChannel;
+import im.zego.zegoexpress.constants.ZegoAudioCodecID;
 import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoStreamQualityLevel;
 import im.zego.zegoexpress.constants.ZegoViewMode;
+import im.zego.zegoexpress.entity.ZegoAudioConfig;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoPlayStreamQuality;
 import im.zego.zegoexpress.entity.ZegoUser;
@@ -52,6 +59,7 @@ public class PublishActivityUI extends BaseActivity {
     private String mStreamID;
     private ZegoCanvas zegoCanvas;
     private static boolean changeFlag =false;
+    private SnapshotDialog snapshotDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +74,6 @@ public class PublishActivityUI extends BaseActivity {
         binding.swFrontCamera.setChecked(true);
         layoutBinding = binding.layout;
         layoutBinding.startButton.setText(getString(R.string.tx_start_publish));
-
         AppLogger.getInstance().i("createEngine");
         // 初始化SDK
         engine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), getApplication(), null);
@@ -75,7 +82,18 @@ public class PublishActivityUI extends BaseActivity {
         userID = "userid-" + randomSuffix;
         userName = "username-" + randomSuffix;
         zegoCanvas = new ZegoCanvas(binding.preview);
-
+        layoutBinding.openCaptureStereo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    engine.setAudioCaptureStereoMode(ZegoAudioCaptureStereoMode.ALWAYS);
+                    ZegoAudioConfig audioConfig=new ZegoAudioConfig();
+                    audioConfig.codecID= ZegoAudioCodecID.NORMAL;
+                    audioConfig.channel= ZegoAudioChannel.STEREO;
+                    engine.setAudioConfig(audioConfig);
+                }
+            }
+        });
         engine.setEventHandler(new IZegoEventHandler() {
 
             @Override
@@ -88,6 +106,7 @@ public class PublishActivityUI extends BaseActivity {
                     binding.title.setTitleName(getString(R.string.tx_publish_success));
                     AppLogger.getInstance().i("publish stream success, streamID : %s", streamID);
                     Toast.makeText(PublishActivityUI.this, getString(R.string.tx_publish_success), Toast.LENGTH_SHORT).show();
+                    binding.publishSnapshot.setVisibility(View.VISIBLE);
                 } else {
                     binding.title.setTitleName(getString(R.string.tx_publish_fail));
                     AppLogger.getInstance().i("publish stream fail, streamID : %s, errorCode : %d", streamID, errorCode);
@@ -194,7 +213,21 @@ public class PublishActivityUI extends BaseActivity {
                 });
             }
         });
-
+        binding.publishSnapshot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(snapshotDialog==null){
+                    snapshotDialog =new SnapshotDialog(PublishActivityUI.this,R.style.SnapshotDialog);
+                }
+                engine.takePublishStreamSnapshot(new IZegoPublisherTakeSnapshotCallback() {
+                    @Override
+                    public void onPublisherTakeSnapshotResult(int i, Bitmap bitmap) {
+                        snapshotDialog.show();
+                        snapshotDialog.setSnapshotBitmap(bitmap);
+                    }
+                });
+            }
+        });
 
     }
 
@@ -249,6 +282,8 @@ public class PublishActivityUI extends BaseActivity {
     @Override
     protected void onDestroy() {
         // 停止所有的推流和拉流后，才能执行 logoutRoom
+        engine.setAudioConfig(new ZegoAudioConfig());
+        engine.setAudioCaptureStereoMode(ZegoAudioCaptureStereoMode.NONE);
         engine.stopPreview();
         engine.setEventHandler(null);
         engine.stopPublishingStream();

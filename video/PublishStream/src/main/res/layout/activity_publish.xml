@@ -185,6 +185,16 @@
                 android:layout_height="wrap_content"></Button>
 
             </LinearLayout>
+            <Button
+                android:textSize="10dp"
+                android:visibility="gone"
+                android:text="@string/publish_snapshot"
+                android:id="@+id/publish_snapshot"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></Button>
         </RelativeLayout>
 
 

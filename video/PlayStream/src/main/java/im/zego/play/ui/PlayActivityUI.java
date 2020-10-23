@@ -2,6 +2,7 @@ package im.zego.play.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.databinding.DataBindingUtil;
 import org.json.JSONObject;
 
 import im.zego.common.util.SettingDataUtil;
+import im.zego.common.widgets.SnapshotDialog;
 import im.zego.play.databinding.ActivityPlayBinding;
 import im.zego.play.databinding.PlayInputStreamIdLayoutBinding;
 
@@ -26,6 +28,8 @@ import im.zego.common.util.AppLogger;
 import im.zego.play.R;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
+import im.zego.zegoexpress.callback.IZegoPlayerTakeSnapshotCallback;
+import im.zego.zegoexpress.callback.IZegoPublisherTakeSnapshotCallback;
 import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
@@ -47,6 +51,7 @@ public class PlayActivityUI extends BaseActivity {
     private String userID;
     private String userName;
     private String roomID;
+    private SnapshotDialog snapshotDialog;
     public static ZegoViewMode viewMode = ZegoViewMode.ASPECT_FILL;
 
     @Override
@@ -81,6 +86,7 @@ public class PlayActivityUI extends BaseActivity {
 
                         // 修改标题状态拉流成功状态
                         binding.title.setTitleName(getString(R.string.tx_playing));
+                        binding.playSnapshot.setVisibility(View.VISIBLE);
                     } else {
                         // 当拉流失败 当前 mStreamID 初始化成 null 值
                         mStreamID = null;
@@ -148,7 +154,21 @@ public class PlayActivityUI extends BaseActivity {
             }
         });
 
-
+        binding.playSnapshot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(snapshotDialog==null){
+                    snapshotDialog =new SnapshotDialog(PlayActivityUI.this,R.style.SnapshotDialog);
+                }
+                engine.takePlayStreamSnapshot(mStreamID, new IZegoPlayerTakeSnapshotCallback() {
+                    @Override
+                    public void onPlayerTakeSnapshotResult(int i, Bitmap bitmap) {
+                        snapshotDialog.show();
+                        snapshotDialog.setSnapshotBitmap(bitmap);
+                    }
+                });
+            }
+        });
     }
 
 

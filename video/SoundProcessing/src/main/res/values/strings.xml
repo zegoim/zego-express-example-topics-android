@@ -5,7 +5,7 @@
     <string name="tx_create_live">创建直播</string>
     <string name="tx_sound_process_setting">音效</string>
     <string name="voice_changer">变声</string>
-    <string name="stereo">立体声</string>
+    <string name="stereo">虚拟立体声</string>
     <string name="double_track">双声道</string>
     <string name="mixed_voice">混响</string>
     <string name="sound_effect_no_set">无</string>

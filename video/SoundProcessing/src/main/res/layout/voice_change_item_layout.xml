@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,7 +9,6 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,18 +70,17 @@
         android:layout_marginRight="40dp"
         android:layout_marginTop="20dp">
 
-        <RadioGroup
+        <com.zego.sound.processing.view.FlowRadioGroup
             android:id="@+id/rg_voice"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
 
             <RadioButton
                 android:id="@+id/no"
-                android:layout_width="55dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|top"
                 android:checked="true"
                 android:text="无"
                 android:textColor="#333333"
@@ -87,33 +88,58 @@
 
             <RadioButton
                 android:id="@+id/loli"
-                android:layout_width="70dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_gravity="center|top"
                 android:text="萝莉"
                 android:textColor="#333333"
                 android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/uncle"
-                android:layout_width="70dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|top"
                 android:text="大叔"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+            <RadioButton
+                android:id="@+id/foreigner"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="歪果仁"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+            <RadioButton
+                android:id="@+id/optimus_prime"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="擎天柱"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+            <RadioButton
+                android:id="@+id/android"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="Android机器人"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+            <RadioButton
+                android:id="@+id/ethereal"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="空灵"
                 android:textColor="#333333"
                 android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/custom"
-                android:layout_width="75dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|top"
                 android:text="自定义"
                 android:textColor="#333333"
                 android:textSize="12sp" />
 
-        </RadioGroup>
+        </com.zego.sound.processing.view.FlowRadioGroup>
     </LinearLayout>
 
     <LinearLayout
@@ -144,3 +170,4 @@
     </LinearLayout>
 
 </LinearLayout>
+</ScrollView>

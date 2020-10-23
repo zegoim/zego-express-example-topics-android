@@ -49,4 +49,9 @@
         <item name="android:layout_height">1.5px</item>
         <item name="android:background">@color/bg_gray</item>
     </style>
+    <style name="SnapshotDialog" parent="android:style/Theme.Dialog">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

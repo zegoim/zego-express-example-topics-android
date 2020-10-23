@@ -39,7 +39,7 @@ public class SoundEffectDialog extends Dialog implements TabLayout.OnTabSelected
     }
 
     private void init() {
-        mTabViewList = new ArrayList<>(3);
+        mTabViewList = new ArrayList<>(4);
     }
 
     private void initView(Context context) {
@@ -67,6 +67,7 @@ public class SoundEffectDialog extends Dialog implements TabLayout.OnTabSelected
         addTab(context, context.getResources().getString(R.string.voice_changer));
         addTab(context, context.getResources().getString(R.string.stereo));
         addTab(context, context.getResources().getString(R.string.mixed_voice));
+        addTab(context, context.getResources().getString(R.string.mixed_voice_echo));
 
         // 设置ViewPager pageChangeListener 使TabLayout 根据情况选择tab
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
@@ -83,15 +84,20 @@ public class SoundEffectDialog extends Dialog implements TabLayout.OnTabSelected
         }
     }
 
-    public void setOnReverberationChangeListener(SoundEffectViewAdapter.OnReverberationChangeListener listener){
+    public void setOnReverberationChangeListener(SoundEffectViewAdapter.OnReverberationChangeListener listener) {
         if (mSoundEffectViewAdapter != null) {
             mSoundEffectViewAdapter.setOnReverberationChangeListener(listener);
         }
     }
 
-    public void setOnStereoChangeListener(SoundEffectViewAdapter.OnStereoChangeListener listener){
+    public void setOnStereoChangeListener(SoundEffectViewAdapter.OnStereoChangeListener listener) {
         if (mSoundEffectViewAdapter != null) {
             mSoundEffectViewAdapter.setOnStereoChangeListener(listener);
+        }
+    }
+    public void setOnReverberationEchoListener(SoundEffectViewAdapter.OnReverberationEchoListener listener){
+        if (mSoundEffectViewAdapter != null) {
+            mSoundEffectViewAdapter.setOnReverberationEchoListener(listener);
         }
     }
 
@@ -114,6 +120,8 @@ public class SoundEffectDialog extends Dialog implements TabLayout.OnTabSelected
 
         } else if (position == 2) {
             layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 500, this.getContext().getResources().getDisplayMetrics());
+        } else if (position == 3) {
+            layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 560, this.getContext().getResources().getDisplayMetrics());
         }
         getWindow().setAttributes(layoutParams);
 

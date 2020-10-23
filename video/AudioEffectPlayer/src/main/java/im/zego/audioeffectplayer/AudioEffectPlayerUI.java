@@ -36,11 +36,13 @@ import im.zego.zegoexpress.callback.IZegoAudioEffectPlayerEventHandler;
 import im.zego.zegoexpress.callback.IZegoAudioEffectPlayerLoadResourceCallback;
 import im.zego.zegoexpress.callback.IZegoAudioEffectPlayerSeekToCallback;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
+import im.zego.zegoexpress.constants.ZegoAudioConfigPreset;
 import im.zego.zegoexpress.constants.ZegoAudioEffectPlayState;
 import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
+import im.zego.zegoexpress.entity.ZegoAudioConfig;
 import im.zego.zegoexpress.entity.ZegoAudioEffectPlayConfig;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoStream;
@@ -81,6 +83,8 @@ public class AudioEffectPlayerUI extends Activity {
     private void createEngine() {
         engine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
         AppLogger.getInstance().i("createEngine success!!");
+        ZegoAudioConfig zegoAudioConfig=new ZegoAudioConfig(ZegoAudioConfigPreset.STANDARD_QUALITY_STEREO);
+        engine.setAudioConfig(zegoAudioConfig);
         engine.setEventHandler(new IZegoEventHandler() {
             @Override
             public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
@@ -573,6 +577,9 @@ public class AudioEffectPlayerUI extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(engine!=null){
+            engine.setAudioConfig(new ZegoAudioConfig());
+        }
         ZegoExpressEngine.destroyEngine(null);
     }
 }

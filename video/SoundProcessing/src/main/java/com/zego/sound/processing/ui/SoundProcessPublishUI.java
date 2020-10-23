@@ -13,7 +13,10 @@ import com.zego.sound.processing.adapter.SoundEffectViewAdapter;
 import com.zego.sound.processing.base.SoundProcessPublishBaseUI;
 
 import im.zego.zegoexpress.ZegoExpressEngine;
+import im.zego.zegoexpress.constants.ZegoReverbPreset;
+import im.zego.zegoexpress.constants.ZegoVoiceChangerPreset;
 import im.zego.zegoexpress.entity.ZegoAudioConfig;
+import im.zego.zegoexpress.entity.ZegoReverbEchoParam;
 import im.zego.zegoexpress.entity.ZegoReverbParam;
 import im.zego.zegoexpress.entity.ZegoVoiceChangerParam;
 
@@ -21,7 +24,6 @@ import static im.zego.zegoexpress.constants.ZegoAudioConfigPreset.STANDARD_QUALI
 
 /**
  * Created by zego on 2019/4/22.
- *
  */
 
 public class SoundProcessPublishUI extends SoundProcessPublishBaseUI {
@@ -35,8 +37,9 @@ public class SoundProcessPublishUI extends SoundProcessPublishBaseUI {
         initViewCallback();
     }
 
-    ZegoReverbParam zegoReverbParam = new  ZegoReverbParam();
+    ZegoReverbParam zegoReverbParam = new ZegoReverbParam();
     ZegoVoiceChangerParam zegoVoiceChangerParam = new ZegoVoiceChangerParam();
+
     private void initViewCallback() {
         // 在推流前必须先打开SDK双声道才能使用虚拟立体声功能
         ZegoExpressEngine.getEngine().setAudioConfig(new ZegoAudioConfig(STANDARD_QUALITY_STEREO));
@@ -66,13 +69,19 @@ public class SoundProcessPublishUI extends SoundProcessPublishBaseUI {
                 zegoVoiceChangerParam.pitch = param;
                 ZegoExpressEngine.getEngine().setVoiceChangerParam(zegoVoiceChangerParam);
             }
+
+            @Override
+            public void onVoiceChangePreset(ZegoVoiceChangerPreset mode) {
+                ZegoExpressEngine.getEngine().setVoiceChangerPreset(mode);
+
+            }
         });
 
         // 设置混响控件变化监听器
         getSoundEffectDialog().setOnReverberationChangeListener(new SoundEffectViewAdapter.OnReverberationChangeListener() {
             @Override
-            public void onAudioReverbModeChange(boolean enable, ZegoReverbParam mode) {
-                ZegoExpressEngine.getEngine().setReverbParam(mode);
+            public void onAudioReverbModeChange(boolean enable, ZegoReverbPreset mode) {
+                ZegoExpressEngine.getEngine().setReverbPreset(mode);
             }
 
             @Override
@@ -120,6 +129,12 @@ public class SoundProcessPublishUI extends SoundProcessPublishBaseUI {
                 ZegoExpressEngine.getEngine().enableVirtualStereo(true, param);
             }
         });
+        getSoundEffectDialog().setOnReverberationEchoListener(new SoundEffectViewAdapter.OnReverberationEchoListener() {
+            @Override
+            public void onReverbEchoModeChange(ZegoReverbEchoParam mode) {
+                ZegoExpressEngine.getEngine().setReverbEchoParam(mode);
+            }
+        });
     }
 
 
@@ -136,8 +151,23 @@ public class SoundProcessPublishUI extends SoundProcessPublishBaseUI {
         ZegoExpressEngine.getEngine().setEventHandler(null);
         // 关闭耳返
         ZegoExpressEngine.getEngine().enableHeadphoneMonitor(false);
+        ZegoExpressEngine.getEngine().setVoiceChangerPreset(ZegoVoiceChangerPreset.NONE);
+        ZegoExpressEngine.getEngine().setReverbEchoParam(getReverbEchoParamNone());
     }
 
+    private ZegoReverbEchoParam getReverbEchoParamNone() {
+        ZegoReverbEchoParam echoParam = new ZegoReverbEchoParam();
+        echoParam.inGain = 1;
+        echoParam.outGain = 1;
+        echoParam.numDelays = 0;
+        for (int i = 0; i < 7; i++) {
+            echoParam.delay[i] = 0;
+        }
+        for (int i = 0; i < 7; i++) {
+            echoParam.decay[i] = 0;
+        }
+        return echoParam;
+    }
 
 
     public static void actionStart(Activity activity) {
