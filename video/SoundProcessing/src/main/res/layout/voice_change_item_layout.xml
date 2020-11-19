@@ -130,7 +130,19 @@
                 android:text="空灵"
                 android:textColor="#333333"
                 android:textSize="12sp" />
-
+            <RadioButton
+                android:id="@+id/male_magnetic"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="男性磁性声音"
+                android:textSize="12sp"></RadioButton>
+            <RadioButton
+                android:id="@+id/fresh"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="女性清新"
+                android:textSize="12sp">
+            </RadioButton>
             <RadioButton
                 android:id="@+id/custom"
                 android:layout_width="120dp"

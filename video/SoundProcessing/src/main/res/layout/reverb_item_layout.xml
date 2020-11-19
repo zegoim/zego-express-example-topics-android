@@ -80,27 +80,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:currentStr="0.0"
-                app:maxStr="1.0"
+                app:maxStr="100.0"
                 app:minStr="0.0"
                 app:describe="@string/tx_room_size_describe"
                 app:title="房间大小(roomSize): " />
-
-            <im.zego.common.widgets.CustomMinSeekBar
-                android:id="@+id/dry_wet_ratio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:currentStr="0.0"
-                app:maxStr="1.0"
-                app:describe="@string/tx_dry_wet_ratio_describe"
-                app:minStr="0.0"
-                app:title="干湿比(dryWetRatio): " />
 
             <im.zego.common.widgets.CustomMinSeekBar
                 android:id="@+id/damping"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:currentStr="0.0"
-                app:maxStr="1.0"
+                app:maxStr="100.0"
                 app:minStr="0.0"
                 app:describe="@string/tx_damping_describe"
                 app:title="阻尼(damping): " />
@@ -110,10 +100,79 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:currentStr="0.0"
-                app:maxStr="1.0"
+                app:maxStr="100.0"
                 app:describe="@string/tx_reverberance_describe"
                 app:minStr="0.0"
                 app:title="余响(reverberance): " />
+            <im.zego.common.widgets.CustomMinSeekBar
+                android:id="@+id/wetGain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:currentStr="0.0"
+                app:maxStr="10.0"
+                app:minStr="-20.0"
+                app:describe="湿信号增益(dB)，取值范围 [-20.0, 10.0]"
+                app:title="湿信号增益(wetGain): " />
+
+            <im.zego.common.widgets.CustomMinSeekBar
+                android:id="@+id/dryGain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:currentStr="0.0"
+                app:maxStr="10.0"
+                app:minStr="-20.0"
+                app:describe="干信号增益(dB)，取值范围 [-20.0, 10.0]"
+                app:title="干信号增益(dryGain): " />
+            <im.zego.common.widgets.CustomMinSeekBar
+                android:id="@+id/toneLow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:currentStr="100.0"
+                app:maxStr="100.0"
+                app:minStr="0.0"
+                app:describe="低频衰减，默认为不衰减（100%）"
+                app:title="低频衰减(toneLow): " />
+            <im.zego.common.widgets.CustomMinSeekBar
+                android:id="@+id/toneHigh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:currentStr="100.0"
+                app:maxStr="100.0"
+                app:minStr="0.0"
+                app:describe="高频衰减，默认为不衰减（100%）"
+                app:title="高频衰减(toneHigh): " />
+            <im.zego.common.widgets.CustomMinSeekBar
+                android:id="@+id/preDelay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:currentStr="0.0"
+                app:maxStr="200.0"
+                app:minStr="0.0"
+                app:describe="初始延迟时间(ms)。取值范围[0, 200]"
+                app:title="初始延迟时间(preDelay): " />
+            <im.zego.common.widgets.CustomMinSeekBar
+                android:id="@+id/stereo_width"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:currentStr="0.0"
+                app:maxStr="100.0"
+                app:minStr="0.0"
+                app:describe="立体声宽度（百分比），默认值为 0%"
+                app:title="立体声宽度(stereo_width): " />
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="只有湿信号:设置只输出混响声音，不叠加原始输入声音，默认是false。"></TextView>
+            <Switch
+                android:text="只有湿信号"
+                android:id="@+id/wetOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></Switch>
+
+
+
 
         </LinearLayout>
 
@@ -128,7 +187,7 @@
         android:layout_marginRight="50dp"
         android:layout_marginTop="10dp">
 
-        <im.zego.common.widgets.RelativeRadioGroup
+        <com.zego.sound.processing.view.FlowRadioGroup
             android:id="@+id/rg_reverb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -188,7 +247,60 @@
                 android:text="房间"
                 android:textColor="#333333"
                 android:textSize="12sp" />
-
+            <RadioButton
+                android:id="@+id/record_studio"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:text="录影棚"
+                android:textColor="#333333"
+                android:textSize="12sp"></RadioButton>
+            <RadioButton
+                android:id="@+id/basement"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:text="地下室"
+                android:textColor="#333333"
+                android:textSize="12sp"></RadioButton>
+            <RadioButton
+                android:id="@+id/ktv"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:text="KTV"
+                android:textColor="#333333"
+                android:textSize="12sp"></RadioButton>
+            <RadioButton
+                android:id="@+id/popular"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:text="流行"
+                android:textColor="#333333"
+                android:textSize="12sp"></RadioButton>
+            <RadioButton
+                android:textSize="12sp"
+                android:id="@+id/rock"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:text="摇滚"
+                android:textColor="#333333"></RadioButton>
+            <RadioButton
+                android:textSize="12sp"
+                android:id="@+id/concer"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:text="演唱会"
+                android:textColor="#333333"></RadioButton>
             <RadioButton
                 android:id="@+id/custom"
                 android:layout_width="80dp"
@@ -200,7 +312,7 @@
                 android:textColor="#333333"
                 android:textSize="12sp" />
 
-        </im.zego.common.widgets.RelativeRadioGroup>
+        </com.zego.sound.processing.view.FlowRadioGroup>
 
 
     </LinearLayout>

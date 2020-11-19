@@ -19,6 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import im.zego.common.widgets.CustomMinSeekBar;
 import im.zego.common.widgets.RelativeRadioGroup;
 
 import com.zego.sound.processing.R;
+import com.zego.sound.processing.view.FlowRadioGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -206,17 +208,17 @@ public class SoundEffectViewAdapter extends PagerAdapter implements View.OnClick
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     ZegoExpressEngine.getEngine().setVoiceChangerParam(new ZegoVoiceChangerParam());
                     if (checkedId == R.id.no) {
-                        customMinSeekBar.setCurrentValue(VOICE_CHANGE_NO);
+//                        customMinSeekBar.setCurrentValue(VOICE_CHANGE_NO);
                         if (onVoiceChangeListener != null) {
                             onVoiceChangeListener.onVoiceChangePreset(ZegoVoiceChangerPreset.NONE);
                         }
                     } else if (checkedId == R.id.loli) {
-                        customMinSeekBar.setCurrentValue(VOICE_CHANGE_LOLI);
+//                        customMinSeekBar.setCurrentValue(VOICE_CHANGE_LOLI);
                         if (onVoiceChangeListener != null) {
                             onVoiceChangeListener.onVoiceChangePreset(ZegoVoiceChangerPreset.MEN_TO_CHILD);
                         }
                     } else if (checkedId == R.id.uncle) {
-                        customMinSeekBar.setCurrentValue(VOICE_CHANGE_UNCLE);
+//                        customMinSeekBar.setCurrentValue(VOICE_CHANGE_UNCLE);
                         if (onVoiceChangeListener != null) {
                             onVoiceChangeListener.onVoiceChangePreset(ZegoVoiceChangerPreset.WOMEN_TO_MEN);
                         }
@@ -236,6 +238,18 @@ public class SoundEffectViewAdapter extends PagerAdapter implements View.OnClick
                         if (onVoiceChangeListener != null) {
                             onVoiceChangeListener.onVoiceChangePreset(ZegoVoiceChangerPreset.ETHEREAL);
                         }
+                    }else if(checkedId == R.id.male_magnetic){
+                        if (onVoiceChangeListener != null) {
+                            onVoiceChangeListener.onVoiceChangePreset(ZegoVoiceChangerPreset.MALE_MAGNETIC);
+                        }
+                    }else if(checkedId == R.id.fresh){
+                        if (onVoiceChangeListener != null) {
+                            onVoiceChangeListener.onVoiceChangePreset(ZegoVoiceChangerPreset.FEMALE_FRESH);
+                        }
+                    }else if(checkedId == R.id.custom){
+                        if (onVoiceChangeListener != null) {
+                            onVoiceChangeListener.onVoiceChangeParam(customMinSeekBar.getCurrentValue());
+                        }
                     }
 
                 }
@@ -254,15 +268,16 @@ public class SoundEffectViewAdapter extends PagerAdapter implements View.OnClick
 
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar, float progress) {
-                    if (progress == 0.0f) {
-                        radioGroup.check(R.id.no);
-                    } else if (progress == 7.0f) {
-                        radioGroup.check(R.id.loli);
-                    } else if (progress == -3f) {
-                        radioGroup.check(R.id.uncle);
-                    } else {
-                        radioGroup.check(R.id.custom);
-                    }
+//                    if (progress == 0.0f) {
+//                        radioGroup.check(R.id.no);
+//                    } else if (progress == 7.0f) {
+//                        radioGroup.check(R.id.loli);
+//                    } else if (progress == -3f) {
+//                        radioGroup.check(R.id.uncle);
+//                    } else {
+//                        radioGroup.check(R.id.custom);
+//                    }
+                    radioGroup.check(R.id.custom);
                     if (onVoiceChangeListener != null) {
                         onVoiceChangeListener.onVoiceChangeParam(progress);
                     }
@@ -302,7 +317,7 @@ public class SoundEffectViewAdapter extends PagerAdapter implements View.OnClick
             // 混响
             view = views.get(position);
             final CustomMinSeekBar roomSize = view.findViewById(R.id.room_size);
-            final RelativeRadioGroup relativeRadioGroup = view.findViewById(R.id.rg_reverb);
+            final FlowRadioGroup relativeRadioGroup = view.findViewById(R.id.rg_reverb);
             checkBox = view.findViewById(R.id.checkbox);
             roomSize.setOnSeekBarChangeListener(new CustomMinSeekBar.OnSeekBarChangeListener() {
                 @Override
@@ -320,34 +335,12 @@ public class SoundEffectViewAdapter extends PagerAdapter implements View.OnClick
                     if (onReverberationChangeListener != null) {
                         onReverberationChangeListener.onRoomSizeChange(progress);
                     }
-                    if (relativeRadioGroup != null && relativeRadioGroup.getCheckedRadioButtonId() != R.id.custom) {
+                    if (relativeRadioGroup != null) {
                         relativeRadioGroup.check(R.id.custom);
                     }
                 }
             });
 
-            final CustomMinSeekBar dryWetRatio = view.findViewById(R.id.dry_wet_ratio);
-            dryWetRatio.setOnSeekBarChangeListener(new CustomMinSeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, float progress, boolean fromUser) {
-
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar, float progress) {
-
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar, float progress) {
-                    if (onReverberationChangeListener != null) {
-                        onReverberationChangeListener.onDryWetRationChange(progress);
-                    }
-                    if (relativeRadioGroup != null && relativeRadioGroup.getCheckedRadioButtonId() != R.id.custom) {
-                        relativeRadioGroup.check(R.id.custom);
-                    }
-                }
-            });
 
             final CustomMinSeekBar damping = view.findViewById(R.id.damping);
             damping.setOnSeekBarChangeListener(new CustomMinSeekBar.OnSeekBarChangeListener() {
@@ -366,7 +359,7 @@ public class SoundEffectViewAdapter extends PagerAdapter implements View.OnClick
                     if (onReverberationChangeListener != null) {
                         onReverberationChangeListener.onDamping(progress);
                     }
-                    if (relativeRadioGroup != null && relativeRadioGroup.getCheckedRadioButtonId() != R.id.custom) {
+                    if (relativeRadioGroup != null) {
                         relativeRadioGroup.check(R.id.custom);
                     }
                 }
@@ -389,15 +382,158 @@ public class SoundEffectViewAdapter extends PagerAdapter implements View.OnClick
                     if (onReverberationChangeListener != null) {
                         onReverberationChangeListener.onReverberance(progress);
                     }
-                    if (relativeRadioGroup != null && relativeRadioGroup.getCheckedRadioButtonId() != R.id.custom) {
+                    if (relativeRadioGroup != null) {
                         relativeRadioGroup.check(R.id.custom);
                     }
                 }
             });
-
-            relativeRadioGroup.setOnCheckedChangeListener(new RelativeRadioGroup.OnCheckedChangeListener() {
+            final CustomMinSeekBar wetGain = view.findViewById(R.id.wetGain);
+            wetGain.setOnSeekBarChangeListener(new CustomMinSeekBar.OnSeekBarChangeListener() {
                 @Override
-                public void onCheckedChanged(RelativeRadioGroup group, int checkedId) {
+                public void onProgressChanged(SeekBar seekBar, float progress, boolean fromUser) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar, float progress) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar, float progress) {
+                    if (onReverberationChangeListener != null) {
+                        onReverberationChangeListener.wetGain(progress);
+                    }
+                    if (relativeRadioGroup != null) {
+                        relativeRadioGroup.check(R.id.custom);
+                    }
+                }
+            });
+            final CustomMinSeekBar dryGain = view.findViewById(R.id.dryGain);
+            dryGain.setOnSeekBarChangeListener(new CustomMinSeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, float progress, boolean fromUser) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar, float progress) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar, float progress) {
+                    if (onReverberationChangeListener != null) {
+                        onReverberationChangeListener.dryGain(progress);
+                    }
+                    if (relativeRadioGroup != null) {
+                        relativeRadioGroup.check(R.id.custom);
+                    }
+                }
+            });
+            final CustomMinSeekBar toneLow = view.findViewById(R.id.toneLow);
+            toneLow.setOnSeekBarChangeListener(new CustomMinSeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, float progress, boolean fromUser) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar, float progress) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar, float progress) {
+                    if (onReverberationChangeListener != null) {
+                        onReverberationChangeListener.toneLow(progress);
+                    }
+                    if (relativeRadioGroup != null) {
+                        relativeRadioGroup.check(R.id.custom);
+                    }
+                }
+            });
+            final CustomMinSeekBar toneHigh = view.findViewById(R.id.toneHigh);
+            toneHigh.setOnSeekBarChangeListener(new CustomMinSeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, float progress, boolean fromUser) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar, float progress) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar, float progress) {
+                    if (onReverberationChangeListener != null) {
+                        onReverberationChangeListener.toneHigh(progress);
+                    }
+                    if (relativeRadioGroup != null) {
+                        relativeRadioGroup.check(R.id.custom);
+                    }
+                }
+            });
+            final CustomMinSeekBar preDelay = view.findViewById(R.id.preDelay);
+            preDelay.setOnSeekBarChangeListener(new CustomMinSeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, float progress, boolean fromUser) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar, float progress) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar, float progress) {
+                    if (onReverberationChangeListener != null) {
+                        onReverberationChangeListener.preDelay(progress);
+                    }
+                    if (relativeRadioGroup != null) {
+                        relativeRadioGroup.check(R.id.custom);
+                    }
+                }
+            });
+            final CustomMinSeekBar stereoWidth = view.findViewById(R.id.stereo_width);
+            stereoWidth.setOnSeekBarChangeListener(new CustomMinSeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, float progress, boolean fromUser) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar, float progress) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar, float progress) {
+                    if (onReverberationChangeListener != null) {
+                        onReverberationChangeListener.stereoWidth(progress);
+                    }
+                    if (relativeRadioGroup != null) {
+                        relativeRadioGroup.check(R.id.custom);
+                    }
+                }
+            });
+            final Switch wetOnly =view.findViewById(R.id.wetOnly);
+            wetOnly.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (onReverberationChangeListener != null) {
+                        onReverberationChangeListener.wetOnly(isChecked);
+                    }
+                    if (relativeRadioGroup != null) {
+                        relativeRadioGroup.check(R.id.custom);
+                    }
+                }
+            });
+            relativeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
                     if (checkedId == R.id.no) {
                         if (onReverberationChangeListener != null) {
                             onReverberationChangeListener.onAudioReverbModeChange(false, ZegoReverbPreset.NONE);
@@ -423,7 +559,37 @@ public class SoundEffectViewAdapter extends PagerAdapter implements View.OnClick
                             onReverberationChangeListener.onRoomSizeChange(roomSize.getCurrentValue());
                             onReverberationChangeListener.onDamping(damping.getCurrentValue());
                             onReverberationChangeListener.onReverberance(reverberance.getCurrentValue());
-                            onReverberationChangeListener.onDryWetRationChange(dryWetRatio.getCurrentValue());
+                            onReverberationChangeListener.wetOnly(wetOnly.isChecked());
+                            onReverberationChangeListener.wetGain(wetGain.getCurrentValue());
+                            onReverberationChangeListener.dryGain(dryGain.getCurrentValue());
+                            onReverberationChangeListener.preDelay(preDelay.getCurrentValue());
+                            onReverberationChangeListener.toneHigh(toneHigh.getCurrentValue());
+                            onReverberationChangeListener.toneLow(toneLow.getCurrentValue());
+                            onReverberationChangeListener.stereoWidth(stereoWidth.getCurrentValue());
+                        }
+                    }else if(checkedId ==R.id.record_studio){
+                        if (onReverberationChangeListener != null) {
+                            onReverberationChangeListener.onAudioReverbModeChange(true, ZegoReverbPreset.RECORDING_STUDIO);
+                        }
+                    }else if(checkedId ==R.id.basement){
+                        if (onReverberationChangeListener != null) {
+                            onReverberationChangeListener.onAudioReverbModeChange(true, ZegoReverbPreset.BASEMENT);
+                        }
+                    }else if(checkedId ==R.id.ktv){
+                        if (onReverberationChangeListener != null) {
+                            onReverberationChangeListener.onAudioReverbModeChange(true, ZegoReverbPreset.KTV);
+                        }
+                    }else if(checkedId ==R.id.popular){
+                        if (onReverberationChangeListener != null) {
+                            onReverberationChangeListener.onAudioReverbModeChange(true, ZegoReverbPreset.POPULAR);
+                        }
+                    }else if(checkedId ==R.id.rock){
+                        if (onReverberationChangeListener != null) {
+                            onReverberationChangeListener.onAudioReverbModeChange(true, ZegoReverbPreset.ROCK);
+                        }
+                    }else if(checkedId ==R.id.concer){
+                        if (onReverberationChangeListener != null) {
+                            onReverberationChangeListener.onAudioReverbModeChange(true, ZegoReverbPreset.VOCAL_CONCERT);
                         }
                     }
                 }
@@ -637,6 +803,13 @@ public class SoundEffectViewAdapter extends PagerAdapter implements View.OnClick
         void onDamping(float param);
 
         void onReverberance(float param);
+        void wetOnly(boolean enable);
+        void wetGain(float param);
+        void dryGain(float param);
+        void toneLow(float param);
+        void toneHigh(float param);
+        void preDelay(float param);
+        void stereoWidth(float param);
     }
     public interface OnReverberationEchoListener {
         void onReverbEchoModeChange(ZegoReverbEchoParam mode);

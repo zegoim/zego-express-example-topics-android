@@ -16,6 +16,7 @@ import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.constants.ZegoReverbPreset;
 import im.zego.zegoexpress.constants.ZegoVoiceChangerPreset;
 import im.zego.zegoexpress.entity.ZegoAudioConfig;
+import im.zego.zegoexpress.entity.ZegoReverbAdvancedParam;
 import im.zego.zegoexpress.entity.ZegoReverbEchoParam;
 import im.zego.zegoexpress.entity.ZegoReverbParam;
 import im.zego.zegoexpress.entity.ZegoVoiceChangerParam;
@@ -37,7 +38,7 @@ public class SoundProcessPublishUI extends SoundProcessPublishBaseUI {
         initViewCallback();
     }
 
-    ZegoReverbParam zegoReverbParam = new ZegoReverbParam();
+    ZegoReverbAdvancedParam zegoReverbAdvancedParam = new ZegoReverbAdvancedParam();
     ZegoVoiceChangerParam zegoVoiceChangerParam = new ZegoVoiceChangerParam();
 
     private void initViewCallback() {
@@ -86,35 +87,78 @@ public class SoundProcessPublishUI extends SoundProcessPublishBaseUI {
 
             @Override
             public void onRoomSizeChange(float param) {
-                zegoReverbParam.roomSize = param;
-                ZegoExpressEngine.getEngine().setReverbParam(zegoReverbParam);
+                zegoReverbAdvancedParam.roomSize = param;
+                ZegoExpressEngine.getEngine().setReverbAdvancedParam(zegoReverbAdvancedParam);
             }
 
             @Override
             public void onDryWetRationChange(float param) {
-                zegoReverbParam.dryWetRatio = param;
-                /**
-                 * 设置 SDK 干湿比
-                 */
-                ZegoExpressEngine.getEngine().setReverbParam(zegoReverbParam);
+
             }
 
             @Override
             public void onDamping(float param) {
-                zegoReverbParam.damping = param;
+                zegoReverbAdvancedParam.damping = param;
                 /**
                  * 设置 SDK 混响阻尼
                  */
-                ZegoExpressEngine.getEngine().setReverbParam(zegoReverbParam);
+                ZegoExpressEngine.getEngine().setReverbAdvancedParam(zegoReverbAdvancedParam);
             }
 
             @Override
             public void onReverberance(float param) {
-                zegoReverbParam.reverberance = param;
+                zegoReverbAdvancedParam.reverberance = param;
                 /**
                  * 设置 SDK 余响
                  */
-                ZegoExpressEngine.getEngine().setReverbParam(zegoReverbParam);
+                ZegoExpressEngine.getEngine().setReverbAdvancedParam(zegoReverbAdvancedParam);
+            }
+
+            @Override
+            public void wetOnly(boolean enable) {
+                zegoReverbAdvancedParam.wetOnly = enable;
+                ZegoExpressEngine.getEngine().setReverbAdvancedParam(zegoReverbAdvancedParam);
+            }
+
+            @Override
+            public void wetGain(float param) {
+                zegoReverbAdvancedParam.wetGain = param;
+                ZegoExpressEngine.getEngine().setReverbAdvancedParam(zegoReverbAdvancedParam);
+            }
+
+            @Override
+            public void dryGain(float param) {
+                zegoReverbAdvancedParam.dryGain = param;
+                ZegoExpressEngine.getEngine().setReverbAdvancedParam(zegoReverbAdvancedParam);
+
+            }
+
+            @Override
+            public void toneLow(float param) {
+                zegoReverbAdvancedParam.toneLow = param;
+                ZegoExpressEngine.getEngine().setReverbAdvancedParam(zegoReverbAdvancedParam);
+
+            }
+
+            @Override
+            public void toneHigh(float param) {
+                zegoReverbAdvancedParam.toneHigh = param;
+                ZegoExpressEngine.getEngine().setReverbAdvancedParam(zegoReverbAdvancedParam);
+
+            }
+
+            @Override
+            public void preDelay(float param) {
+                zegoReverbAdvancedParam.preDelay = param;
+                ZegoExpressEngine.getEngine().setReverbAdvancedParam(zegoReverbAdvancedParam);
+
+            }
+
+            @Override
+            public void stereoWidth(float param) {
+                zegoReverbAdvancedParam.stereoWidth = param;
+                ZegoExpressEngine.getEngine().setReverbAdvancedParam(zegoReverbAdvancedParam);
+
             }
         });
 
@@ -145,7 +189,7 @@ public class SoundProcessPublishUI extends SoundProcessPublishBaseUI {
 
         // 恢复音效混响等默认设置, 避免在其他模块还会出现变声的效果
         // 恢复变声
-        ZegoExpressEngine.getEngine().setReverbParam(new ZegoReverbParam());
+        ZegoExpressEngine.getEngine().setReverbAdvancedParam(new ZegoReverbAdvancedParam());
         ZegoExpressEngine.getEngine().enableVirtualStereo(false, 0);
         ZegoExpressEngine.getEngine().setAudioConfig(new ZegoAudioConfig());
         ZegoExpressEngine.getEngine().setEventHandler(null);
@@ -153,6 +197,7 @@ public class SoundProcessPublishUI extends SoundProcessPublishBaseUI {
         ZegoExpressEngine.getEngine().enableHeadphoneMonitor(false);
         ZegoExpressEngine.getEngine().setVoiceChangerPreset(ZegoVoiceChangerPreset.NONE);
         ZegoExpressEngine.getEngine().setReverbEchoParam(getReverbEchoParamNone());
+        ZegoExpressEngine.getEngine().setVoiceChangerParam(new ZegoVoiceChangerParam());
     }
 
     private ZegoReverbEchoParam getReverbEchoParamNone() {
