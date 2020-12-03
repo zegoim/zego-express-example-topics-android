@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">ZegoExpressSampleVideo</string>
     <string name="tx_sound_process_title">变声/混响/立体声</string>
     <string name="tx_refresh_hint">下拉完成刷新房间列表</string>
     <string name="tx_create_live">创建直播</string>

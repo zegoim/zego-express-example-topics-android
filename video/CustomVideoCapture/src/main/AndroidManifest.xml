@@ -1,9 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="im.zego.videocapture" >
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <application>
         <activity android:name="im.zego.videocapture.ui.ZGVideoCaptureDemoUI" />
         <activity android:name="im.zego.videocapture.ui.ZGVideoCaptureOriginUI"></activity>
+        <service android:name=".service.CaptureScreenService"
+            android:enabled="true"
+            android:foregroundServiceType="mediaProjection"/>
     </application>
 
 </manifest>

@@ -25,6 +25,7 @@ import im.zego.common.util.PreferenceUtil;
 import im.zego.datarecord.DataRecordActivity;
 import im.zego.express.mixing.ui.ZGMixingDemoUI;
 import im.zego.loginmultiroom.LoginMultiRoomActivity;
+//import im.zego.networktest.NetWorkTest;
 import im.zego.video.talk.ui.ZGVideoTalkUI;
 
 import im.zego.auxpublisher.ui.ZGAuxPublisherLoginUI;
@@ -130,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
                 }else if(module.equals(getString(R.string.txt_audio_effect_player))){
                     AudioEffectPlayerUI.actionStart(MainActivity.this);
                 }
+//                else if(module.equals(getString(R.string.txt_network_test))){
+//                    NetWorkTest.actionStart(MainActivity.this);
+//                }
             }
         });
 
@@ -167,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_record_data)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_login_multi_room)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_audio_effect_player)));
+//        mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_network_test)));
     }
 
 

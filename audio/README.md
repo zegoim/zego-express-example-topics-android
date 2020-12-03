@@ -10,21 +10,21 @@ The SDK `libZegoExpressEngine.so` and `ZegoExpressEngine.jar` required to run th
 
 **[https://storage.zego.im/express/audio/android/zego-express-audio-android.zip](https://storage.zego.im/express/audio/android/zego-express-audio-android.zip)**
 
-finally, the structure under the `zego-express-example-topics-android/audio/app/libs` directory should be as follows:
+finally, the structure under the `ZegoExpressExample/main/libs` directory should be as follows:
 
 ```tree
-audio
+.
 ├── README.md
 ├── README_zh.md
-└── app
-        └── libs
-            ├── ZegoExpressEngine.jar
-            ├── arm64-v8a
-            │   └── libZegoExpressEngine.so
-            ├── armeabi-v7a
-            │   └── libZegoExpressEngine.so
-            └── x86
-            └── libZegoExpressEngine.so
+└── ZegoExpressExample/main
+                        └── libs
+                            ├── ZegoExpressEngine.jar
+                            ├── arm64-v8a
+                            │   └── libZegoExpressEngine.so
+                            ├── armeabi-v7a
+                            │   └── libZegoExpressEngine.so
+                            └── x86
+                                └── libZegoExpressEngine.so
 ```
 
 ## Fill in the appID and appSign required by the SDK

@@ -15,4 +15,5 @@ bugly
 libs/arm64-v8a
 libs/armeabi-v7a
 libs/x86
+libs/x86_64
 libs/ZegoExpressEngine.jar

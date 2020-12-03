@@ -108,10 +108,44 @@
                     android:id="@+id/tx_room_extra_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"></TextView>
-
-
+                <TextView
+                    android:id="@+id/tx_av_timestamp_diff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tx_room_extra_info"
+                    android:text="@{quality.avTimestampDiff}"
+                    android:textColor="@color/white_color" />
 
             </RelativeLayout>
+<!--            <LinearLayout-->
+<!--                android:layout_marginHorizontal="5dp"-->
+<!--                android:visibility="gone"-->
+<!--                android:id="@+id/decode_key_lv"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_above="@+id/play_snapshot"-->
+<!--                android:layout_marginBottom="5dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+<!--                <im.zego.common.widgets.CustomEditText-->
+<!--                    android:id="@+id/ed_play_decode_key"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@color/white_color"-->
+<!--                    android:hint="@string/play_decode_key_describe"-->
+<!--                    android:padding="8dp"-->
+<!--                    android:textSize="14sp"-->
+<!--                    app:key="play_decode_key" />-->
+<!--                <Button-->
+<!--                    android:textSize="10dp"-->
+<!--                    android:text="@string/key_settings"-->
+<!--                    android:id="@+id/play_settings"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"></Button>-->
+
+<!--            </LinearLayout>-->
             <Button
                 android:textSize="10dp"
                 android:visibility="gone"

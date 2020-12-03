@@ -72,7 +72,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
 
     private static final int DEFAULT_VIDEO_HEIGHT = 640;
     private ZegoVideoBufferType videoBufferType;
-
+    private ZegoCustomVideoCaptureConfig videoCaptureConfig;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +112,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         // 创建sdk
         AppLogger.getInstance().i(getString(R.string.create_zego_engine));
         mSDKEngine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
-        ZegoCustomVideoCaptureConfig videoCaptureConfig=new ZegoCustomVideoCaptureConfig();
+        videoCaptureConfig=new ZegoCustomVideoCaptureConfig();
         videoCaptureConfig.bufferType=videoBufferType;
         mSDKEngine.enableCustomVideoCapture(true, videoCaptureConfig, ZegoPublishChannel.MAIN);
         mSDKEngine.setEventHandler(zegoEventHandler);
@@ -213,6 +213,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
     // Log out of the room, remove the push-pull flow callback monitoring and release the ZEGO SDK
     public void logoutLiveRoom() {
         mSDKEngine.logoutRoom(mRoomID);
+        mSDKEngine.enableCustomVideoCapture(false,videoCaptureConfig,ZegoPublishChannel.MAIN);
         mSDKEngine.setEventHandler(null);
     }
 

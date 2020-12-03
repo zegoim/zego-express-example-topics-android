@@ -73,11 +73,11 @@ class VideoCaptureScreen extends ZegoVideoCaptureCallback {
             mHandlerThread = null;
             mHandler = null;
         }
-        mMediaProjection = null;
+//        mMediaProjection = null;
         mCaptureWidth = DEFAULT_VIDEO_WIDTH;
         mCaptureHeight = DEFAULT_VIDEO_HEIGHT;
 
-        setMediaProjection(null);
+//        setMediaProjection(null);
     }
 
 

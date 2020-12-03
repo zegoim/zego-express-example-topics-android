@@ -2,8 +2,10 @@ package im.zego.play.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -35,6 +37,7 @@ import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
+import im.zego.zegoexpress.entity.ZegoEngineConfig;
 import im.zego.zegoexpress.entity.ZegoRoomExtraInfo;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
@@ -64,8 +67,9 @@ public class PlayActivityUI extends BaseActivity {
         // 方便快捷避免需要写一大堆 setText 等一大堆臃肿的代码。
         binding.setQuality(streamQuality);
         binding.setConfig(sdkConfigInfo);
-
-
+        ZegoEngineConfig config =new ZegoEngineConfig();
+        config.advancedConfig.put("prefer_play_ultra_source","1");
+        ZegoExpressEngine.setEngineConfig(config);
         // 初始化SDK
         engine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), getApplication(), null);
         AppLogger.getInstance().i("createEngine");
@@ -87,6 +91,7 @@ public class PlayActivityUI extends BaseActivity {
                         // 修改标题状态拉流成功状态
                         binding.title.setTitleName(getString(R.string.tx_playing));
                         binding.playSnapshot.setVisibility(View.VISIBLE);
+//                        binding.decodeKeyLv.setVisibility(View.VISIBLE);
                     } else {
                         // 当拉流失败 当前 mStreamID 初始化成 null 值
                         mStreamID = null;
@@ -112,6 +117,8 @@ public class PlayActivityUI extends BaseActivity {
                  */
                 streamQuality.setFps(String.format(getString(R.string.frame_rate)+" %f", quality.videoRecvFPS));
                 streamQuality.setBitrate(String.format(getString(R.string.bit_rate)+" %f kbs", quality.videoKBPS));
+                streamQuality.setAvTimestampDiff(String.format(getString(R.string.avTimestampDiff)+" %s ms", quality.avTimestampDiff));
+
             }
 
             @Override
@@ -169,9 +176,37 @@ public class PlayActivityUI extends BaseActivity {
                 });
             }
         });
+//        binding.playSettings.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String decodekey =binding.edPlayDecodeKey.getText().toString();
+//                if(decodekey!=null&&!decodekey.trim().equals("")){
+//                    engine.setPlayStreamDecryptionKey(mStreamID,decodekey);
+//                }else{
+//                    Toast.makeText(PlayActivityUI.this,"key should not be null",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+        initPreferenceData();
     }
 
-
+    private void initPreferenceData() {
+        SharedPreferences sp = getSharedPreferences(PlaySettingActivityUI.SHARE_PREFERENCE_NAME, MODE_PRIVATE);
+        String mode =sp.getString("play_view_mode","1");
+        switch (mode){
+            case "0":
+                viewMode = ZegoViewMode.ASPECT_FIT;
+                break;
+            case "1":
+                viewMode =ZegoViewMode.ASPECT_FILL;
+                break;
+            case "2" :
+                viewMode =ZegoViewMode.SCALE_TO_FILL;
+                break;
+            default:
+                break;
+        }
+    }
     @Override
     protected void onDestroy() {
         if (mStreamID != null) {
@@ -213,6 +248,7 @@ public class PlayActivityUI extends BaseActivity {
         streamQuality.setStreamID(String.format("StreamID : %s", mStreamID));
         // 开始拉流
         ZegoCanvas zegoCanvas = new ZegoCanvas(binding.playView);
+        zegoCanvas.viewMode = viewMode;
         engine.startPlayingStream(mStreamID, zegoCanvas);
 
 

@@ -17,3 +17,4 @@ include ':main',
         ':DataRecord',
         ':LoginMultiRoom',
         ':AudioEffectPlayer'
+//        ':NetWorkTest'

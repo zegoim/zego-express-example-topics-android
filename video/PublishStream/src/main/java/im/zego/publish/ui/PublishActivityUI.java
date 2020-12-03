@@ -3,17 +3,21 @@ package im.zego.publish.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
 import org.json.JSONObject;
 
+import im.zego.common.entity.PerformanceStatus;
 import im.zego.common.util.SettingDataUtil;
 import im.zego.common.widgets.SnapshotDialog;
 import im.zego.publish.R;
@@ -40,6 +44,7 @@ import im.zego.zegoexpress.constants.ZegoStreamQualityLevel;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoAudioConfig;
 import im.zego.zegoexpress.entity.ZegoCanvas;
+import im.zego.zegoexpress.entity.ZegoPerformanceStatus;
 import im.zego.zegoexpress.entity.ZegoPlayStreamQuality;
 import im.zego.zegoexpress.entity.ZegoUser;
 
@@ -60,6 +65,7 @@ public class PublishActivityUI extends BaseActivity {
     private ZegoCanvas zegoCanvas;
     private static boolean changeFlag =false;
     private SnapshotDialog snapshotDialog;
+    private PerformanceStatus performanceStatus=new PerformanceStatus();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +75,7 @@ public class PublishActivityUI extends BaseActivity {
         // 方便快捷避免需要写一大堆 setText 等一大堆臃肿的代码。
         binding.setQuality(streamQuality);
         binding.setConfig(sdkConfigInfo);
+        binding.setPerformance(performanceStatus);
         binding.swMic.setChecked(true);
         binding.swCamera.setChecked(true);
         binding.swFrontCamera.setChecked(true);
@@ -77,7 +84,7 @@ public class PublishActivityUI extends BaseActivity {
         AppLogger.getInstance().i("createEngine");
         // 初始化SDK
         engine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), getApplication(), null);
-
+//        engine.startPerformanceMonitor(2000);
         String randomSuffix = String.valueOf(new Date().getTime() % (new Date().getTime() / 1000));
         userID = "userid-" + randomSuffix;
         userName = "username-" + randomSuffix;
@@ -119,6 +126,16 @@ public class PublishActivityUI extends BaseActivity {
 
             }
 
+//            @Override
+//            public void onPerformanceStatusUpdate(ZegoPerformanceStatus status) {
+//                performanceStatus.setCpuUsageApp(String.format(getString(R.string.cpuUsageApp)+" %s ", status.cpuUsageApp));
+//                performanceStatus.setCpuUsageSystem(String.format(getString(R.string.cpuUsageSystem)+" %s ", status.cpuUsageSystem));
+//                performanceStatus.setMemoryUsageApp(String.format(getString(R.string.memoryUsageApp)+" %s ", status.memoryUsageApp));
+//                performanceStatus.setMemoryUsageSystem(String.format(getString(R.string.memoryUsageSystem)+" %s ", status.memoryUsageSystem));
+//                performanceStatus.setMemoryUsedApp(String.format(getString(R.string.memoryUsedApp)+" %s MB", status.memoryUsedApp));
+//
+//            }
+
             @Override
             public void onPublisherQualityUpdate(String streamID, im.zego.zegoexpress.entity.ZegoPublishStreamQuality quality) {
                 /**
@@ -159,8 +176,10 @@ public class PublishActivityUI extends BaseActivity {
                     zegoCanvas.viewMode=viewMode;
                     engine.startPreview(zegoCanvas);
                     binding.roomExtraInfoLayout.setVisibility(View.VISIBLE);
+//                    binding.encodeKeyLv.setVisibility(View.VISIBLE);
                 }
             }
+
         });
 
 
@@ -228,7 +247,36 @@ public class PublishActivityUI extends BaseActivity {
                 });
             }
         });
+//        binding.publishEncodeKeySetting.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String  encodeKey =binding.edPublishEncodeKey.getText().toString();
+//                if(encodeKey!=null&&!encodeKey.trim().equals("")){
+//                    engine.setPublishStreamEncryptionKey(encodeKey);
+//                }else{
+//                    Toast.makeText(PublishActivityUI.this,"key should not be null",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+        initPreferenceData();
+    }
 
+    private void initPreferenceData() {
+        SharedPreferences sp = getSharedPreferences(PublishSettingActivityUI.SHARE_PREFERENCE_NAME, MODE_PRIVATE);
+        String mode =sp.getString("publish_view_mode","1");
+        switch (mode){
+            case "0":
+                viewMode = ZegoViewMode.ASPECT_FIT;
+                break;
+            case "1":
+                viewMode =ZegoViewMode.ASPECT_FILL;
+                break;
+            case "2" :
+                viewMode =ZegoViewMode.SCALE_TO_FILL;
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -289,6 +337,7 @@ public class PublishActivityUI extends BaseActivity {
         engine.stopPublishingStream();
         // 当用户退出界面时退出登录房间
         engine.logoutRoom(roomID);
+//        engine.stopPerformanceMonitor();
         ZegoExpressEngine.destroyEngine(null);
         changeFlag=false;
         super.onDestroy();

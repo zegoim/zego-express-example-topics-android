@@ -19,7 +19,17 @@ public class StreamQuality extends BaseObservable {
     private String fps = "";
     private String networkQuality = "";
     private String hardwareEncode = "";
+    @Bindable
+    public String getAvTimestampDiff() {
+        return avTimestampDiff;
+    }
 
+    public void setAvTimestampDiff(String avTimestampDiff) {
+        this.avTimestampDiff = avTimestampDiff;
+        notifyPropertyChanged(BR.avTimestampDiff);
+    }
+
+    private String avTimestampDiff ="";
     @Bindable
     public String getNetworkQuality() {
         return networkQuality;

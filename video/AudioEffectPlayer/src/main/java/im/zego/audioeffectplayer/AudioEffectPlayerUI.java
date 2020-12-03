@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import im.zego.audioeffectplayer.databinding.AudioEffectPlayerActivityBinding;
 import im.zego.common.util.AppLogger;
@@ -307,6 +308,11 @@ public class AudioEffectPlayerUI extends Activity {
             Toast.makeText(AudioEffectPlayerUI.this, "audioEffectId is empty", Toast.LENGTH_SHORT).show();
             return true;
         }
+            Pattern pattern = Pattern.compile("[0-9]*");
+        if(!pattern.matcher(text).matches()){
+            Toast.makeText(AudioEffectPlayerUI.this, "audioEffectId should be a number", Toast.LENGTH_SHORT).show();
+            return true;
+        }
         return false;
     }
 
@@ -333,6 +339,11 @@ public class AudioEffectPlayerUI extends Activity {
             ZegoAudioEffectPlayConfig config = new ZegoAudioEffectPlayConfig();
             String playCount = binding.playCount.getText().toString();
             if (playCount != null && !playCount.trim().equals("")) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if(!pattern.matcher(playCount).matches()){
+                    Toast.makeText(AudioEffectPlayerUI.this, "playCount should be a number", Toast.LENGTH_SHORT).show();
+                    return ;
+                }
                 config.playCount = Integer.valueOf(playCount.trim());
             }
             config.isPublishOut =isOutPublish;

@@ -2,6 +2,7 @@ package im.zego.videocapture.ui;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Service;
 import android.content.Intent;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
@@ -18,6 +19,7 @@ import im.zego.common.ui.BaseActivity;
 import im.zego.videocapture.R;
 import im.zego.videocapture.camera.ZegoVideoCaptureCallback;
 import im.zego.videocapture.enums.CaptureOrigin;
+import im.zego.videocapture.service.CaptureScreenService;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.constants.ZegoVideoBufferType;
 import im.zego.zegoexpress.entity.ZegoCustomVideoCaptureConfig;
@@ -45,6 +47,7 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
     // 屏幕采集相关类
 //    Screen capture related
     private MediaProjectionManager mMediaProjectionManager;
+    private Intent service;
 
     public static void actionStart(Activity activity) {
         Intent intent = new Intent(activity, ZGVideoCaptureOriginUI.class);
@@ -106,8 +109,15 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             Log.d("Zego", "获取MediaProjection成功");
-            //3.获取MediaProjection
-            mMediaProjection = mMediaProjectionManager.getMediaProjection(resultCode, data);
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q){
+                service=new Intent(ZGVideoCaptureOriginUI.this, CaptureScreenService.class);
+                service.putExtra("code",resultCode);
+                service.putExtra("data",data);
+                startForegroundService(service);
+            }else {
+                //3.获取MediaProjection
+                mMediaProjection = mMediaProjectionManager.getMediaProjection(resultCode, data);
+            }
         }
     }
 
@@ -127,6 +137,9 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
         captureOrigin = null;
         captureCallback = null;
         mMediaProjection = null;
+        if(service!=null) {
+            stopService(service);
+        }
     }
 
 }

@@ -425,4 +425,21 @@
     <string name="play_snapshot">拉流截图</string>
     <string name="voice_change">变声</string>
     <string name="set_audio_track">切换音轨</string>
+    <string name="avTimestampDiff">"音视频时间戳差值: "</string>
+    <string name="cpuUsageApp">当前App的CPU使用率:</string>
+    <string name="cpuUsageSystem">当前系统的CPU使用率:</string>
+    <string name="memoryUsageApp">App的运行内存使用率:</string>
+    <string name="memoryUsageSystem">当前系统的运行内存使用率:</string>
+    <string name="memoryUsedApp">当前App的运行内存使用量:</string>
+    <string name="publish_encode_key_describe">请输入用于推流加密的key</string>
+    <string name="play_decode_key_describe">请输入用于拉流解密的key</string>
+    <string name="key_settings">设置key</string>
+    <string name="test_connectivity">测试连通性</string>
+    <string name="up_link_bitrate">上行测速期望的发送码率 单位bps</string>
+    <string name="down_link_bitrate">下行测速期望的接收码率 单位bps</string>
+    <string name="period">网络测速质量回调的周期</string>
+    <string name="start_network_test">开启网络测速</string>
+    <string name="stop_network_test">停止网路测速</string>
+    <string name="txt_network_test">网络探测</string>
+
 </resources>

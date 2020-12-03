@@ -8,7 +8,7 @@
     android:gravity="center">
     <TextView
         android:textColor="@color/red"
-        android:text="The audio and video recording function is currently only allowed to be stored as .mp4 or .flv files; selecting Record Type is only valid before starting recording. If recording has started, you need to stop recording, then select Record Type and start recording again."
+        android:text="At present, it is only allowed to store as .mp4, .flv or .aac files through the audio and video recording functions.Selecting the record type is only valid before starting recording,if you start recording, you need to stop recording, then select Recording Type and start recording again."
         android:padding="20dp"
         android:gravity="center"
         android:layout_width="match_parent"
