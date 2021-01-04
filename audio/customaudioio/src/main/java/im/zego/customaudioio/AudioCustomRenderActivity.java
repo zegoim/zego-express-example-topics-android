@@ -193,7 +193,7 @@ public class AudioCustomRenderActivity extends AppCompatActivity {
         engine = ZegoExpressEngine.createEngine(GetAppIDConfig.appID, GetAppIDConfig.appSign, true, ZegoScenario.GENERAL, getApplication(), null);
         engine.setEventHandler(new IZegoEventHandler() {
             @Override
-            public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
+            public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList,JSONObject extendedData) {
                 for(ZegoStream stream:streamList) {
                     Log.i("[ZEGO]", "onRoomStreamUpdate roomID:" + roomID + " updateType:" + updateType+" streamId:"+stream.streamID);
                 }

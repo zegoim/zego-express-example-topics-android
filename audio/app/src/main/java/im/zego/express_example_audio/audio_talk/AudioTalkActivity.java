@@ -131,8 +131,8 @@ public class AudioTalkActivity extends AppCompatActivity {
         private double lastProgressCaptured = 0.0;
 
         @Override
-        public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
-            super.onRoomStreamUpdate(roomID, updateType, streamList);
+        public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList,JSONObject extendedData ) {
+            super.onRoomStreamUpdate(roomID, updateType, streamList,extendedData);
             Log.v(TAG, "🚩 🌊 onRoomStreamUpdate: roomID" + roomID + ", updateType:" + updateType.value() + ", streamList: " + streamList);
 
             // Add the rendered view dynamically after pulling the stream here
