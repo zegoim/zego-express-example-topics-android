@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -34,10 +35,12 @@ import im.zego.zegoexpress.callback.IZegoPlayerTakeSnapshotCallback;
 import im.zego.zegoexpress.callback.IZegoPublisherTakeSnapshotCallback;
 import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
+import im.zego.zegoexpress.constants.ZegoStreamResourceMode;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoEngineConfig;
+import im.zego.zegoexpress.entity.ZegoPlayerConfig;
 import im.zego.zegoexpress.entity.ZegoRoomExtraInfo;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
@@ -56,7 +59,7 @@ public class PlayActivityUI extends BaseActivity {
     private String roomID;
     private SnapshotDialog snapshotDialog;
     public static ZegoViewMode viewMode = ZegoViewMode.ASPECT_FILL;
-
+    private static ZegoStreamResourceMode resourceMode =ZegoStreamResourceMode.DEFAULT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +94,7 @@ public class PlayActivityUI extends BaseActivity {
                         // 修改标题状态拉流成功状态
                         binding.title.setTitleName(getString(R.string.tx_playing));
                         binding.playSnapshot.setVisibility(View.VISIBLE);
+
 //                        binding.decodeKeyLv.setVisibility(View.VISIBLE);
                     } else {
                         // 当拉流失败 当前 mStreamID 初始化成 null 值
@@ -118,7 +122,7 @@ public class PlayActivityUI extends BaseActivity {
                 streamQuality.setFps(String.format(getString(R.string.frame_rate)+" %f", quality.videoRecvFPS));
                 streamQuality.setBitrate(String.format(getString(R.string.bit_rate)+" %f kbs", quality.videoKBPS));
                 streamQuality.setAvTimestampDiff(String.format(getString(R.string.avTimestampDiff)+" %s ms", quality.avTimestampDiff));
-
+                AppLogger.getInstance().i("onPlayerQualityUpdate peerToPeerDelay:%s  delay：%s  rtt:%s  level:%s  videoRenderFPS:%s  videoKBPS:%s",quality.peerToPeerDelay,quality.delay,quality.rtt,quality.level,quality.videoRenderFPS,quality.videoKBPS);
             }
 
             @Override
@@ -147,7 +151,7 @@ public class PlayActivityUI extends BaseActivity {
             }
 
             @Override
-            public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
+            public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList,JSONObject extendedData) {
 
             }
 
@@ -188,6 +192,20 @@ public class PlayActivityUI extends BaseActivity {
 //            }
 //        });
         initPreferenceData();
+        binding.resourceMode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                if (checkedId == R.id.default_mode) {
+                    resourceMode = ZegoStreamResourceMode.DEFAULT;
+                }else if(checkedId==R.id.cdn_only){
+                    resourceMode=ZegoStreamResourceMode.ONLY_CDN;
+                }else if(checkedId == R.id.l3_only){
+                    resourceMode = ZegoStreamResourceMode.ONLY_L3;
+                }else if(checkedId == R.id.rtc_only){
+                    resourceMode =ZegoStreamResourceMode.ONLY_RTC;
+                }
+            }
+        });
     }
 
     private void initPreferenceData() {
@@ -216,6 +234,7 @@ public class PlayActivityUI extends BaseActivity {
         // 当用户退出界面时退出登录房间
         engine.logoutRoom(roomID);
         engine.setEventHandler(null);
+        resourceMode=ZegoStreamResourceMode.DEFAULT;
         ZegoExpressEngine.destroyEngine(null);
         super.onDestroy();
     }
@@ -226,7 +245,9 @@ public class PlayActivityUI extends BaseActivity {
         if (mStreamID != null) {
             ZegoCanvas zegoCanvas = new ZegoCanvas(binding.playView);
             zegoCanvas.viewMode = viewMode;
-            ZegoExpressEngine.getEngine().startPlayingStream(mStreamID, zegoCanvas);
+            ZegoPlayerConfig playerConfig =new ZegoPlayerConfig();
+            playerConfig.resourceMode=resourceMode;
+            ZegoExpressEngine.getEngine().startPlayingStream(mStreamID, zegoCanvas,playerConfig);
         }
     }
 
@@ -249,9 +270,11 @@ public class PlayActivityUI extends BaseActivity {
         // 开始拉流
         ZegoCanvas zegoCanvas = new ZegoCanvas(binding.playView);
         zegoCanvas.viewMode = viewMode;
-        engine.startPlayingStream(mStreamID, zegoCanvas);
+        ZegoPlayerConfig playerConfig =new ZegoPlayerConfig();
+        playerConfig.resourceMode=resourceMode;
+        engine.startPlayingStream(mStreamID, zegoCanvas,playerConfig);
 
-
+        binding.resourceMode.setVisibility(View.GONE);
     }
 
     /**

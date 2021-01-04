@@ -158,7 +158,7 @@ public class LoginMultiRoomActivity extends Activity {
             }
 
             @Override
-            public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
+            public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList,JSONObject extendedData) {
                 /** 流状态更新，在登录房间后，当房间内有新增或删除音视频流，SDK会通过该接口通知 */
                 /** The stream status is updated. After logging into the room, when there is a new publish or delete of audio and video stream,
                  * the SDK will notify through this callback */

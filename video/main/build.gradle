@@ -75,7 +75,7 @@ dependencies {
     implementation project(path: ':DataRecord')
     implementation project(path:':LoginMultiRoom')
     implementation project(path:':AudioEffectPlayer')
-//    implementation project(path:':NetWorkTest')
+    implementation project(path:':NetWorkTest')
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.code.gson:gson:2.8.5'

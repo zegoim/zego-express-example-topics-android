@@ -168,7 +168,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
+                public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList,JSONObject extendedData) {
                     /** 流状态更新，在登录房间后，当房间内有新增或删除音视频流，SDK会通过该接口通知 */
                     /** The stream status is updated. After logging into the room, when there is a new publish or delete of audio and video stream,
                      * the SDK will notify through this callback */
@@ -312,7 +312,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
             /** 开始拉流 */
             /** Begin to play stream */
             engine.startPlayingStream(playStreamID, new ZegoCanvas(play_view));
-            engine.muteAudioOutput(playStreamMute);
+            engine.muteSpeaker(playStreamMute);
             AppLogger.getInstance().i("Start play stream OK, streamID = " + playStreamID);
             Toast.makeText(this, getString(R.string.tx_basic_play_ok), Toast.LENGTH_SHORT).show();
             button.setText(getString(R.string.tx_basic_stop_play));
@@ -363,7 +363,7 @@ public class BasicCommunicationActivity extends AppCompatActivity {
         }
 
         /* Enable Mic*/
-        engine.muteAudioOutput(playStreamMute);
+        engine.muteSpeaker(playStreamMute);
     }
 
     /** 校验并请求权限 */

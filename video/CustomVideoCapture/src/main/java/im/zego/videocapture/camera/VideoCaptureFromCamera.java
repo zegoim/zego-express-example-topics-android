@@ -59,7 +59,6 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
     // 默认不旋转
     // No rotation by default
     int mRotation = 0;
-
     // SDK 内部实现的、同样实现 ZegoVideoCaptureDevice.Client 协议的客户端，用于通知SDK采集结果
     // The client implemented inside the SDK and also implementing the ZegoVideoCaptureDevice.Client protocol is used to notify the SDK of the results
     ZegoExpressEngine mSDKEngine = null;
@@ -137,7 +136,10 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
         mHeight = height;
         // 修改视图宽高后需要重启camera
         // You need to restart the camera after changing the view width and height
-        restartCam();
+        //使用前置摄像头
+        setFrontCam(1);
+        //切换后置摄像头,需要注释掉前面setFrontCam(1);代码，放开下面被注释代码
+//        restartCam();
         return 0;
     }
 
@@ -583,7 +585,11 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureCallback implements 
         param.strides[0] = mWidth;
         param.strides[1] = mWidth;
         param.format = ZegoVideoFrameFormat.NV21;
-        param.rotation = 90;
+        if(mFront==Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            param.rotation = 270;
+        }else if(mFront== Camera.CameraInfo.CAMERA_FACING_BACK){
+            param.rotation = 90;
+        }
 
         long now;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {

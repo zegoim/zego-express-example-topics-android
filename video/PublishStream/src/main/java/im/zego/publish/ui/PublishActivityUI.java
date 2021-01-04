@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
-import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -19,6 +18,7 @@ import org.json.JSONObject;
 
 import im.zego.common.entity.PerformanceStatus;
 import im.zego.common.util.SettingDataUtil;
+import im.zego.common.widgets.CustomMinSeekBar;
 import im.zego.common.widgets.SnapshotDialog;
 import im.zego.publish.R;
 import im.zego.publish.databinding.ActivityPublishBinding;
@@ -41,12 +41,13 @@ import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoStreamQualityLevel;
+import im.zego.zegoexpress.constants.ZegoVideoCodecID;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoAudioConfig;
 import im.zego.zegoexpress.entity.ZegoCanvas;
-import im.zego.zegoexpress.entity.ZegoPerformanceStatus;
 import im.zego.zegoexpress.entity.ZegoPlayStreamQuality;
 import im.zego.zegoexpress.entity.ZegoUser;
+import im.zego.zegoexpress.entity.ZegoVideoConfig;
 
 public class PublishActivityUI extends BaseActivity {
 
@@ -63,9 +64,12 @@ public class PublishActivityUI extends BaseActivity {
     private String roomID;
     private String mStreamID;
     private ZegoCanvas zegoCanvas;
-    private static boolean changeFlag =false;
+    private static boolean changeFlag = false;
     private SnapshotDialog snapshotDialog;
-    private PerformanceStatus performanceStatus=new PerformanceStatus();
+    private PerformanceStatus performanceStatus = new PerformanceStatus();
+    private float maxFactor = 1.0f;
+    private ZegoVideoConfig videoConfig = new ZegoVideoConfig();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,11 +96,11 @@ public class PublishActivityUI extends BaseActivity {
         layoutBinding.openCaptureStereo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     engine.setAudioCaptureStereoMode(ZegoAudioCaptureStereoMode.ALWAYS);
-                    ZegoAudioConfig audioConfig=new ZegoAudioConfig();
-                    audioConfig.codecID= ZegoAudioCodecID.NORMAL;
-                    audioConfig.channel= ZegoAudioChannel.STEREO;
+                    ZegoAudioConfig audioConfig = new ZegoAudioConfig();
+                    audioConfig.codecID = ZegoAudioCodecID.NORMAL;
+                    audioConfig.channel = ZegoAudioChannel.STEREO;
                     engine.setAudioConfig(audioConfig);
                 }
             }
@@ -143,20 +147,20 @@ public class PublishActivityUI extends BaseActivity {
                  * 可通过 {@link com.zego.zegoliveroom.ZegoLiveRoom#setPublishQualityMonitorCycle(long)} 修改回调频率
                  */
                 /**
-                 * Push stream quality update, the callback frequency defaults once every 3 seconds
-                 * The callback frequency can be modified through {@link com.zego.zegoliveroom.ZegoLiveRoom # setPublishQualityMonitorCycle (long)}
-                 */
-                streamQuality.setFps(String.format(getString(R.string.frame_rate)+" %f", quality.videoSendFPS));
-                streamQuality.setBitrate(String.format(getString(R.string.bit_rate)+" %f kbs", quality.videoKBPS));
-                streamQuality.setHardwareEncode(String.format(getString(R.string.hardware_encode_1)+" %b", quality.isHardwareEncode));
-                streamQuality.setNetworkQuality(String.format(getString(R.string.network_quality)+" %s", getQuality(quality.level)));
+                                  * Push stream quality update, the callback frequency defaults once every 3 seconds
+                                  * The callback frequency can be modified through {@link com.zego.zegoliveroom.ZegoLiveRoom # setPublishQualityMonitorCycle (long)}
+                                  */
+                streamQuality.setFps(String.format(getString(R.string.frame_rate) + " %f", quality.videoSendFPS));
+                streamQuality.setBitrate(String.format(getString(R.string.bit_rate) + " %f kbs", quality.videoKBPS));
+                streamQuality.setHardwareEncode(String.format(getString(R.string.hardware_encode_1) + " %b", quality.isHardwareEncode));
+                streamQuality.setNetworkQuality(String.format(getString(R.string.network_quality) + " %s", getQuality(quality.level)));
             }
 
             @Override
             public void onPublisherVideoSizeChanged(int width, int height, ZegoPublishChannel channel) {
                 // 当采集时分辨率有变化时，sdk会回调该方法
                 // When the resolution changes during acquisition, the SDK will call back this method
-                streamQuality.setResolution(String.format(getString(R.string.resolution)+" %dX%d", width, height));
+                streamQuality.setResolution(String.format(getString(R.string.resolution) + " %dX%d", width, height));
             }
 
             @Override
@@ -167,21 +171,26 @@ public class PublishActivityUI extends BaseActivity {
                  */
                 AppLogger.getInstance().i("onRoomStateUpdate: roomID = " + roomID + ", state = " + state + ", errorCode = " + errorCode);
 
-                if(state==ZegoRoomState.CONNECTED){
+                if (state == ZegoRoomState.CONNECTED) {
                     binding.progressBar.setVisibility(View.GONE);
-                    changeFlag =true;
+                    changeFlag = true;
                     // 开始推流
                     engine.startPublishingStream(streamID);
                     // 调用sdk 开始预览接口 设置view 启用预览
-                    zegoCanvas.viewMode=viewMode;
+                    zegoCanvas.viewMode = viewMode;
                     engine.startPreview(zegoCanvas);
                     binding.roomExtraInfoLayout.setVisibility(View.VISIBLE);
 //                    binding.encodeKeyLv.setVisibility(View.VISIBLE);
                 }
             }
 
+            @Override
+            public void onPublisherCapturedVideoFirstFrame(ZegoPublishChannel channel) {
+                super.onPublisherCapturedVideoFirstFrame(channel);
+                binding.setSeekBar.setVisibility(View.VISIBLE);
+                getCameraMaxFactorData();
+            }
         });
-
 
 
         // 监听摄像头与麦克风开关
@@ -218,12 +227,12 @@ public class PublishActivityUI extends BaseActivity {
         binding.setExtraRoomInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String extraInfo=binding.edExtraInfo.getText().toString().trim();
-                if(extraInfo==null||extraInfo.equals("")){
-                    Toast.makeText(PublishActivityUI.this,"extra info should not be empty",Toast.LENGTH_SHORT).show();
+                String extraInfo = binding.edExtraInfo.getText().toString().trim();
+                if (extraInfo == null || extraInfo.equals("")) {
+                    Toast.makeText(PublishActivityUI.this, "extra info should not be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                engine.setRoomExtraInfo(roomID,"zego",extraInfo, new IZegoRoomSetRoomExtraInfoCallback() {
+                engine.setRoomExtraInfo(roomID, "zego", extraInfo, new IZegoRoomSetRoomExtraInfoCallback() {
                     @Override
                     public void onRoomSetRoomExtraInfoResult(int i) {
                         AppLogger.getInstance().i("setRoomExtraInfo : %s, errorCode : %d", roomID, i);
@@ -235,8 +244,8 @@ public class PublishActivityUI extends BaseActivity {
         binding.publishSnapshot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(snapshotDialog==null){
-                    snapshotDialog =new SnapshotDialog(PublishActivityUI.this,R.style.SnapshotDialog);
+                if (snapshotDialog == null) {
+                    snapshotDialog = new SnapshotDialog(PublishActivityUI.this, R.style.SnapshotDialog);
                 }
                 engine.takePublishStreamSnapshot(new IZegoPublisherTakeSnapshotCallback() {
                     @Override
@@ -258,21 +267,80 @@ public class PublishActivityUI extends BaseActivity {
 //                }
 //            }
 //        });
-        initPreferenceData();
+        initViewModePreferenceData();
+        initEnableHardWareEncodePreferenceData();
+        binding.setSeekBar.setOnSeekBarChangeListener(new CustomMinSeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, float progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar, float progress) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar, float progress) {
+                if (engine != null) {
+                    engine.setCameraZoomFactor(progress);
+                }
+            }
+        });
     }
 
-    private void initPreferenceData() {
+    private void initEnableHardWareEncodePreferenceData() {
         SharedPreferences sp = getSharedPreferences(PublishSettingActivityUI.SHARE_PREFERENCE_NAME, MODE_PRIVATE);
-        String mode =sp.getString("publish_view_mode","1");
-        switch (mode){
+        boolean enable = sp.getBoolean("publish_hardware_encode", false);
+        if(engine!=null){
+            engine.enableHardwareEncoder(enable);
+        }
+
+    }
+
+    private void getCameraMaxFactorData() {
+        if (engine != null) {
+            maxFactor = engine.getCameraMaxZoomFactor();
+            binding.setSeekBar.setMax(maxFactor);
+        }
+    }
+
+    private void initViewModePreferenceData() {
+        SharedPreferences sp = getSharedPreferences(PublishSettingActivityUI.SHARE_PREFERENCE_NAME, MODE_PRIVATE);
+        String viewMode = sp.getString("publish_view_mode", "1");
+        switch (viewMode) {
             case "0":
-                viewMode = ZegoViewMode.ASPECT_FIT;
+                PublishActivityUI.viewMode = ZegoViewMode.ASPECT_FIT;
                 break;
             case "1":
-                viewMode =ZegoViewMode.ASPECT_FILL;
+                PublishActivityUI.viewMode = ZegoViewMode.ASPECT_FILL;
                 break;
-            case "2" :
-                viewMode =ZegoViewMode.SCALE_TO_FILL;
+            case "2":
+                PublishActivityUI.viewMode = ZegoViewMode.SCALE_TO_FILL;
+                break;
+            default:
+                break;
+        }
+
+
+
+    }
+    public void initVideoCodeIdPreferenceData(){
+        SharedPreferences sp = getSharedPreferences(PublishSettingActivityUI.SHARE_PREFERENCE_NAME, MODE_PRIVATE);
+        String videoCodeID = sp.getString("video_code_id", "DEFAULT");
+
+        switch (videoCodeID) {
+            case "DEFAULT":
+                videoConfig.codecID= ZegoVideoCodecID.DEFAULT;
+                break;
+            case "SVC":
+                videoConfig.codecID= ZegoVideoCodecID.SVC;
+                break;
+            case "VP8":
+                videoConfig.codecID= ZegoVideoCodecID.VP8;
+                break;
+            case "H265":
+                videoConfig.codecID= ZegoVideoCodecID.H265;
                 break;
             default:
                 break;
@@ -314,7 +382,7 @@ public class PublishActivityUI extends BaseActivity {
             engine.enableAudioCaptureDevice(false);
             engine.enableAudioCaptureDevice(true);
         }
-        if(engine!=null&&changeFlag) {
+        if (engine != null && changeFlag) {
             zegoCanvas.viewMode = viewMode;
             engine.startPreview(zegoCanvas);
 
@@ -339,7 +407,8 @@ public class PublishActivityUI extends BaseActivity {
         engine.logoutRoom(roomID);
 //        engine.stopPerformanceMonitor();
         ZegoExpressEngine.destroyEngine(null);
-        changeFlag=false;
+        changeFlag = false;
+        videoConfig.codecID=ZegoVideoCodecID.DEFAULT;
         super.onDestroy();
     }
 
@@ -348,6 +417,8 @@ public class PublishActivityUI extends BaseActivity {
      * 开始推流
      */
     public void onStart(View view) {
+        initVideoCodeIdPreferenceData();
+        engine.setVideoConfig(videoConfig);
         mStreamID = layoutBinding.edStreamId.getText().toString();
         roomID = layoutBinding.edRoomId.getText().toString();
         streamQuality.setRoomID(String.format("RoomID : %s", roomID));

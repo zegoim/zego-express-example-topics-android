@@ -109,7 +109,7 @@ public class MediaplayerMainActivity extends AppCompatActivity {
         ((Switch)findViewById(R.id.sw_mediaplayer_mic)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mSDKEngine.muteAudioOutput(isChecked);
+                mSDKEngine.muteSpeaker(isChecked);
             }
         });
 

@@ -57,7 +57,7 @@ public class MixerMainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
+                public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList,JSONObject extendedData) {
                     String streamID;
                     for (int i = 0; i < streamList.size(); i++) {
                         if (updateType == ZegoUpdateType.ADD) {

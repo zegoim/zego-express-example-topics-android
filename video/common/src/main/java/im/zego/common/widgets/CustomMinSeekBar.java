@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -13,6 +14,8 @@ import im.zego.common.R;
 
 
 public class CustomMinSeekBar extends RelativeLayout {
+
+
 
     private Float min = 0.0f;
     private Float max = 1.0f;
@@ -55,29 +58,23 @@ public class CustomMinSeekBar extends RelativeLayout {
             buttonDescribe.setVisibility(GONE);
         }
 
-        float difference = 0.0f;
 
         minView = view.findViewById(R.id.min);
         if (minStr != null && !"".equals(minStr)) {
             min = Float.valueOf(minStr);
-            if (min < 0.0) {
-                difference = Math.abs(min);
-            }
-            minView.setText(minStr);
         }
 
         maxView = view.findViewById(R.id.max);
         if (maxStr != null && !"".equals(maxStr)) {
             max = Float.valueOf(maxStr);
-            maxView.setText(maxStr);
-            seekBar.setMax(((int) (difference + max) * 10));
         }
+        setRealSeekBar(min,max);
 
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                currentProgress = (progress - ((0 - min) * 10)) / 10;
+                currentProgress = (progress - ((0 - min) * 100)) / 100;
                 value.setText(String.valueOf(currentProgress));
                 if (seekBarChangeListener != null) {
                     seekBarChangeListener.onProgressChanged(seekBar, currentProgress, fromUser);
@@ -109,6 +106,12 @@ public class CustomMinSeekBar extends RelativeLayout {
                 showPopWindows(describe, v);
             }
         });
+    }
+    public void setRealSeekBar(float min,float max){
+        minView.setText(min+"");
+        maxView.setText(max+"");
+        seekBar.setMax((int) ((max-min) * 100));
+
     }
 
     public interface OnSeekBarChangeListener {
@@ -144,12 +147,18 @@ public class CustomMinSeekBar extends RelativeLayout {
 
     public void setCurrentValue(float currentProgress) {
         this.currentProgress = currentProgress;
-        float difference = 0.0f;
-        if (min < 0.0) {
-            difference = Math.abs(min);
-        }
-        seekBar.setProgress((int) ((currentProgress + difference) * 10));
+        seekBar.setProgress((int) ((currentProgress -min) * 100));
 
+    }
+    public void setMin(Float min) {
+        this.min = min;
+        setRealSeekBar(this.min,max);
+        setCurrentValue(this.currentProgress);
+    }
+    public void setMax(Float max) {
+        this.max = max;
+        setRealSeekBar(this.min,max);
+        setCurrentValue(this.currentProgress);
     }
 
     public float getCurrentValue() {

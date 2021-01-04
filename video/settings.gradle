@@ -16,5 +16,5 @@ include ':main',
         ':Videotalk',
         ':DataRecord',
         ':LoginMultiRoom',
-        ':AudioEffectPlayer'
-//        ':NetWorkTest'
+        ':AudioEffectPlayer' ,
+        ':NetWorkTest'

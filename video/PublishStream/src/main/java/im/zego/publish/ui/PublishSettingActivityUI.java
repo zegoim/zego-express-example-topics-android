@@ -40,7 +40,7 @@ public class PublishSettingActivityUI extends FragmentActivity {
 
     public static class PrefFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
         private String[] stringArray;
-        private ListPreference viewModeListPreference, resolutionListPreference, bitrateListPreference, fpsListPreference;
+        private ListPreference viewModeListPreference, resolutionListPreference, bitrateListPreference, fpsListPreference,videoCodeIdListPreference;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -61,11 +61,11 @@ public class PublishSettingActivityUI extends FragmentActivity {
             resolutionListPreference = (ListPreference) findPreference("publish_resolution");
             bitrateListPreference = (ListPreference) findPreference("publish_bitrate");
             fpsListPreference = (ListPreference) findPreference("publish_fps");
-
+            videoCodeIdListPreference =(ListPreference) findPreference("video_code_id");
             fpsListPreference.setSummary(sharedPreferences.getString("publish_fps", "15"));
             bitrateListPreference.setSummary(sharedPreferences.getString("publish_bitrate", "1200000"));
             resolutionListPreference.setSummary(sharedPreferences.getString("publish_resolution", "540x960"));
-
+            videoCodeIdListPreference.setSummary(sharedPreferences.getString("video_code_id","DEFAULT"));
             // 动态修改当前描述
             String mode = sharedPreferences.getString("publish_view_mode", "1");
             viewModeListPreference.setSummary(stringArray[Integer.parseInt(mode)]);
@@ -138,6 +138,9 @@ public class PublishSettingActivityUI extends FragmentActivity {
                 // Set video push stream fps
                 zegoVideoConfig.setVideoFPS(Integer.parseInt(fps));
                 ZegoExpressEngine.getEngine().setVideoConfig(zegoVideoConfig);
+            }else if("video_code_id".equals(key)){
+                String video_code_id =sharedPreferences.getString(key,"DEFAULT");
+                videoCodeIdListPreference.setSummary(video_code_id);
 
             }
 

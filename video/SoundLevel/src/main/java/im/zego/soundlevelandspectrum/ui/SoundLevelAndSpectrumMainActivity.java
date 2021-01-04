@@ -127,7 +127,7 @@ public class SoundLevelAndSpectrumMainActivity extends Activity {
             private HashMap<String, Float> last_stream_to_progress_value = new HashMap();
 
             @Override
-            public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
+            public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList,JSONObject extendedData) {
                 super.onRoomStreamUpdate(roomID, updateType, streamList);
                 Log.v(TAG, "onRoomStreamUpdate: roomID" + roomID + ", updateType:" + updateType.value() + ", streamList: " + streamList);
                 AppLogger.getInstance().i("onRoomStreamUpdate: roomID" + roomID + ", updateType:" + updateType.value() + ", streamList: " + streamList);

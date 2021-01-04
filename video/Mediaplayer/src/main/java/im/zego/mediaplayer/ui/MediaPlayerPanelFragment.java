@@ -193,7 +193,7 @@ public class MediaPlayerPanelFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(mEngine != null){
                     if(isChecked){
-                        mMediaplayer = ZegoMediaPlayer.createMediaPlayer();
+                        mMediaplayer = mEngine.createMediaPlayer();
                         mMediaplayer.setEventHandler(new IZegoMediaPlayerEventHandler() {
 
                             @Override
@@ -221,7 +221,7 @@ public class MediaPlayerPanelFragment extends Fragment {
                             }
                         });
                     }else {
-                        mMediaplayer.destroyMediaPlayer();
+                        mEngine.destroyMediaPlayer(mMediaplayer);
                         mMediaplayer.setEventHandler(null);
                         mMediaplayer = null;
                         audioTrackRadioGroup.removeAllViews();

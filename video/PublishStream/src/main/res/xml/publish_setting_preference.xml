@@ -53,7 +53,13 @@
             android:summary="@string/tx_capture_mirror"
             android:defaultValue="true"
             android:title="@string/tx_mirror" />
-
+        <ListPreference
+            android:defaultValue="DEFAULT"
+            android:entries="@array/video_code_id_describe"
+            android:entryValues="@array/video_code_id_value"
+            android:key="video_code_id"
+            android:summary="DEFAULT"
+            android:title="@string/video_code_id" />
 
     </PreferenceCategory>
 

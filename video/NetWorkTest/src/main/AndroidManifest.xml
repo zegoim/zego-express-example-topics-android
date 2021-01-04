@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="im.zego.networktest" >
+    <application>
+        <activity android:name=".NetWorkTest"></activity>
+    </application>
+</manifest>

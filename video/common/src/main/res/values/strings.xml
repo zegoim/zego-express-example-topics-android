@@ -439,7 +439,7 @@ To achieve the effect of power saving and no heat. </string>
     <string name="common_title2"> Hardware switch (setting before pulling current takes effect) </string>
     <string name="common_title3"> View settings </string>
     <string name="frame_rate2"> Frame rate (the setting takes effect before pushing the stream) </string>
-        
+    <string name="video_code_id">Video Encoding format，The relevant video configuration needs to be set before  starting preview/publishing stream </string>    
     <string name="common_publish"> Select the push view mode </string>
     <string name="common_quality"> Image quality settings </string>
     <string name="sound_monitor"> Start sound wave monitoring: </string>

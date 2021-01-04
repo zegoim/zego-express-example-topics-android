@@ -130,7 +130,7 @@ public class ZGVideoTalkUI extends Activity {
         }
 
         @Override
-        public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList) {
+        public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList,JSONObject extendedData) {
             super.onRoomStreamUpdate(roomID, updateType, streamList);
             AppLogger.getInstance().i("onRoomStreamUpdate: roomID" + roomID + ", updateType:" + updateType.value() + ", streamList: " + streamList);
             // 这里拉流之后动态添加渲染的View

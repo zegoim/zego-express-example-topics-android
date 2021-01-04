@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+       <TextureView
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </TextureView>
+    <TextView
+        android:textColor="@color/red"
+        android:layout_marginVertical="20dp"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/connect_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    <Button
+        android:visibility="gone"
+        android:id="@+id/test_connectivity"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/connect_cost"
+        android:text="@string/test_connectivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></Button>
+    <include
+        android:layout_below="@+id/test_connectivity"
+        android:id="@+id/up_link_quality_include"
+        layout="@layout/network_quality"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"></include>
+    <include
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/up_link_quality_include"
+        android:id="@+id/down_link_quality_include"
+        layout="@layout/network_quality"></include>
+
+    <RadioGroup
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_below="@+id/down_link_quality_include"
+        android:id="@+id/uplink_open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:checked="true"
+            android:text="open"
+            android:id="@+id/up_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </RadioButton>
+        <RadioButton
+            android:text="close"
+            android:id="@+id/up_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RadioGroup>
+    <TextView
+        android:layout_toLeftOf="@+id/uplink_open"
+        android:layout_marginRight="5dp"
+        android:gravity="center"
+        android:layout_alignTop="@+id/uplink_open"
+        android:layout_alignBottom="@+id/uplink_open"
+        android:text="uplink test:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    <TextView
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/downlink_open"
+        android:gravity="center"
+        android:layout_alignTop="@+id/downlink_open"
+        android:layout_alignBottom="@+id/downlink_open"
+        android:text="downlink test:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+
+    <RadioGroup
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_below="@+id/uplink_open"
+        android:id="@+id/downlink_open"
+        android:text="testUplink:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:checked="true"
+            android:text="open"
+            android:id="@+id/down_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </RadioButton>
+        <RadioButton
+            android:text="close"
+            android:id="@+id/down_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RadioGroup>
+    <im.zego.common.widgets.CustomEditText
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/downlink_open"
+        android:id="@+id/ed_expected_up_link_bitrate"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+        android:hint="@string/up_link_bitrate"
+        android:padding="8dp"
+        android:textSize="14sp"
+        app:key="expected_up_link_bitrate" />
+    <im.zego.common.widgets.CustomEditText
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ed_expected_up_link_bitrate"
+        android:id="@+id/ed_expected_down_link_bitrate"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+        android:hint="@string/down_link_bitrate"
+        android:padding="8dp"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        app:key="expected_down_link_bitrate" />
+
+
+    <Button
+        android:text="@string/start_network_test"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ed_expected_down_link_bitrate"
+        android:id="@+id/start_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </Button>
+    <Button
+        android:text="@string/stop_network_test"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/start_test"
+        android:id="@+id/stop_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </Button>
+</RelativeLayout>
+</layout>

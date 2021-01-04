@@ -72,6 +72,18 @@
         <item>29</item>
         <item>30</item>
     </string-array>
+    <string-array name="video_code_id_describe">
+        <item>DEFAULT</item>
+        <item>SVC</item>
+        <item>VP8</item>
+        <item>H265</item>
+    </string-array>
+    <string-array name="video_code_id_value">
+        <item>DEFAULT</item>
+        <item>SVC</item>
+        <item>VP8</item>
+        <item>H265</item>
+    </string-array>
 
     <string-array name="fps_setting_value">
         <item>10</item>

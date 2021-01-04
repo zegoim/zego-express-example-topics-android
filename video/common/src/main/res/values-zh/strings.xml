@@ -248,6 +248,7 @@
     <string name="common_title2">硬解开关(拉流前设置生效)</string>
     <string name="common_title3">视图设置</string>
     <string name="frame_rate2">帧率(推流前设置生效)</string>
+    <string name="video_code_id"> 视频编码格式,需要在预览前/推流前设置好相关视频配置 </string> 
     <string name="common_publish">选择推流View视图模式</string>
     <string name="common_quality">画质设置</string>
     <string name="sound_monitor">启动声浪监听: </string>

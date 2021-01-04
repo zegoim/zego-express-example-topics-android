@@ -11,6 +11,7 @@
         <variable
             name="config"
             type="im.zego.common.entity.SDKConfigInfo" />
+
         <variable
             name="performance"
             type="im.zego.common.entity.PerformanceStatus" />
@@ -120,41 +121,41 @@
                     android:layout_below="@+id/tx_network_quality"
                     android:text="@{quality.hardwareEncode}"
                     android:textColor="@color/white_color" />
-<!--                <TextView-->
-<!--                    android:id="@+id/tx_cpu_usage_app"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_below="@+id/tx_hardware_encode"-->
-<!--                    android:text="@{performance.cpuUsageApp}"-->
-<!--                    android:textColor="@color/white_color" />-->
-<!--                <TextView-->
-<!--                    android:id="@+id/tx_cpu_usage_system"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_below="@+id/tx_cpu_usage_app"-->
-<!--                    android:text="@{performance.cpuUsageSystem}"-->
-<!--                    android:textColor="@color/white_color" />-->
-<!--                <TextView-->
-<!--                    android:id="@+id/tx_memory_usage_app"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_below="@+id/tx_cpu_usage_system"-->
-<!--                    android:text="@{performance.memoryUsageApp}"-->
-<!--                    android:textColor="@color/white_color" />-->
-<!--                <TextView-->
-<!--                    android:id="@+id/tx_memory_usage_system"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_below="@+id/tx_memory_usage_app"-->
-<!--                    android:text="@{performance.memoryUsageSystem}"-->
-<!--                    android:textColor="@color/white_color" />-->
-<!--                <TextView-->
-<!--                    android:textColor="@color/white_color"-->
-<!--                    android:id="@+id/tx_memory_used_app"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_below="@+id/tx_memory_usage_system"-->
-<!--                    android:text="@{performance.memoryUsedApp}"/>-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tx_cpu_usage_app"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_below="@+id/tx_hardware_encode"-->
+                <!--                    android:text="@{performance.cpuUsageApp}"-->
+                <!--                    android:textColor="@color/white_color" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tx_cpu_usage_system"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_below="@+id/tx_cpu_usage_app"-->
+                <!--                    android:text="@{performance.cpuUsageSystem}"-->
+                <!--                    android:textColor="@color/white_color" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tx_memory_usage_app"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_below="@+id/tx_cpu_usage_system"-->
+                <!--                    android:text="@{performance.memoryUsageApp}"-->
+                <!--                    android:textColor="@color/white_color" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tx_memory_usage_system"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_below="@+id/tx_memory_usage_app"-->
+                <!--                    android:text="@{performance.memoryUsageSystem}"-->
+                <!--                    android:textColor="@color/white_color" />-->
+                <!--                <TextView-->
+                <!--                    android:textColor="@color/white_color"-->
+                <!--                    android:id="@+id/tx_memory_used_app"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_below="@+id/tx_memory_usage_system"-->
+                <!--                    android:text="@{performance.memoryUsedApp}"/>-->
 
                 <Switch
                     android:id="@+id/sw_mic"
@@ -186,82 +187,100 @@
                     android:textColor="@color/white_color" />
 
                 <ProgressBar
-                    android:visibility="gone"
-                    android:layout_centerInParent="true"
                     android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone" />
 
+
+                <im.zego.common.widgets.CustomMinSeekBar
+                    android:visibility="gone"
+                    android:layout_above="@+id/room_extra_info_layout"
+                    app:currentStr="1.0"
+                    app:maxStr="10.0"
+                    app:minStr="1.0"
+                    app:describe="最小值为 1.0，最大值为 [getCameraMaxZoomFactor] 的返回值"
+                    app:title="设置摄像头对焦倍数: "
+                    android:id="@+id/set_seek_bar"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    ></im.zego.common.widgets.CustomMinSeekBar>
+                <LinearLayout
+                    android:id="@+id/room_extra_info_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginBottom="100dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <im.zego.common.widgets.CustomEditText
+                        android:id="@+id/ed_extra_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white_color"
+                        android:hint="please input info"
+                        android:padding="8dp"
+                        android:textSize="14sp"
+                        app:key="extra_info" />
+
+                    <Button
+                        android:id="@+id/set_extra_room_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/send_room_extra_info"
+                        android:textSize="10dp"></Button>
+
+                </LinearLayout>
             </RelativeLayout>
-<!--            <LinearLayout-->
-<!--                android:layout_marginHorizontal="5dp"-->
-<!--                android:visibility="gone"-->
-<!--                android:id="@+id/encode_key_lv"-->
-<!--                android:gravity="center"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:layout_above="@+id/room_extra_info_layout"-->
-<!--                android:layout_marginBottom="5dp"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
-<!--                <im.zego.common.widgets.CustomEditText-->
-<!--                    android:id="@+id/ed_publish_encode_key"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@color/white_color"-->
-<!--                    android:hint="@string/publish_encode_key_describe"-->
-<!--                    android:padding="8dp"-->
-<!--                    android:textSize="14sp"-->
-<!--                    app:key="publish_encode_info" />-->
-<!--                <Button-->
-<!--                    android:textSize="10dp"-->
-<!--                    android:text="@string/key_settings"-->
-<!--                    android:id="@+id/publish_encode_key_setting"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"></Button>-->
+            <!--            <LinearLayout-->
+            <!--                android:layout_marginHorizontal="5dp"-->
+            <!--                android:visibility="gone"-->
+            <!--                android:id="@+id/encode_key_lv"-->
+            <!--                android:gravity="center"-->
+            <!--                android:layout_centerHorizontal="true"-->
+            <!--                android:layout_above="@+id/room_extra_info_layout"-->
+            <!--                android:layout_marginBottom="5dp"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content">-->
+            <!--                <im.zego.common.widgets.CustomEditText-->
+            <!--                    android:id="@+id/ed_publish_encode_key"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:background="@color/white_color"-->
+            <!--                    android:hint="@string/publish_encode_key_describe"-->
+            <!--                    android:padding="8dp"-->
+            <!--                    android:textSize="14sp"-->
+            <!--                    app:key="publish_encode_info" />-->
+            <!--                <Button-->
+            <!--                    android:textSize="10dp"-->
+            <!--                    android:text="@string/key_settings"-->
+            <!--                    android:id="@+id/publish_encode_key_setting"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"></Button>-->
 
-<!--            </LinearLayout>-->
-            <LinearLayout
-                android:layout_marginHorizontal="5dp"
-                android:visibility="gone"
-                android:id="@+id/room_extra_info_layout"
-                android:gravity="center"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="100dp"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <im.zego.common.widgets.CustomEditText
-                android:id="@+id/ed_extra_info"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="@color/white_color"
-                android:hint="please input info"
-                android:padding="8dp"
-                android:textSize="14sp"
-                app:key="extra_info" />
-            <Button
-                android:textSize="10dp"
-                android:text="@string/send_room_extra_info"
-                android:id="@+id/set_extra_room_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></Button>
+            <!--            </LinearLayout>-->
 
-            </LinearLayout>
+
             <Button
-                android:textSize="10dp"
-                android:visibility="gone"
-                android:text="@string/publish_snapshot"
                 android:id="@+id/publish_snapshot"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></Button>
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="10dp"
+                android:text="@string/publish_snapshot"
+                android:textSize="10dp"
+                android:visibility="gone"></Button>
         </RelativeLayout>
 
 

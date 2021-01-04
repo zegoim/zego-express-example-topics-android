@@ -55,6 +55,35 @@
                 android:layout_height="match_parent">
 
             </include>
+            <RadioGroup
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/resource_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+                <RadioButton
+                    android:checked="true"
+                    android:id="@+id/default_mode"
+                    android:text="Default"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></RadioButton>
+                <RadioButton
+                    android:id="@+id/cdn_only"
+                    android:text="CDNOnly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></RadioButton>
+                <RadioButton
+                    android:id="@+id/l3_only"
+                    android:text="L3Only"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></RadioButton>
+                <RadioButton
+                    android:id="@+id/rtc_only"
+                    android:text="RTCOnly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></RadioButton>
+            </RadioGroup>
 
             <RelativeLayout
                 android:id="@+id/publish_state_view"
@@ -63,12 +92,14 @@
                 android:padding="15dp"
                 android:visibility="gone">
 
+
                 <TextView
                     android:id="@+id/tx_room_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:text="@{quality.roomID}"
+                    android:layout_marginTop="40dp"
                     android:textColor="@color/white_color" />
 
                 <TextView
@@ -156,6 +187,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"></Button>
+
 
         </RelativeLayout>
 
