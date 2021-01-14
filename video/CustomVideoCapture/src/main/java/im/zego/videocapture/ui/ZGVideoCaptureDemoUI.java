@@ -189,6 +189,7 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         // 登出房间并释放ZEGO SDK
         // Log out of the room and release the ZEGO SDK
         logoutLiveRoom();
+        VideoCaptureFromCamera3.preByteLength = 0;
     }
 
 

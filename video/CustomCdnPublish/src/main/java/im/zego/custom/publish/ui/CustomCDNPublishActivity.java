@@ -74,7 +74,7 @@ public class CustomCDNPublishActivity extends AppCompatActivity {
         binding.btnStartPublish.setText(getString(R.string.tx_basic_publish));
         binding.btnStartPlay.setText(getString(R.string.tx_basic_play));
         TextView tvAppID = findViewById(R.id.tv_appid);
-        tvAppID.setText("AppID: " + GetAppIDConfig.appID);
+        tvAppID.setText("AppID: " + SettingDataUtil.getAppId());
 
         /** 示例代码使用一个固定的房间ID */
         /** RoomID used by example */

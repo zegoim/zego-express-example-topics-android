@@ -68,7 +68,7 @@ public class PublishActivityUI extends BaseActivity {
     private SnapshotDialog snapshotDialog;
     private PerformanceStatus performanceStatus = new PerformanceStatus();
     private float maxFactor = 1.0f;
-    private ZegoVideoConfig videoConfig = new ZegoVideoConfig();
+    public static ZegoVideoConfig videoConfig = new ZegoVideoConfig();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,6 +269,7 @@ public class PublishActivityUI extends BaseActivity {
 //        });
         initViewModePreferenceData();
         initEnableHardWareEncodePreferenceData();
+        initFpsPreferenceData();
         binding.setSeekBar.setOnSeekBarChangeListener(new CustomMinSeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, float progress, boolean fromUser) {
@@ -287,6 +288,14 @@ public class PublishActivityUI extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void initFpsPreferenceData() {
+        SharedPreferences sp = getSharedPreferences(PublishSettingActivityUI.SHARE_PREFERENCE_NAME, MODE_PRIVATE);
+        String fps = sp.getString("publish_fps", "15");
+        if(videoConfig!=null){
+            videoConfig.fps = Integer.valueOf(fps);
+        }
     }
 
     private void initEnableHardWareEncodePreferenceData() {

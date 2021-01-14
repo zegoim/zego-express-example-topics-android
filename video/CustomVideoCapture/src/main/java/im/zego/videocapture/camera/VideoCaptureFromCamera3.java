@@ -3,7 +3,6 @@ package im.zego.videocapture.camera;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.MediaCodecInfo;
@@ -31,13 +30,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import im.zego.common.util.AppLogger;
 import im.zego.videocapture.aveencoder.AVCEncoder;
-import im.zego.videocapture.ui.ZGVideoCaptureDemoUI;
-import im.zego.videocapture.ve_gl.EglBase;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.constants.ZegoPublishChannel;
 import im.zego.zegoexpress.constants.ZegoVideoEncodedFrameFormat;
 import im.zego.zegoexpress.entity.ZegoTrafficControlInfo;
-import im.zego.zegoexpress.entity.ZegoVideoConfig;
 import im.zego.zegoexpress.entity.ZegoVideoEncodedFrameParam;
 
 
@@ -85,6 +81,8 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
     private ByteBuffer mEncodedBuffer;
     private AVCEncoder mAVCEncoder = null;
     private Context context;
+    private byte[] nv12;
+    public static long preByteLength =0;
     public VideoCaptureFromCamera3(Activity context) {
         super();
         this.context=context;
@@ -140,6 +138,10 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
         if (mAVCEncoder != null) {
             mAVCEncoder.stopEncoder();
             mAVCEncoder.releaseEncoder();
+            mAVCEncoder = null;
+        }
+        if(mEncodedBuffer!=null){
+            mEncodedBuffer.clear();
         }
         printCount = 0;
     }
@@ -628,8 +630,10 @@ public class VideoCaptureFromCamera3 extends ZegoVideoCaptureCallback implements
             } else {
                 now = TimeUnit.MILLISECONDS.toNanos(SystemClock.elapsedRealtime());
             }
-
-            byte[] nv12 = new byte[data.length];
+            if(preByteLength !=data.length) {
+                nv12 = new byte[data.length];
+                preByteLength =data.length;
+            }
 
             NV21ToNV12(data, nv12, mWidth, mHeight);
             // 将NV21格式的视频数据转为I420格式的

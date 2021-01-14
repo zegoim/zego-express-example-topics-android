@@ -136,8 +136,8 @@ public class PublishSettingActivityUI extends FragmentActivity {
                 fpsListPreference.setSummary(fps);
                 // 设置视频推流fps
                 // Set video push stream fps
-                zegoVideoConfig.setVideoFPS(Integer.parseInt(fps));
-                ZegoExpressEngine.getEngine().setVideoConfig(zegoVideoConfig);
+                PublishActivityUI.videoConfig.setVideoFPS(Integer.parseInt(fps));
+                ZegoExpressEngine.getEngine().setVideoConfig(PublishActivityUI.videoConfig);
             }else if("video_code_id".equals(key)){
                 String video_code_id =sharedPreferences.getString(key,"DEFAULT");
                 videoCodeIdListPreference.setSummary(video_code_id);
