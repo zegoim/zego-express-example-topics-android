@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="im.zego.customaudioio" >
+    <application>
+        <activity android:name=".AudioCustomActivity"></activity>
+        <activity android:name=".AudioCustomCaptureActivity"></activity>
+        <activity android:name=".AudioCustomRenderActivity"></activity>
+    </application>
+
+
+</manifest>

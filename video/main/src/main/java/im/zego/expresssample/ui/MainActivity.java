@@ -22,6 +22,7 @@ import com.zego.sound.processing.ui.SoundProcessingMainUI;
 import im.zego.audioeffectplayer.AudioEffectPlayerUI;
 import im.zego.common.GetAppIDConfig;
 import im.zego.common.util.PreferenceUtil;
+import im.zego.customaudioio.AudioCustomActivity;
 import im.zego.datarecord.DataRecordActivity;
 import im.zego.express.mixing.ui.ZGMixingDemoUI;
 import im.zego.loginmultiroom.LoginMultiRoomActivity;
@@ -132,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
                     AudioEffectPlayerUI.actionStart(MainActivity.this);
                 }else if(module.equals(getString(R.string.txt_network_test))){
                     NetWorkTest.actionStart(MainActivity.this);
+                }else if(module.equals(getString(R.string.txt_custom_audio_io))){
+                    AudioCustomActivity.actionStart(MainActivity.this);
                 }
             }
         });
@@ -171,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_login_multi_room)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_audio_effect_player)));
         mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_network_test)));
+        mainAdapter.addModuleInfo(new ModuleInfo().moduleName(getString(R.string.txt_custom_audio_io)));
     }
 
 

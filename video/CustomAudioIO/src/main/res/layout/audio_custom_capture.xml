@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextureView
+        android:id="@+id/capture_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></TextureView>
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="40dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:text="Open custom capture audio but render by Zego SDK"
+                android:textStyle="bold"></TextView>
+
+            <Switch
+                android:id="@+id/open_internal_render"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"></Switch>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/capture_state"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="Current status: custom Audio capture has been disabled"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="20dp"></TextView>
+
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Publish streamId:"></TextView>
+
+            <EditText
+                android:id="@+id/capture_stream_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="please input streamId"
+                android:maxLines="1"></EditText>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/publish_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"></TextView>
+
+        <Button
+            android:id="@+id/login_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="loginRoom"></Button>
+
+        <Button
+            android:id="@+id/start_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="startCapture"></Button>
+
+
+        <Button
+            android:id="@+id/stop_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="stopCapture"></Button>
+
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/render_internal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:textStyle="bold"
+                android:textColor="#F80808"
+                android:id="@+id/capture_play_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></TextView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Play streamId:"></TextView>
+
+                <EditText
+                    android:id="@+id/play_stream_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="please input streamId"
+                    android:maxLines="1"></EditText>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/play_stream"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Play Stream"></Button>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
+</ScrollView>

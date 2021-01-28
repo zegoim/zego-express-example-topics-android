@@ -46,7 +46,7 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
     public static MediaProjection mMediaProjection;
     // 屏幕采集相关类
 //    Screen capture related
-    private MediaProjectionManager mMediaProjectionManager;
+    public static MediaProjectionManager mMediaProjectionManager;
     private Intent service;
 
     public static void actionStart(Activity activity) {

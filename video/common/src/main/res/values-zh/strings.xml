@@ -442,5 +442,9 @@
     <string name="start_network_test">开启网络测速</string>
     <string name="stop_network_test">停止网路测速</string>
     <string name="txt_network_test">网络探测</string>
+    <string name="audio_custom_capture">自定义音频采集</string>
+
+    <string name="audio_custom_render">自定义音频渲染</string>
+    <string name="txt_custom_audio_io">自定义音频采集渲染</string>
 
 </resources>

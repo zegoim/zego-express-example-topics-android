@@ -112,9 +112,6 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         // 创建sdk
         AppLogger.getInstance().i(getString(R.string.create_zego_engine));
         mSDKEngine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), this.getApplication(), null);
-        videoCaptureConfig=new ZegoCustomVideoCaptureConfig();
-        videoCaptureConfig.bufferType=videoBufferType;
-        mSDKEngine.enableCustomVideoCapture(true, videoCaptureConfig, ZegoPublishChannel.MAIN);
         mSDKEngine.setEventHandler(zegoEventHandler);
         if (captureOrigin == CaptureOrigin.CaptureOrigin_Camera.getCode()) {
             videoCapture = new VideoCaptureFromCamera(mSDKEngine);
@@ -127,8 +124,9 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         }
         videoCapture.setView(mPreView);
         mSDKEngine.setCustomVideoCaptureHandler(videoCapture);
-
-
+        videoCaptureConfig=new ZegoCustomVideoCaptureConfig();
+        videoCaptureConfig.bufferType=videoBufferType;
+        mSDKEngine.enableCustomVideoCapture(true, videoCaptureConfig, ZegoPublishChannel.MAIN);
         ZegoRoomConfig config = new ZegoRoomConfig();
         /* 使能用户登录/登出房间通知 */
         /* Enable notification when user login or logout */

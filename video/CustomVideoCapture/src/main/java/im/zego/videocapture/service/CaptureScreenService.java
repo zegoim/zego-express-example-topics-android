@@ -26,7 +26,6 @@ import im.zego.videocapture.ui.ZGVideoCaptureOriginUI;
 public class CaptureScreenService extends Service {
     private int mResultCode;
     private Intent mResultData;
-    private MediaProjectionManager projectionManager;
     private MediaProjection mMediaProjection;
 
     @Nullable
@@ -40,9 +39,7 @@ public class CaptureScreenService extends Service {
         createNotificationChannel();
         mResultCode = intent.getIntExtra("code", -1);
         mResultData = intent.getParcelableExtra("data");
-
-        this.projectionManager = (MediaProjectionManager)getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-        ZGVideoCaptureOriginUI.mMediaProjection = projectionManager.getMediaProjection(mResultCode, Objects.requireNonNull(mResultData));
+        ZGVideoCaptureOriginUI.mMediaProjection = ZGVideoCaptureOriginUI.mMediaProjectionManager.getMediaProjection(mResultCode, Objects.requireNonNull(mResultData));
         return super.onStartCommand(intent, flags, startId);
     }
 
