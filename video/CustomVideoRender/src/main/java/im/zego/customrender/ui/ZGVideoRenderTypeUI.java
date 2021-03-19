@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -20,7 +19,6 @@ import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.constants.ZegoVideoBufferType;
 import im.zego.zegoexpress.constants.ZegoVideoFrameFormatSeries;
 import im.zego.zegoexpress.entity.ZegoCustomVideoRenderConfig;
-import im.zego.zegoexpress.entity.ZegoEngineConfig;
 
 /**
  * 外部渲染返回视频数据的类型选择
@@ -38,7 +36,8 @@ public class ZGVideoRenderTypeUI extends BaseActivity {
     // Whether external rendering is enabled
     private boolean isEnableExternalRender = false;
 
-
+    private ZegoVideoFrameFormatSeries zegoVideoFrameFormatSeries;
+    private ZegoVideoBufferType zegoBufferType;
     private ZegoCustomVideoRenderConfig zegoCustomVideoRenderConfig = new ZegoCustomVideoRenderConfig();
 
     // 加载c++ so
@@ -83,13 +82,13 @@ public class ZGVideoRenderTypeUI extends BaseActivity {
                 if (radioRenderTypeBtns[0] == radioGroup.getCheckedRadioButtonId()) {
                     // 外部渲染时抛出rgb格式的视频数据
                     // Rgb format video data is thrown during external rendering
-                    zegoCustomVideoRenderConfig.frameFormatSeries = ZegoVideoFrameFormatSeries.RGB;
-                    zegoCustomVideoRenderConfig.bufferType = ZegoVideoBufferType.RAW_DATA;
+                    zegoVideoFrameFormatSeries = ZegoVideoFrameFormatSeries.RGB;
+                    zegoBufferType = ZegoVideoBufferType.RAW_DATA;
                 } else if (radioRenderTypeBtns[1] == radioGroup.getCheckedRadioButtonId()) {
                     // 外部渲染时抛出I420格式的视频数据
                     // Throws I420 format video data during external rendering
-                    zegoCustomVideoRenderConfig.frameFormatSeries = ZegoVideoFrameFormatSeries.YUV;
-                    zegoCustomVideoRenderConfig.bufferType = ZegoVideoBufferType.RAW_DATA;
+                    zegoVideoFrameFormatSeries = ZegoVideoFrameFormatSeries.YUV;
+                    zegoBufferType = ZegoVideoBufferType.RAW_DATA;
                 }
                 // 推流处开启外部采集功能
                 // Turn on the external acquisition function
@@ -115,6 +114,8 @@ public class ZGVideoRenderTypeUI extends BaseActivity {
     private boolean isGivenDecodeCallback = false;
 
     public void JumpPublish(View view) {
+        zegoCustomVideoRenderConfig.frameFormatSeries = zegoVideoFrameFormatSeries;
+        zegoCustomVideoRenderConfig.bufferType = zegoBufferType;
         if (isGivenDecodeCallback) {
             if (Build.VERSION.SDK_INT > 19) {
                 zegoCustomVideoRenderConfig.bufferType = ZegoVideoBufferType.ENCODED_DATA;

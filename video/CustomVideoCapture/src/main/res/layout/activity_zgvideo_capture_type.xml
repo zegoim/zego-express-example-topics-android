@@ -62,6 +62,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:text="EncoderVideo" />
+            <RadioButton
+                android:id="@+id/RadioMediaPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:text="MediaPlayer" />
 
 
         </RadioGroup>

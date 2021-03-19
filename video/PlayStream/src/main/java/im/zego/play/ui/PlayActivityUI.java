@@ -70,9 +70,6 @@ public class PlayActivityUI extends BaseActivity {
         // 方便快捷避免需要写一大堆 setText 等一大堆臃肿的代码。
         binding.setQuality(streamQuality);
         binding.setConfig(sdkConfigInfo);
-        ZegoEngineConfig config =new ZegoEngineConfig();
-        config.advancedConfig.put("prefer_play_ultra_source","1");
-        ZegoExpressEngine.setEngineConfig(config);
         // 初始化SDK
         engine = ZegoExpressEngine.createEngine(SettingDataUtil.getAppId(), SettingDataUtil.getAppKey(), SettingDataUtil.getEnv(), SettingDataUtil.getScenario(), getApplication(), null);
         AppLogger.getInstance().i("createEngine");

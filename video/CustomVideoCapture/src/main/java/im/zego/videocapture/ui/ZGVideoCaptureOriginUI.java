@@ -64,7 +64,7 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
 
         mCaptureTypeGroup = findViewById(R.id.CaptureTypeGroup);
         // 获取采集源button id
-        final int[] radioCaptureTypeBtns = {R.id.RadioImage, R.id.RadioCameraYUV, R.id.RadioScreenRecord, R.id.RadioEncoderVideo};
+        final int[] radioCaptureTypeBtns = {R.id.RadioImage, R.id.RadioCameraYUV, R.id.RadioScreenRecord, R.id.RadioEncoderVideo,R.id.RadioMediaPlayer};
 
         // 设置RadioGroup组件的事件监听
         mCaptureTypeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -95,6 +95,9 @@ public class ZGVideoCaptureOriginUI extends BaseActivity {
                 } else if (radioCaptureTypeBtns[3] == radioGroup.getCheckedRadioButtonId()) {
                     bufferType = ZegoVideoBufferType.ENCODED_DATA;
                     captureOrigin = CaptureOrigin.CaptureOrigin_CameraV3; //摄像头 码流数据
+                }else  if(radioCaptureTypeBtns[4]==radioGroup.getCheckedRadioButtonId()){
+                    bufferType = ZegoVideoBufferType.RAW_DATA;
+                    captureOrigin = CaptureOrigin.CaptureOrigin_MediaPlayer;
                 }
             }
         });

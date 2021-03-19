@@ -139,7 +139,9 @@ public class ZGMixingDemoUI extends BaseActivity {
             @Override
             public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode, JSONObject extendedData) {
                 if (errorCode == 0) {
-                    mPublishBtn.setText(getString(R.string.tx_stoppublish));
+                    if(state == ZegoPublisherState.PUBLISHING) {
+                        mPublishBtn.setText(getString(R.string.tx_stoppublish));
+                    }
                 } else {
                     mErrorTxt.setText("publish fail err: " + errorCode);
                 }

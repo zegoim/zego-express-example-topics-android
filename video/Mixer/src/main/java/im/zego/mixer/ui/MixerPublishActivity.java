@@ -13,6 +13,7 @@ import android.widget.TextView;
 import im.zego.common.util.AppLogger;
 import im.zego.common.widgets.log.FloatingView;
 import im.zego.mixer.R;
+import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoVideoConfig;
@@ -87,5 +88,6 @@ public class MixerPublishActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         FloatingView.get().detach(this);
+        ZegoExpressEngine.getEngine().logoutRoom(MixerMainActivity.roomID);
     }
 }

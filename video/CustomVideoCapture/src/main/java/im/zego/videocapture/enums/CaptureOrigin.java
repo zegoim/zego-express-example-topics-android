@@ -19,7 +19,9 @@ public enum CaptureOrigin {
     CaptureOrigin_CameraV2(4),
     // 摄像头源，当前采集设备使用的数据传递类型是ENCODED_FRAME（码流）
     // Camera source, the data transfer type used by the current acquisition device is ENCODED_FRAME (code stream)
-    CaptureOrigin_CameraV3(5);
+    CaptureOrigin_CameraV3(5),
+    //
+    CaptureOrigin_MediaPlayer(6);
 
     private int code = 0;
 

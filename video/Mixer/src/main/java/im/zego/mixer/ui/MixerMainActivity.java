@@ -36,7 +36,7 @@ public class MixerMainActivity extends AppCompatActivity {
     public static ZegoExpressEngine engine;
     public static ArrayList<String> streamIDList = new ArrayList<>();
     private static IMixerStreamUpdateHandler notifyHandler = null;
-
+    private static boolean loginFlag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,12 +106,15 @@ public class MixerMainActivity extends AppCompatActivity {
                     if (errorCode != 0) {
                         Toast.makeText(MixerMainActivity.this, String.format("login room fail, errorCode: %d", errorCode), Toast.LENGTH_LONG).show();
                     }
+                    if(state==ZegoRoomState.CONNECTED){
+                        loginFlag = true;
+                    }else{
+                        loginFlag = false;
+                        streamIDList.clear();
+                    }
                 }
             };
             engine.setEventHandler(handler);
-            ZegoUser user = new ZegoUser(userID, userName);
-            engine.loginRoom(roomID, user, null);
-            engine.setDebugVerbose(true, ZegoLanguage.CHINESE);
         }
     }
 
@@ -120,13 +123,22 @@ public class MixerMainActivity extends AppCompatActivity {
         super.onDestroy();
         ZegoExpressEngine.destroyEngine(null);
         streamIDList.clear();
+        loginFlag = false;
     }
+    public void loginRoom(){
+        ZegoUser user = new ZegoUser(userID, userName);
+        if(!loginFlag) {
+            engine.loginRoom(roomID, user, null);
+        }
 
+    }
     public void ClickPublishActivity(View view) {
+        loginRoom();
         MixerPublishActivity.actionStart(this);
     }
 
     public void ClickMixActivity(View view) {
+        loginRoom();
         MixerStartActivity.actionStart(this);
     }
 

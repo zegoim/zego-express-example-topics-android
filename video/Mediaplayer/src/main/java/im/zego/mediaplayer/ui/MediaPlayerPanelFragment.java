@@ -22,8 +22,8 @@ import androidx.fragment.app.Fragment;
 import java.nio.ByteBuffer;
 
 import im.zego.common.util.AppLogger;
+import im.zego.common.util.CommonTools;
 import im.zego.mediaplayer.R;
-import im.zego.mediaplayer.tools.CommonTools;
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.ZegoMediaPlayer;
 import im.zego.zegoexpress.callback.IZegoMediaPlayerAudioHandler;
@@ -308,7 +308,7 @@ public class MediaPlayerPanelFragment extends Fragment {
                             public void onVideoFrame(ZegoMediaPlayer zegoMediaplayer, ByteBuffer[] byteBuffers, int[] ints, ZegoVideoFrameParam zegoVideoFrameParam) {
                                 Log.d(TAG, "App onVideoFrame:" + zegoVideoFrameParam.format.value());
                             }
-                        }, ZegoVideoFrameFormat.Unknown);
+                        }, ZegoVideoFrameFormat.I420);
                     }else {
                         mMediaplayer.setVideoHandler(null, ZegoVideoFrameFormat.Unknown);
                     }

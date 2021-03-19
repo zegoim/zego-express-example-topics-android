@@ -2,6 +2,7 @@ package im.zego.videocapture.ui;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import im.zego.videocapture.R;
 import im.zego.videocapture.camera.VideoCaptureFromCamera;
 import im.zego.videocapture.camera.VideoCaptureFromCamera3;
 import im.zego.videocapture.camera.VideoCaptureFromImage2;
+import im.zego.videocapture.camera.VideoCaptureFromMediaPlayer;
 import im.zego.videocapture.camera.VideoCaptureScreen;
 import im.zego.videocapture.camera.ZegoVideoCaptureCallback;
 import im.zego.videocapture.enums.CaptureOrigin;
@@ -33,6 +35,7 @@ import im.zego.zegoexpress.constants.ZegoVideoBufferType;
 import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoCustomVideoCaptureConfig;
+import im.zego.zegoexpress.entity.ZegoPlayStreamQuality;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
 import im.zego.zegoexpress.entity.ZegoUser;
 import im.zego.zegoexpress.entity.ZegoVideoConfig;
@@ -121,6 +124,8 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
             videoCapture = new VideoCaptureScreen(ZGVideoCaptureOriginUI.mMediaProjection, DEFAULT_VIDEO_WIDTH, DEFAULT_VIDEO_HEIGHT, mSDKEngine);
         } else if (captureOrigin == CaptureOrigin.CaptureOrigin_CameraV3.getCode()) {
             videoCapture = new VideoCaptureFromCamera3(ZGVideoCaptureDemoUI.this);
+        }else if(captureOrigin==CaptureOrigin.CaptureOrigin_MediaPlayer.getCode()){
+            videoCapture = new VideoCaptureFromMediaPlayer(ZGVideoCaptureDemoUI.this,mSDKEngine);
         }
         videoCapture.setView(mPreView);
         mSDKEngine.setCustomVideoCaptureHandler(videoCapture);
@@ -179,6 +184,10 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
 
         }
 
+        @Override
+        public void onPlayerVideoSizeChanged(String streamID, int width, int height) {
+
+        }
     };
 
     @Override
@@ -188,6 +197,11 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         // Log out of the room and release the ZEGO SDK
         logoutLiveRoom();
         VideoCaptureFromCamera3.preByteLength = 0;
+        if(VideoCaptureFromMediaPlayer.mediaPlayer!=null){
+            mSDKEngine.destroyMediaPlayer(VideoCaptureFromMediaPlayer.mediaPlayer);
+            VideoCaptureFromMediaPlayer.mediaPlayer=null;
+        }
+
     }
 
 
@@ -196,15 +210,22 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         // 设置编码以及采集分辨率
         // Set encoding and acquisition resolution
         ZegoVideoConfig zegoVideoConfig = new ZegoVideoConfig();
-        zegoVideoConfig.setCaptureResolution(DEFAULT_VIDEO_WIDTH, DEFAULT_VIDEO_HEIGHT);
-        zegoVideoConfig.setEncodeResolution(DEFAULT_VIDEO_WIDTH, DEFAULT_VIDEO_HEIGHT);
+        if(captureOrigin==CaptureOrigin.CaptureOrigin_MediaPlayer.getCode()){//媒体播放文件分辨率为1920*1080，这里设置采集编码分辨率，避免被裁剪
+            zegoVideoConfig.captureWidth=1920;
+            zegoVideoConfig.captureHeight=1080;
+            zegoVideoConfig.encodeWidth =1920;
+            zegoVideoConfig.encodeHeight =1080;
+        }else {
+            zegoVideoConfig.setCaptureResolution(DEFAULT_VIDEO_WIDTH, DEFAULT_VIDEO_HEIGHT);
+            zegoVideoConfig.setEncodeResolution(DEFAULT_VIDEO_WIDTH, DEFAULT_VIDEO_HEIGHT);
+        }
         mSDKEngine.setVideoConfig(zegoVideoConfig);
 
-        ZegoCanvas zegoCanvas = new ZegoCanvas(null);
-        zegoCanvas.viewMode = ZegoViewMode.SCALE_TO_FILL;
+//        ZegoCanvas zegoCanvas = new ZegoCanvas(null);
+//        zegoCanvas.viewMode = ZegoViewMode.SCALE_TO_FILL;
         // 设置预览视图及视图展示模式
         // Set preview view and view display mode
-        mSDKEngine.startPreview(zegoCanvas);
+//        mSDKEngine.startPreview(zegoCanvas);
         mSDKEngine.startPublishingStream(mRoomID);
     }
 
@@ -238,7 +259,11 @@ public class ZGVideoCaptureDemoUI extends BaseActivity {
         // 界面button==开始拉流
         if (mDealPlayBtn.getText().toString().equals("StartPlay") && !mPlayStreamID.equals("")) {
             ZegoCanvas zegoCanvas = new ZegoCanvas(mPlayView);
-            zegoCanvas.viewMode = ZegoViewMode.SCALE_TO_FILL;
+            if(captureOrigin==CaptureOrigin.CaptureOrigin_MediaPlayer.getCode()){
+                zegoCanvas.viewMode = ZegoViewMode.ASPECT_FIT;
+            }else {
+                zegoCanvas.viewMode = ZegoViewMode.SCALE_TO_FILL;
+            }
             // 开始拉流
             mSDKEngine.startPlayingStream(mPlayStreamID, zegoCanvas);
             mDealPlayBtn.setText("StopPlay");
