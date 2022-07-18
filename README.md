@@ -1,17 +1,7 @@
 # Zego Express Example Topics Android (Java)
 
-## Video
+This example demo has been migrated to:
 
-Zego Express Example Topics Video Android Demo (Java)
+- English [https://docs.zegocloud.com/article/727](https://docs.zegocloud.com/article/727)
 
-Please refer to the project in the `video` directory
-
-[English](video/README.md) | [中文](video/README_zh.md)
-
-## Audio
-
-Zego Express Example Topics Audio Android Demo (Java)
-
-Please refer to the project in the `audio` directory
-
-[English](audio/README.md) | [中文](audio/README_zh.md)
+- 中文 [https://doc-zh.zego.im/article/3125](https://doc-zh.zego.im/article/3125)
